@@ -8,6 +8,7 @@ export function fetchApi(
   auth = true,
   contentType?: string,
 ): Promise<any> {
+  
   return fetch(url, {
     credentials: 'include',
     method,
@@ -16,7 +17,7 @@ export function fetchApi(
       contentType !== 'multipart/form-data'
         ? {
             'Content-Type': contentType || 'application/json',
-            Authorization: Cookies.get(ACCESS_TOKEN_KEY) || '',
+            Authorization:`Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`|| '',
           }
         : {},
     cache: 'no-store',

@@ -21,3 +21,7 @@
 .error{
   @apply text-red3 w-450 text-xs font-normal float-right mt-08
 }
+/* 
+.simplebar-content{
+  height: 100%;
+} */

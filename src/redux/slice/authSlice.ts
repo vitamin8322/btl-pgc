@@ -2,16 +2,16 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
 import { Auth, Company, LoginFormFields, Login } from "../../models/Auth";
 
-interface ItemState {
-  data: Auth;
+interface AuthState {
+  dataAuth: Auth;
   company: Company[];
   login: Login;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
-const initialState: ItemState = {
-  data: {
+const initialState: AuthState = {
+  dataAuth: {
     id: 0,
     username: "",
     email: "",
@@ -116,11 +116,11 @@ const initialState: ItemState = {
   },
   company: [],
   login: {
-    data:{
-        token: '',
-       },
-       message: '',
-       result: false,
+    data: {
+      token: "",
+    },
+    message: "",
+    result: false,
   },
   status: "idle",
   error: null,
@@ -135,7 +135,7 @@ export const loginAuth = createAsyncThunk(
   "auth/login",
   async ({ name, password, factory }: LoginFormFields) => {
     const data = await fetchApi("/api/login", "post", {
-      username:name,
+      username: name,
       password: password,
       company_id: factory,
     });

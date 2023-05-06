@@ -6,7 +6,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { InputLabel } from "@mui/material";
-import CustomInputSelect, { customPaperProps } from "./StyleSelect";
+import CustomInputSelect, { customPaperProps } from "./CustomStyle/StyleSelect";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,7 +35,7 @@ const LoginFrom = (props: Props) => {
 
   // redux
   const dispatch = useDispatch<AppDispatch>();
-  const { data, company, login } = useSelector(
+  const { dataAuth, company, login } = useSelector(
     (state: RootState) => state.auth
   );
 
@@ -46,7 +46,6 @@ const LoginFrom = (props: Props) => {
     factory: 0,
   });
   const [showPassword, setShowPassword] = useState<Boolean>(false);
-  const [listCompany, setListCompany] = useState<Company[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,7 +87,7 @@ const LoginFrom = (props: Props) => {
   };
   console.log(login);
   useEffect(() => {
-    if (login.message != 'Success') {
+    if (login.message != 'Success' && login.message !='') {
       toast.error(login.message, {
         closeButton: <CustomCloseButton closeToast={toast.dismiss} />,
         hideProgressBar: true,
@@ -104,7 +103,7 @@ const LoginFrom = (props: Props) => {
     }
     else if(login.message == 'Success'){
       Cookies.set(ACCESS_TOKEN_KEY, login.data.token, );
-      navigate("/home");
+      navigate("/employee");
 
     }
   }, [login.message]);

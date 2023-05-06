@@ -1,9 +1,11 @@
 export const ROUTES = {
-    home: '/home',
+    home: '/',
     login: '/login',
     register: '/register',
     profile: '/profile',
     payrollList: '/payrollList',
-    productItem: '/product/:idProduct',
+    employee: '/employee',
+    createUpdate: 'employee/create-or-update',
+    createUpdateId: 'employee/create-or-update/:idEmployee',
   };
   

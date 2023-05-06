@@ -1,11 +1,45 @@
-import React from 'react'
+import React from "react";
+import Layout from "../components/Layout";
+import SiderBar from "../components/SiderBar";
+import TableEmpoyee from "../components/TableEmpoyee";
+import { styled } from "@mui/material/styles";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Breadcrumbs from "../components/Breadcrumbs";
+import Heading from "../components/Heading";
+import Copyright from "../components/Copyright";
 
-type Props = {}
+type Props = {};
+
+const StyledRoot = styled("div")({
+  display: "flex",
+  minHeight: "100%",
+  overflow: "hidden",
+});
 
 const Home = (props: Props) => {
-  return (
-    <div>Home</div>
-  )
-}
+  const location = useLocation();
+  const crumbs = location.pathname.split("/");
 
-export default Home
+  return (
+    <div style={{ height: "" }}>
+      <Layout />
+      <div className="flex h-screen ">
+        <div style={{ width: "330px" }}>
+          <SiderBar />
+        </div>
+        <div
+          style={{ width: "calc(100% - 330px)", padding: "36px 40px 0" }}
+          className="mt-16 bg-default h-full  "
+        >
+          <Breadcrumbs crumbs={crumbs} />
+          <Heading />
+          <Outlet />
+          {/* <Heading /> */}
+          <Copyright />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default React.memo(Home);

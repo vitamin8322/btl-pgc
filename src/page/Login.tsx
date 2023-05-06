@@ -1,6 +1,7 @@
 import React from "react";
 import Logo from "./../assets/image/logo.svg";
 import LoginFrom from "../components/LoginFrom";
+import Copyright from "../components/Copyright";
 
 type Props = {};
 
@@ -14,7 +15,7 @@ const Login = (props: Props) => {
         </h2>
         <h2 className="font-medium text-4xl tracking-tight mt-10 mb-5">Sign In</h2>
         <LoginFrom />
-        <div className="my-10">Copyright © 2022. All Rights Reserved</div>
+        <Copyright />
       </div>
     </div>
   );
