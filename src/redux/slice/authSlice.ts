@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
 import { Auth, Company, LoginFormFields, Login } from "../../models/Auth";
 

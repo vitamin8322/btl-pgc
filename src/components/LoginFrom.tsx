@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { getCompany, loginAuth } from "../redux/slice/authSlice";
 import { toast } from "react-toastify";
-import close from '../assets/image/x.png';
+import close from "../assets/image/x.png";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../utils/constants";
@@ -72,7 +72,7 @@ const LoginFrom = (props: Props) => {
   const watchPassword = watch("password", "text");
   const watchFactory = watch("factory");
 
-  const onSubmitLogin =async (formData: LoginFormFields) => {
+  const onSubmitLogin = async (formData: LoginFormFields) => {
     try {
       await dispatch(
         loginAuth({
@@ -87,24 +87,22 @@ const LoginFrom = (props: Props) => {
   };
   console.log(login);
   useEffect(() => {
-    if (login.message != 'Success' && login.message !='') {
+    if (login.message != "Success" && login.message != "") {
       toast.error(login.message, {
         closeButton: <CustomCloseButton closeToast={toast.dismiss} />,
         hideProgressBar: true,
         style: {
-          width: '400px',
-          boxShadow: 'none',
-          backgroundColor: '#FFEFEF',
-          transform: 'translate(0, 0)',
-          right: '6em'
+          width: "400px",
+          boxShadow: "none",
+          backgroundColor: "#FFEFEF",
+          transform: "translate(0, 0)",
+          right: "6em",
         },
-        position: "top-right",       
+        position: "top-right",
       });
-    }
-    else if(login.message == 'Success'){
-      Cookies.set(ACCESS_TOKEN_KEY, login.data.token, );
+    } else if (login.message == "Success") {
+      Cookies.set(ACCESS_TOKEN_KEY, login.data.token);
       navigate("/employee");
-
     }
   }, [login.message]);
 
@@ -117,7 +115,7 @@ const LoginFrom = (props: Props) => {
           </label>
           <input
             type="text"
-            className={`input ${
+            className={`input h-46 w-300  ${
               errors.name ? "!border-red1 !bg-red2 !border !border-solid" : ""
             }`}
             id="name"
@@ -133,7 +131,7 @@ const LoginFrom = (props: Props) => {
           </label>
           <input
             type={showPassword ? "text" : "password"}
-            className={`input ${
+            className={`input h-46 w-300 ${
               errors.password
                 ? "!border-red1 !bg-red2 !border !border-solid"
                 : ""
@@ -169,7 +167,7 @@ const LoginFrom = (props: Props) => {
           <>
             <Select
               displayEmpty
-              className={`select ${
+              className={`select w-300  h-46${
                 errors.factory && watchFactory == null
                   ? "!border-red1 !bg-red2 !border !border-solid"
                   : ""

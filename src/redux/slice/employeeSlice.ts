@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
 import { EmployeeListResponse } from "../../models/Employee";
 
@@ -36,12 +36,6 @@ export const getEmployee = createAsyncThunk("employee/get", async () => {
   const data = await fetchApi("/api/employee", "get");
   return data.data;
 });
-
-export const getCompany = createAsyncThunk("auth/company", async () => {
-  const data = await fetchApi("/api/company", "get");
-  return data.data;
-});
-
 
 const employeeSlice = createSlice({
   name: "employee",

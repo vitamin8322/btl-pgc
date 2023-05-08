@@ -7,19 +7,22 @@
 }
 
 .input {
-  @apply appearance-none border-2 rounded bg-input  w-300 h-46 mb-2.5 border-none py-2 px-4 leading-tight focus:outline-none float-left;
+  @apply appearance-none border-2 rounded-lg bg-input mb-2.5 border-none py-2 px-4 leading-tight focus:outline-none float-left;
 }
+/* .input2 {
+  @apply appearance-none border-2 rounded bg-input  w-300 h-12 mb-2.5 border-none py-2 px-4 leading-tight focus:outline-none float-left;
+} */
 
 .label {
   @apply block font-medium float-left  p-1;
 }
 
 .select{
-  @apply w-300 h-46 bg-input border-none rounded-lg focus:outline-none appearance-none
+  @apply bg-input border-none rounded-lg focus:outline-none appearance-none
 }
 
 .error{
-  @apply text-red3 w-450 text-xs font-normal float-right mt-08
+  @apply text-required w-450 text-xs font-normal float-right mt-08
 }
 /* 
 .simplebar-content{

@@ -82,3 +82,24 @@ export interface Employee {
     total: number;
   }
   
+  export interface FormEmployee {
+    nik: string;
+    name: string;
+    gender: string;
+    motherName: string;
+    dateOfBirth: string;
+    placeOfBirth: string;
+    ktpNo: string;
+    nationalCardId: string;
+    homeAddress1: string;
+    homeAddress2: string;
+    mobileNo: string;
+    telNo: string;
+    marriageStatus: string;
+    bankCardNo: string;
+    bankAccountNo: string;
+    bankName: string;
+    familyCardNumber: string;
+    safetyInsuranceNo: string;
+    healthInsuranceNo: string;
+  }

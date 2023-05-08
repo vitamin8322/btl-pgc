@@ -1,7 +1,7 @@
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { useEffect, useState } from "react";
 import { getEmployee } from "../redux/slice/employeeSlice";
-import {  Checkbox } from "@mui/material";
+import { Checkbox } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ActionTable from "./ActionTable";
 
 interface IData {
   NIK: string;
@@ -99,10 +100,18 @@ const TableEmpoyee = ({}) => {
   };
 
   return (
-    <Box className="min-h-600 bg-white" >
-      <TableContainer
-        className="w-full overflow-y-auto  max-w-1170"
-      >
+    <Box className=" bg-white p-2.5">
+      <ActionTable />
+      <hr
+        style={{
+          margin: "10px 0px",
+          flexShrink: "0",
+          borderWidth: "0px 0px thin",
+          borderStyle: "solid",
+          borderColor: "rgba(193, 200, 205, 0.24)",
+        }}
+      />
+      <TableContainer className="w-full   max-w-1170  min-h-600 h-600  ">
         <Table>
           <TableHead>
             <TableRow>

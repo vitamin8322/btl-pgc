@@ -8,7 +8,6 @@ type Props = {
 const Breadcrumbs = (props: Props) => {
   const { crumbs } = props;
   const { idEmployee } = useParams();
-  console.log(crumbs);
 
   return (
     <MUIBreadcrumbs separator="›" aria-label="breadcrumb">

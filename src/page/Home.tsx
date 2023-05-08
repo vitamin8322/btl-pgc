@@ -8,7 +8,10 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import Heading from "../components/Heading";
 import Copyright from "../components/Copyright";
 
-type Props = {};
+type Props = {
+  crumbs?: string[];
+};
+
 
 const StyledRoot = styled("div")({
   display: "flex",
@@ -23,7 +26,7 @@ const Home = (props: Props) => {
   return (
     <div style={{ height: "" }}>
       <Layout />
-      <div className="flex h-screen ">
+      <div className="flex ">
         <div style={{ width: "330px" }}>
           <SiderBar />
         </div>
@@ -32,8 +35,8 @@ const Home = (props: Props) => {
           className="mt-16 bg-default h-full  "
         >
           <Breadcrumbs crumbs={crumbs} />
-          <Heading />
-          <Outlet />
+          <Heading crumbs={crumbs}/>
+            <Outlet />
           {/* <Heading /> */}
           <Copyright />
         </div>
