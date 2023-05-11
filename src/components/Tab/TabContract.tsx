@@ -1,0 +1,84 @@
+import React, { ChangeEvent, useEffect } from "react";
+import Input from "../CustomComponents/Input";
+import { FormContract } from "../../models/Employee";
+import { SelectChangeEvent } from "@mui/material/Select";
+import SelectMui from "../CustomComponents/SelectMui";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { getDepartment } from "../../redux/slice/employeeSlice";
+
+type PropsTabContract = {
+  formContract: FormContract;
+  handleFormContractChange?: (
+    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent
+  ) => void;
+};
+
+const TabContract = (props: PropsTabContract) => {
+  //redux
+  const dispatch = useDispatch<AppDispatch>();
+  const { dataDepartment } = useSelector((state: RootState) => state.employee);
+
+  const { formContract, handleFormContractChange } = props;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getDepartment());
+    };
+
+    fetchData();
+  }, []);
+
+  const data = [
+    {
+      id: 1,
+      name: "Parmanent",
+      code: "MK01",
+      company_id: 1,
+      created_at: "2023-04-27T09:41:28.000000Z",
+      updated_at: null,
+    },
+    {
+      id: 2,
+      name: "Part-time",
+      code: "S01",
+      company_id: 1,
+      created_at: "2023-04-27T09:41:28.000000Z",
+      updated_at: null,
+    },
+    {
+      id: 3,
+      name: "Contract",
+      code: "M01",
+      company_id: 1,
+      created_at: "2023-04-27T09:41:28.000000Z",
+      updated_at: null,
+    },
+  ];
+
+  return (
+    <div>
+      <div className="flex flex-col gap-2.5 px-2.5">
+        <Input
+          value={formContract.contract_start_date}
+          name="contract_start_date"
+          isRequired={true}
+          onChange={handleFormContractChange}
+          label="Date Start"
+        />
+        <SelectMui
+          data={data}
+          label="Employee Type"
+          placeholder="Choose Type"
+          isRequired={true}
+          value={formContract.employee_id}
+          onChange={handleFormContractChange}
+          //   isNa
+          name="employee_id"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default TabContract;

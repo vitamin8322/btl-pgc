@@ -26,7 +26,7 @@ export const customPaperProps: PaperProps = {
  const CustomInputSelect = styled(InputBase)(({ theme }) => ({
     boxShadow: "none",
     ".MuiOutlinedInput-notchedOutline": {
-      border: "none",
+      border: "none", 
       borderRadius: "0.25rem",
     },
     ".MuiSelect-select": {

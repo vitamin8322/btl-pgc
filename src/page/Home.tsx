@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "../components/Layout";
 import SiderBar from "../components/SiderBar";
-import TableEmpoyee from "../components/TableEmpoyee";
 import { styled } from "@mui/material/styles";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";

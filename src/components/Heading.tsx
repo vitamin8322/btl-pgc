@@ -7,12 +7,17 @@ import {
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useParams } from "react-router-dom";
+import { AppDispatch } from "../redux/store";
+import { addEmployee } from "../redux/slice/employeeSlice";
+import { useDispatch } from "react-redux";
+
 
 type PropsHeading = {
   crumbs: string[];
 };
 
 const Heading = (props: PropsHeading) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { crumbs } = props;
   const { idEmployee } = useParams();
 
@@ -32,7 +37,7 @@ const Heading = (props: PropsHeading) => {
         </FormControl>
       );
     } else if (crumbs.length > 2) {
-      return idEmployee ? <button>Add</button> : <button>Save Edit</button>;
+      return !idEmployee ? <button onClick={() => {dispatch(addEmployee())}}>Add</button> : <button>Save Edit</button>;
     }
   };
 

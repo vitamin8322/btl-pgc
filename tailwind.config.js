@@ -20,7 +20,7 @@ module.exports = {
         '600':'600px',
       },
       colors:{
-        white: 'rgb(251 252 253)',
+        // white: 'rgb(251 252 253)',
         input: '#f1f3f5',
         gray: 'rgb(104, 112, 118)',
         blue1: 'rgb(0, 145, 255)',

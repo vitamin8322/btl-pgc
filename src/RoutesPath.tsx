@@ -7,6 +7,7 @@ import Home from "./page/Home";
 import Login from "./page/Login";
 import Employee from "./page/Employee";
 import CreateOrUpdate from "./page/CreateOrUpdate";
+import Attendance from "./page/Attendance";
 
 interface Props {}
 
@@ -21,6 +22,7 @@ export const RoutesPath = (props: Props) => {
               <Route path={ROUTES.employee} element={<Employee />} />
               <Route path={ROUTES.createUpdate} element={<CreateOrUpdate />} />
               <Route path={ROUTES.createUpdateId} element={<CreateOrUpdate />} />
+              <Route path={ROUTES.attendance} element={<Attendance />} />
             </Route>
           </Route>
 

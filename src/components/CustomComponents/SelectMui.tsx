@@ -2,10 +2,10 @@ import React, { ChangeEvent, ReactNode, memo } from "react";
 import CustomInputSelect from "../CustomStyle/StyleSelect";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MenuItem from "@mui/material/MenuItem";
 import { PaperProps } from "@mui/material/Paper";
-
+import { MarriageStatus } from "../../models/Employee";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 type PropsSelect = {
   label: string;
   placeholder?: string;
@@ -20,7 +20,7 @@ type PropsSelect = {
 const SelectMui = (props: PropsSelect) => {
   const { label, name, data, placeholder, isRequired, isNa, value, onChange } =
     props;
-  console.log(label, isNa);
+  // console.log(label, isNa);
 
   const customPaperProps: PaperProps = {
     sx: {
@@ -55,7 +55,7 @@ const SelectMui = (props: PropsSelect) => {
     },
   };
 
-  console.log(value);
+  // console.log(props);
 
   return (
     <div className="flex items-center h-12">
@@ -73,17 +73,26 @@ const SelectMui = (props: PropsSelect) => {
         MenuProps={{
           PaperProps: customPaperProps,
         }}
-        IconComponent={ExpandLessIcon}
+        IconComponent={ExpandMoreIcon}
         onChange={onChange}
-        name="gender"
-        // value={value =="" ?undefined:value }
+        name={name}
+        value={value == "" ? undefined : value}
         defaultValue={isNa ? "" : undefined}
-        renderValue={() => placeholder || value}
+        renderValue={(selected: any) => {
+          if (selected === "" || selected === undefined) {
+            return placeholder;
+          }
+          const selectedItem = data.find(
+            (item: any) => item?.id === selected
+          ) as MarriageStatus;
+
+          return selectedItem?.name;
+        }}
       >
         {/* <InputLabel shrink={false} className="!hidden">
           {placeholder}
         </InputLabel> */}
-        {isNa && <MenuItem value={"gender"}>N/A</MenuItem>}
+        {isNa && <MenuItem value={""}>N/A</MenuItem>}
         {data.map((item: any) => (
           <MenuItem value={item.id} key={item.key}>
             {item.name}

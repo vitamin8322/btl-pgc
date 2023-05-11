@@ -19,9 +19,11 @@ const TabPanel = (props: TabPanelProps) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
+      className="shadow-header rounded-xl p-2 bg-white"
     >
       {value === index && (
-        <Box sx={{ p: 1, backgroundColor: "rgb(251 252 253)" }}>
+        // <Box sx={{ p: 1, backgroundColor: "rgb(251 252 253)", borderRadius:'12px' }}>
+        <>
           <div className="flex justify-between align-center">
             <Typography variant="h6">{title}</Typography>
             <Typography>
@@ -39,7 +41,8 @@ const TabPanel = (props: TabPanelProps) => {
             }}
           />
           <Typography sx={{}}>{children}</Typography>
-        </Box>
+        </>
+        // </Box>
       )}
     </div>
   );

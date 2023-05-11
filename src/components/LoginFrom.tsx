@@ -64,9 +64,9 @@ const LoginFrom = (props: Props) => {
     formState: { errors },
   } = useForm<LoginFormFields>({
     defaultValues: {
-      name: "",
-      password: "",
-      factory: null,
+      name: "doanhdoquoc",
+      password: "doanh123",
+      factory: 1,
     },
   });
   const watchPassword = watch("password", "text");
@@ -76,9 +76,9 @@ const LoginFrom = (props: Props) => {
     try {
       await dispatch(
         loginAuth({
-          name: formData.name,
-          password: formData.password,
-          factory: formData.factory,
+          name:  "doanhdoquoc",
+          password: "doanh123",
+          factory: 1,
         })
       );
     } catch (error) {
@@ -176,6 +176,7 @@ const LoginFrom = (props: Props) => {
                 required: "Please enter factory",
               })}
               input={<CustomInputSelect />}
+              
               MenuProps={{
                 PaperProps: customPaperProps,
               }}

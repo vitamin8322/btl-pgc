@@ -12,10 +12,11 @@ type PropsInput = {
 
 const Input = (props: PropsInput) => {
   const { label, onChange, value, name, isRequired } = props;
+  
   // console.log(label);
   
   return (
-    <Box component="form" className="form" noValidate autoComplete="off">
+    <>
       <div className="flex items-center h-12">
         <label htmlFor={label} className="font-normal min-w-175 flex">
           {label}
@@ -30,7 +31,7 @@ const Input = (props: PropsInput) => {
           className="input h-12 min-w-290 max-w-300 "
         />
       </div>
-    </Box>
+    </>
   );
 };
 

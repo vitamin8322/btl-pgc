@@ -12,7 +12,7 @@ const CreateOrUpdate = (props: Props) => {
   
   return (
     <div>
-      {idEmployee ? <>Edit</> : <>Add</>} 
+      {/* {idEmployee ? <>Edit</> : <>Add</>}  */}
       <Tab />
     </div>
   )

@@ -5,6 +5,7 @@ export const ROUTES = {
     profile: '/profile',
     payrollList: '/payrollList',
     employee: '/employee',
+    attendance: '/attendance',
     createUpdate: 'employee/create-or-update',
     createUpdateId: 'employee/create-or-update/:idEmployee',
   };
