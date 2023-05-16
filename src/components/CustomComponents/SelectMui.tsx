@@ -1,10 +1,10 @@
-import React, { ChangeEvent, ReactNode, memo } from "react";
+import React, { memo } from "react";
 import CustomInputSelect from "../CustomStyle/StyleSelect";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { PaperProps } from "@mui/material/Paper";
-import { MarriageStatus } from "../../models/Employee";
+import { IMarriageStatus } from "../../models/Employee";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 type PropsSelect = {
   label: string;
@@ -84,7 +84,7 @@ const SelectMui = (props: PropsSelect) => {
           }
           const selectedItem = data.find(
             (item: any) => item?.id === selected
-          ) as MarriageStatus;
+          ) as IMarriageStatus;
 
           return selectedItem?.name;
         }}

@@ -10,18 +10,18 @@ import { useEffect, useState } from "react";
 import { dataDeletes, getEmployee } from "../../redux/slice/employeeSlice";
 import { Checkbox, Pagination, PaginationItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { styled } from "@mui/material/styles";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import PaginationEmployee from "./PaginationEmployee";
+import SimpleBar from "simplebar-react";
+import "simplebar-react/dist/simplebar.min.css";
 
 const TableEmpoyee = ({}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { dataEmployee } = useSelector((state: RootState) => state.employee);
   const [selected, setSelected] = useState<number[]>([]);
   const navigate = useNavigate();
-  console.log(dataEmployee);
+  // console.log(dataEmployee);
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
@@ -54,33 +54,44 @@ const TableEmpoyee = ({}) => {
     { field: "Department", headerName: "Department", width: 200 },
     { field: "EmployeeType", headerName: "Employee Type", width: 200 },
     { field: "SalaryRp", headerName: "Salary Rp.", width: 200 },
-    { field: "Position", headerName: "Position", width: 200 },
-    { field: "OTPaid", headerName: "O/T Paid", width: 150 },
-    { field: "Mealpaid", headerName: "Meal paid", width: 150 },
-    { field: "MealRp", headerName: "Meal Rp.", width: 150 },
-    { field: "Grading", headerName: "Grading", width: 150 },
+    { field: "Position", headerName: "Position", width: 150 },
+    { field: "OTPaid", headerName: "O/T Paid", width: 80 },
+    { field: "Mealpaid", headerName: "Meal paid", width: 90 },
+    { field: "MealRp", headerName: "Meal Rp.", width: 80 },
+    { field: "Grading", headerName: "Grading", width: 83 },
   ];
+  const [lastClickTime, setLastClickTime] = useState(0);
 
   // checkbox
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
   const handleClick = (event: React.MouseEvent, id: number) => {
-    const selectedIndex = selected.indexOf(id);
-    let newSelected: number[] = [];
+    const currentTime = new Date().getTime();
+    if (currentTime - lastClickTime < 500) {
+      // Xử lý logic cho sự kiện onDoubleClick
+      console.log("Double click event");
+      navigate(`/employee/create-or-update/${id}`);
+    } else {
+      // Xử lý logic cho sự kiện onClick
+      const selectedIndex = selected.indexOf(id);
+      let newSelected: number[] = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, id);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, id);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1)
+        );
+      }
+      setSelected(newSelected);
+      dispatch(dataDeletes(newSelected));
+      console.log("Single click event");
+      setLastClickTime(currentTime);
     }
-    setSelected(newSelected);
-    dispatch(dataDeletes(newSelected));
   };
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +122,12 @@ const TableEmpoyee = ({}) => {
     // backgroundColor: "rgb(248, 249, 250)",
     border: "1px solid white",
     color: "rgb(104, 112, 118)",
+    fontSize: "12px",
+    padding: "0 10px",
+
+    // "&.MuiTableCell-root":{
+    // color:'transparent'
+    // }
   }));
 
   const CustomTableRow = styled(TableRow)(({ theme, selected }) => ({
@@ -118,14 +135,20 @@ const TableEmpoyee = ({}) => {
     backgroundColor: selected
       ? "rgb(237 246 255) !important"
       : "rgb(248, 249, 250)",
+
+    color: selected ? "black !important" : "red !important",
     "&:hover": {
       backgroundColor: "rgb(248, 249, 250)",
+    },
+    "&.MuiTableCell-root": {
+      color: "transparent",
     },
   }));
 
   return (
     <div>
-      <TableContainer className="w-full   max-w-1170  min-h-600 h-600  ">
+      {/* <StyledScrollbar autoHide={false}> */}
+      <TableContainer className="w-full max-w-1170  min-h-600 h-600 ">
         <Table stickyHeader size="small" aria-label="sticky table">
           <TableHead sx={{ height: "30px" }}>
             <TableRow>
@@ -172,6 +195,7 @@ const TableEmpoyee = ({}) => {
                 <TableCell
                   sx={{
                     backgroundColor: "rgb(236, 238, 240) !important",
+                    padding: "6px 10px",
                     border: "1px solid white",
                     ...(index === columns.length - 1 && {
                       borderTopRightRadius: "8px",
@@ -267,7 +291,7 @@ const TableEmpoyee = ({}) => {
           </TableBody>
         </Table>
       </TableContainer>
-
+      {/* </StyledScrollbar> */}
       <hr
         style={{
           marginTop: "10px",

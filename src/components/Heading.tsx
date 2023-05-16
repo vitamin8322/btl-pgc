@@ -37,7 +37,7 @@ const Heading = (props: PropsHeading) => {
         </FormControl>
       );
     } else if (crumbs.length > 2) {
-      return !idEmployee ? <button onClick={() => {dispatch(addEmployee())}}>Add</button> : <button>Save Edit</button>;
+      return !idEmployee ? <button onClick={() => {dispatch(addEmployee())}}>Add</button> : <button>Save Change</button>;
     }
   };
 

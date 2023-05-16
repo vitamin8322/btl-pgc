@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
-import { Auth, Company, LoginFormFields, Login } from "../../models/Auth";
+import { IAuth, ICompany, ILoginFormFields, ILogin } from "../../models/Auth";
 
 interface AuthState {
-  dataAuth: Auth;
-  company: Company[];
-  login: Login;
+  dataAuth: IAuth;
+  company: ICompany[];
+  login: ILogin;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -133,7 +133,7 @@ export const getCompany = createAsyncThunk("auth/company", async () => {
 
 export const loginAuth = createAsyncThunk(
   "auth/login",
-  async ({ name, password, factory }: LoginFormFields) => {
+  async ({ name, password, factory }: ILoginFormFields) => {
     const data = await fetchApi("/api/login", "post", {
       username: name,
       password: password,

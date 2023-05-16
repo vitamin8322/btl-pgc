@@ -45,3 +45,12 @@
 .css-1ex1afd-MuiTableCell-root {
   border: 1px solid white !important;
 } */
+
+.css-gdh49b-MuiAutocomplete-listbox .MuiAutocomplete-option[aria-selected="true"]{
+  background-color: rgb(233, 249, 238) !important;
+  color: rgb(48, 164, 108) !important;
+}
+
+.css-1mmoate-MuiFormControl-root-MuiTextField-root{
+  margin-top:0 !important
+}

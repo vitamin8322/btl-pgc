@@ -1,19 +1,19 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { ChangeEvent, useEffect } from "react";
-import { FormEmploymentDetail } from "../../models/Employee";
+import { IFormEmploymentDetail } from "../../models/Employee";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getDepartment, getPosition } from "../../redux/slice/employeeSlice";
 import SelectMui from "../CustomComponents/SelectMui";
 
-type PropsTabDepartment = {
-  formEmploymentDetail: FormEmploymentDetail;
+type PropsTabEmployment = {
+  formEmploymentDetail: IFormEmploymentDetail;
   handleFormContractChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent
   ) => void;
 };
 
-const TabDeparment = (props: PropsTabDepartment) => {
+const TabEmployment = (props: PropsTabEmployment) => {
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { dataDepartment, dataPosition } = useSelector((state: RootState) => state.employee);
@@ -55,4 +55,4 @@ const TabDeparment = (props: PropsTabDepartment) => {
   );
 };
 
-export default TabDeparment;
+export default TabEmployment;

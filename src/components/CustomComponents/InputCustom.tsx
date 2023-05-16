@@ -3,22 +3,24 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 
 type PropsInput = {
-  label: string;
+  label?: string;
   isRequired?: boolean;
-  name: string;
+  name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value?: string;
+  size?:boolean;
 };
 
-const Input = (props: PropsInput) => {
-  const { label, onChange, value, name, isRequired } = props;
+
+const InputCustom = (props: PropsInput) => {
+  const { label, onChange, value, name, isRequired, size } = props;
   
   // console.log(label);
   
   return (
     <>
       <div className="flex items-center h-12">
-        <label htmlFor={label} className="font-normal min-w-175 flex">
+        <label htmlFor={label} className={`font-normal ${size ?`min-w-128` : `min-w-175`} flex`}>
           {label}
           {isRequired && (
             <span className="text-required font-normal text-lg">*</span>
@@ -28,11 +30,11 @@ const Input = (props: PropsInput) => {
           onChange={onChange}
           value={value}
           name={name}
-          className="input h-12 min-w-290 max-w-300 "
+          className="input h-12 w-full max-w-300 "
         />
       </div>
     </>
   );
 };
 
-export default memo(Input);
+export default memo(InputCustom);

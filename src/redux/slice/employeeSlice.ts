@@ -2,10 +2,12 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
 import {
   IEmployeeListResponse,
-  MarriageStatus,
-  DepartmentStatus,
-  PositionStatus,
+  IMarriageStatus,
+  IDepartmentStatus,
+  IPositionStatus,
   Employee,
+  IGrade,
+  IBenefit,
 } from "../../models/Employee";
 import { RootState } from "../store";
 
@@ -13,10 +15,12 @@ interface EmployeeState {
   employee: Employee[];
   employee2: {};
   dataEmployee: IEmployeeListResponse;
-  dataMarriage: MarriageStatus[];
-  dataDepartment: DepartmentStatus[];
-  dataPosition: PositionStatus[];
+  dataMarriage: IMarriageStatus[];
+  dataDepartment: IDepartmentStatus[];
+  dataPosition: IPositionStatus[];
   dataDelete: number[],
+  dataGrade: IGrade[],
+  dataBenefit: IBenefit[],
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -157,6 +161,8 @@ const initialState: EmployeeState = {
     to: 0,
     total: 0,
   },
+  dataGrade:[],
+  dataBenefit:[],
   dataMarriage: [],
   dataDepartment: [],
   dataPosition: [],
@@ -190,6 +196,16 @@ export const getPosition = createAsyncThunk("position/get", async () => {
   const data = await fetchApi("/api/position", "get");
   return data.data;
 });
+
+export const getGrade = createAsyncThunk("grade/get", async () => {
+  const data = await fetchApi("/api/grade", "get");
+  return data.data;
+});
+export const getBenefit = createAsyncThunk("benefit/get", async () => {
+  const data = await fetchApi("/api/benefit", "get");
+  return data.data;
+});
+
 
 export const addEmployee = createAsyncThunk(
   "employee/add",
@@ -281,6 +297,16 @@ const employeeSlice = createSlice({
       .addCase(getMarriage.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message ?? "Có lỗi";
+      })
+      //Grade
+      .addCase(getGrade.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.dataGrade = action.payload;
+      })
+      //IBenefit
+      .addCase(getBenefit.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.dataBenefit = action.payload;
       });
   },
 });

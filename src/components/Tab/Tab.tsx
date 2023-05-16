@@ -3,21 +3,21 @@ import TabPanel from "./TabPanel";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  FormContract,
+  IFormContract,
   IFormEmployee,
-  FormEmploymentDetail,
-  test,
+  IFormEmploymentDetail,
 } from "../../models/Employee";
 import TabEmployee from "./TabEmployee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import TabContract from "./TabContract";
-import TabDeparment from "./TabDeparment";
+import TabEmployment from "./TabEmployment";
 import { AntTabs } from "../CustomStyle/StyleTabs";
 import { AntTab } from "../CustomStyle/StyleTab";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { changeEmployee } from "../../redux/slice/employeeSlice";
 import TabOthers from "./TabOthers";
+import TabSalary from "./TabSalary";
 
 function a11yProps(index: number) {
   return {
@@ -30,9 +30,7 @@ const BasicTabs = () => {
   // redux
   const dispatch = useDispatch<AppDispatch>();
   const { company } = useSelector((state: RootState) => state.auth);
-  const { employee,  } = useSelector(
-    (state: RootState) => state.employee
-  );
+  const { employee } = useSelector((state: RootState) => state.employee);
 
   //funx
   const { idEmployee } = useParams();
@@ -58,13 +56,13 @@ const BasicTabs = () => {
     safety_insurance_no: "",
     health_insurance_no: "",
   });
-  const [formContract, setFormContract] = useState<FormContract>({
+  const [formContract, setFormContract] = useState<IFormContract>({
     contract_start_date: "",
     employee_id: "",
     contract: [],
   });
   const [formEmployeeDetail, setFormEmployeeDetail] =
-    useState<FormEmploymentDetail>({
+    useState<IFormEmploymentDetail>({
       department_id: "",
       position_id: "",
     });
@@ -75,9 +73,8 @@ const BasicTabs = () => {
       let value: any;
       value = e.target.value;
       setFormEmployee((prevValues) => ({ ...prevValues, [name]: value }));
-      dispatch(changeEmployee({ name1:name, value }));
+      dispatch(changeEmployee({ name1: name, value }));
       // console.log(employee);
-      
     },
     []
   );
@@ -139,16 +136,13 @@ const BasicTabs = () => {
         />
       </TabPanel>
       <TabPanel value={value} title="Employment Details" index={2}>
-        <TabDeparment
+        <TabEmployment
           formEmploymentDetail={formEmployeeDetail}
           handleFormContractChange={handleFormEmployeeDetailChange}
         />
       </TabPanel>
       <TabPanel value={value} title="Salary & Wages" index={3}>
-        <TabDeparment
-          formEmploymentDetail={formEmployeeDetail}
-          handleFormContractChange={handleFormEmployeeDetailChange}
-        />
+        <TabSalary />
       </TabPanel>
       <TabPanel value={value} title="Others" index={4}>
         <TabOthers />

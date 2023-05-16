@@ -1,14 +1,16 @@
 import React, { ChangeEvent, useEffect } from "react";
-import Input from "../CustomComponents/Input";
-import { FormContract } from "../../models/Employee";
+import InputCustom from "../CustomComponents/InputCustom";
+import { IFormContract } from "../../models/Employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import SelectMui from "../CustomComponents/SelectMui";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getDepartment } from "../../redux/slice/employeeSlice";
+import ContractUploadFile from "./ContractUploadFile";
+import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 
 type PropsTabContract = {
-  formContract: FormContract;
+  formContract: IFormContract;
   handleFormContractChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent
   ) => void;
@@ -59,13 +61,15 @@ const TabContract = (props: PropsTabContract) => {
   return (
     <div>
       <div className="flex flex-col gap-2.5 px-2.5">
-        <Input
+        {/* <InputCustom
           value={formContract.contract_start_date}
           name="contract_start_date"
           isRequired={true}
           onChange={handleFormContractChange}
           label="Date Start"
-        />
+        /> */}
+          <DatePickerCustom isRequired={true}  label="Date Start" name="contract_start_date"/>
+
         <SelectMui
           data={data}
           label="Employee Type"
@@ -76,6 +80,7 @@ const TabContract = (props: PropsTabContract) => {
           //   isNa
           name="employee_id"
         />
+        <ContractUploadFile />
       </div>
     </div>
   );

@@ -52,15 +52,15 @@ export interface Employee {
   [key: string]: any;
 }
 
-export interface test{
-  name:string;
+export interface test {
+  name: string;
   mother_name: string;
   dateOfBirth: string;
   [key: string]: string | number;
 }
 export type test2 = {
   count: number;
-}
+};
 
 export interface Contract {
   id: number;
@@ -106,7 +106,7 @@ export interface IFormEmployee {
   home_address_2: string;
   mobile_no: string;
   tel_no: string;
-  marriage_id: string ;
+  marriage_id: string;
   card_number: string;
   bank_account_no: string;
   bank_name: string;
@@ -115,17 +115,17 @@ export interface IFormEmployee {
   health_insurance_no: string;
 }
 
-export interface FormContract{
+export interface IFormContract {
   contract_start_date: string;
   employee_id: string;
-  contract: Contract[]
+  contract: Contract[];
 }
-export interface FormEmploymentDetail{
+export interface IFormEmploymentDetail {
   department_id: string;
   position_id: string;
 }
 
-export interface MarriageStatus {
+export interface IMarriageStatus {
   id: number;
   name: string;
   code: string;
@@ -134,7 +134,7 @@ export interface MarriageStatus {
   updated_at: string | null;
 }
 
-export interface DepartmentStatus {
+export interface IDepartmentStatus {
   id: number;
   name: string;
   code: string;
@@ -143,12 +143,33 @@ export interface DepartmentStatus {
   updated_at: string | null;
 }
 
-export interface PositionStatus {
+export interface IPositionStatus {
   id: number;
   name: string;
   code: string;
   company_id: number;
   created_at: string;
   updated_at: string | null;
-  }
+}
+
+export interface IBenefit {
+  id: number;
+  name: string;
+  code: string;
+  type: number;
+  value: string;
+  company_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IGrade {
+  id: number;
+  name: string;
+  prefix: string;
+  company_id: number;
+  created_at: string;
+  updated_at: string;
+  benefits: IBenefit[];
+}
 

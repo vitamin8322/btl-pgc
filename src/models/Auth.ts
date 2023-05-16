@@ -1,10 +1,10 @@
-export interface LoginFormFields {
+export interface ILoginFormFields {
   name: string;
   password: string;
   factory: number | null;
 }
 
-export interface Auth {
+export interface IAuth {
   id: number;
   username: string;
   email: string;
@@ -108,7 +108,7 @@ export interface Auth {
   };
 }
 
-export interface Company {
+export interface ICompany {
   id: number;
   name: string;
   full_name: string;
@@ -119,7 +119,7 @@ export interface Company {
   updated_at: string | null;
 }
 
-export interface Login {
+export interface ILogin {
  data:{
   token: string;
  };

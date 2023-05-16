@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Input from "../CustomComponents/Input";
+import InputCustom from "../CustomComponents/InputCustom";
 import SelectMui from "../CustomComponents/SelectMui";
 import { IFormEmployee } from "../../models/Employee";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +52,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
       <div className="flex flex-col gap-2.5 px-2.5">
         {idEmployee ? (
           <>
-            <Input
+            <InputCustom
               value={formEmployee.nik}
               name="nik"
               onChange={handleFormEmployeeChange}
@@ -62,7 +62,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
         ) : (
           <></>
         )}
-        <Input
+        <InputCustom
           value={formEmployee.name}
           name="name"
           isRequired={true}
@@ -79,45 +79,45 @@ const TabEmployee = (props: PropsTabEmployee) => {
           // isNa
           name="gender"
         />
-        <Input
+        <InputCustom
           value={formEmployee.mother_name}
           name="mother_name"
           onChange={handleFormEmployeeChange}
           label="Mother Name"
         />
-        <Input
+        <InputCustom
           value={formEmployee.dob}
           name="dob"
           onChange={handleFormEmployeeChange}
           label="Date of birth"
         />
-        <Input
+        <InputCustom
           value={formEmployee.pob}
           name="pob"
           onChange={handleFormEmployeeChange}
           label="Place of birth"
         />
-        <Input
+        <InputCustom
           value={formEmployee.ktp_no}
           name="ktp_no"
           isRequired={true}
           onChange={handleFormEmployeeChange}
           label="KTP No."
         />
-        <Input
+        <InputCustom
           value={formEmployee.nc_id}
           name="nc_id"
           isRequired={true}
           onChange={handleFormEmployeeChange}
           label="National Card ID"
         />
-        <Input
+        <InputCustom
           value={formEmployee.home_address_1}
           name="home_address_1"
           onChange={handleFormEmployeeChange}
           label="Home Address 1"
         />
-        <Input
+        <InputCustom
           value={formEmployee.home_address_2}
           name="home_address_2"
           onChange={handleFormEmployeeChange}
@@ -125,19 +125,19 @@ const TabEmployee = (props: PropsTabEmployee) => {
         />
       </div>
       <div className="flex flex-col gap-2.5 px-2.5">
-        <Input
+        <InputCustom
           value={formEmployee.mobile_no}
           name="mobile_no"
           onChange={handleFormEmployeeChange}
           label="Mobile No."
         />
-        <Input
+        <InputCustom
           value={formEmployee.tel_no}
           name="tel_no"
           onChange={handleFormEmployeeChange}
           label="Tel No."
         />
-        {/* <Input
+        {/* <InputCustom
         value={formEmployee.marriageStatus}
         name="marriageStatus"
         onChange={handleFormEmployeeChange}
@@ -153,37 +153,37 @@ const TabEmployee = (props: PropsTabEmployee) => {
           isNa
           name="marriage_id"
         />
-        <Input
+        <InputCustom
           value={formEmployee.card_number}
           name="card_number"
           onChange={handleFormEmployeeChange}
           label="Bank Card No."
         />
-        <Input
+        <InputCustom
           value={formEmployee.bank_account_no}
           name="bank_account_no"
           onChange={handleFormEmployeeChange}
           label="Bank Account No."
         />
-        <Input
+        <InputCustom
           value={formEmployee.bank_name}
           name="bank_name"
           onChange={handleFormEmployeeChange}
           label="Bank Name"
         />
-        <Input
+        <InputCustom
           value={formEmployee.family_card_number}
           name="family_card_number"
           onChange={handleFormEmployeeChange}
           label="Family Card Number"
         />
-        <Input
+        <InputCustom
           value={formEmployee.safety_insurance_no}
           name="safety_insurance_no"
           onChange={handleFormEmployeeChange}
           label="Safety Insurance No."
         />
-        <Input
+        <InputCustom
           value={formEmployee.health_insurance_no}
           name="health_insurance_no"
           onChange={handleFormEmployeeChange}

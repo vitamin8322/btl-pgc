@@ -14,8 +14,11 @@ module.exports = {
         '450': '450px'
       },
       height: {
+        '35': '35px',
         '40': '40px',
         '46': '46px',
+        '54': '54px',
+        '55': '55px',
         '414':'414px',
         '600':'600px',
       },
@@ -23,17 +26,20 @@ module.exports = {
         // white: 'rgb(251 252 253)',
         input: '#f1f3f5',
         gray: 'rgb(104, 112, 118)',
+        gray2: 'rgb(241, 243, 245)',
         blue1: 'rgb(0, 145, 255)',
         blueHover: 'rgb(0, 129, 241)', 
         default: 'rgb(248, 249, 250);',
         black:'rgb(17, 24, 28)',
         red1: 'rgb(243, 174, 175)',
         red2: 'rgb(255, 239, 239)',
-        required: 'rgb(229, 72, 77)'
+        required: 'rgb(229, 72, 77)',
+
       },
       boxShadow:{
         form: 'rgba(236, 238, 240, 0.5) 0px 10px 5px',
-        header: 'rgb(236, 238, 240) 0px 3px 15px'
+        header: 'rgb(236, 238, 240) 0px 3px 15px',
+        table:'rgb(241, 243, 245) 0px 5px 20px'
       },
       inset: {
         '135': '135px',
@@ -43,19 +49,29 @@ module.exports = {
       },
       maxWidth:{
         '1170': '1170px',
-        '300': '300px'
+        '300': '300px',
+        '400': '400px'
       },
       minWidth: {
+        '128': '128px',
+        '150': '150px',
         '175': '175px',
+        '211': '211px',
         '290': '290px',
       },
       minHeight: {
         '600': '600px',
       },
+      backgroundImage: {
+        'hero-pattern': "url('../../assets/image/Calendar.svg')",
+        'footer-texture': "url('/img/footer-texture.png')",
+      }
       
     },
   },
-  plugins: [],
+  plugins: [
+    
+  ],
   module: {
     rules: [
       // ...

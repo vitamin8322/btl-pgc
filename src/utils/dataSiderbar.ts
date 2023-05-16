@@ -32,13 +32,13 @@ export const itemsSiderbar: Item[] = [
     id: "2",
     name: "Leave Management",
     icon: Leave,
-    path: "/leave",
+    // path: "/leave",
   },
   {
     id: "3",
     name: "Payroll Management",
     icon: Payroll,
-    path: "/payroll",
+    // path: "/payroll",
   },
 
   {
@@ -51,7 +51,7 @@ export const itemsSiderbar: Item[] = [
     id: "5",
     name: "User Management",
     icon: User,
-    path: "/user",
+    // path: "/user",
   },
   {
     id: "6",
@@ -86,6 +86,6 @@ export const itemsSiderbar: Item[] = [
     id: "8",
     name: "Settings",
     icon: Settings,
-    path: "/settings",
+    // path: "/settings",
   },
 ];

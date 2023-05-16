@@ -13,7 +13,7 @@ type Props = {};
 const ActionTable = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { dataDelete } = useSelector((state: RootState) => state.employee);
-  console.log(dataDelete);
+  // console.log(dataDelete);
 
   return (
     <div className="flex justify-between items-center">

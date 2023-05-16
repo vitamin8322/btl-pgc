@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetchApi } from "../hooks/api";
-import { Company, LoginFormFields } from "../models/Auth";
+import { ICompany, ILoginFormFields } from "../models/Auth";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -40,7 +40,7 @@ const LoginFrom = (props: Props) => {
   );
 
   // func
-  const [formLogin, setFormLogin] = useState<LoginFormFields>({
+  const [formLogin, setFormLogin] = useState<ILoginFormFields>({
     name: "",
     password: "",
     factory: 0,
@@ -62,7 +62,7 @@ const LoginFrom = (props: Props) => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<LoginFormFields>({
+  } = useForm<ILoginFormFields>({
     defaultValues: {
       name: "doanhdoquoc",
       password: "doanh123",
@@ -72,7 +72,7 @@ const LoginFrom = (props: Props) => {
   const watchPassword = watch("password", "text");
   const watchFactory = watch("factory");
 
-  const onSubmitLogin = async (formData: LoginFormFields) => {
+  const onSubmitLogin = async (formData: ILoginFormFields) => {
     try {
       await dispatch(
         loginAuth({
