@@ -6,13 +6,13 @@ import SelectMui from "../CustomComponents/SelectMui";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getDepartment } from "../../redux/slice/employeeSlice";
-import ContractUploadFile from "./ContractUploadFile";
+import ContractUploadFile from "./ComponentsTab/ContractUploadFile";
 import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 
 type PropsTabContract = {
   formContract: IFormContract;
   handleFormContractChange?: (
-    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent
+    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
 };
 
@@ -33,7 +33,7 @@ const TabContract = (props: PropsTabContract) => {
 
   const data = [
     {
-      id: 1,
+      id: 0,
       name: "Parmanent",
       code: "MK01",
       company_id: 1,
@@ -41,7 +41,7 @@ const TabContract = (props: PropsTabContract) => {
       updated_at: null,
     },
     {
-      id: 2,
+      id: 1,
       name: "Part-time",
       code: "S01",
       company_id: 1,
@@ -49,7 +49,7 @@ const TabContract = (props: PropsTabContract) => {
       updated_at: null,
     },
     {
-      id: 3,
+      id: 2,
       name: "Contract",
       code: "M01",
       company_id: 1,
@@ -75,10 +75,10 @@ const TabContract = (props: PropsTabContract) => {
           label="Employee Type"
           placeholder="Choose Type"
           isRequired={true}
-          value={formContract.employee_id}
+          value={formContract.type}
           onChange={handleFormContractChange}
           //   isNa
-          name="employee_id"
+          name="type"
         />
         <ContractUploadFile />
       </div>

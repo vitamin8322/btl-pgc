@@ -20,6 +20,7 @@
 
 .react-datepicker-wrapper {
   width: auto;
+  max-width: 290px;
 }
 .react-datepicker-popper[data-placement^="bottom"]
   .react-datepicker__triangle::before,
@@ -27,7 +28,13 @@
   .react-datepicker__triangle::after {
   border: none;
 }
+.react-datepicker-popper{
+  z-index: 1000;
+}
+
+
 .react-datepicker__month-container {
+  
   width: 351px;
   height: 348px;
   .react-datepicker__header {

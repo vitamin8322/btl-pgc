@@ -13,14 +13,14 @@ import { RootState } from "../store";
 
 interface EmployeeState {
   employee: Employee[];
-  employee2: {};
+  // employee2: {};
   dataEmployee: IEmployeeListResponse;
   dataMarriage: IMarriageStatus[];
   dataDepartment: IDepartmentStatus[];
   dataPosition: IPositionStatus[];
-  dataDelete: number[],
-  dataGrade: IGrade[],
-  dataBenefit: IBenefit[],
+  dataDelete: number[];
+  dataGrade: IGrade[];
+  dataBenefit: IBenefit[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
@@ -30,118 +30,116 @@ interface Value {
   value: string | number;
 }
 
-
-
 const initialState: EmployeeState = {
   employee: [
     {
       id: 0,
-    old_staff_id: 0,
-    staff_id: "",
-    department_id: 1,
-    company_id: 1,
-    manager_id: 1,
-    marriage_id: 1,
-    position_id: 1,
-    mother_name: "",
-    pob: "",
-    home_address_1: "",
-    home_address_2: "",
-    mobile_no: "",
-    tel_no: "",
-    bank_account_no: "",
-    bank_name: "",
-    card_number: "",
-    family_card_number: "",
-    health_insurance_no: "",
-    safety_insurance_no: "",
-    entitle_ot: 1,
-    meal_allowance_paid: 1,
-    operational_allowance_paid: 1,
-    attendance_allowance_paid: 1,
-    minimum_salary_used: "",
-    shift: "",
-    grade_id: 1,
-    remark: "",
-    created_at: "",
-    updated_at: "",
-    deleted_at: "",
-    department_name: "",
-    marriage_code: "",
-    position_name: "",
-    grade_prefix: "",
-    grade_name: "",
-    manager_name: "",
-    contracts: [],
-    //ádd
+      old_staff_id: 0,
+      staff_id: "",
+      department_id: null,
+      company_id: 1,
+      manager_id: 1,
+      marriage_id: 1,
+      position_id: null,
+      mother_name: "",
+      pob: "",
+      home_address_1: "",
+      home_address_2: "",
+      mobile_no: "",
+      tel_no: "",
+      bank_account_no: "",
+      bank_name: "",
+      card_number: "",
+      family_card_number: "",
+      health_insurance_no: "",
+      safety_insurance_no: "",
+      entitle_ot: 1,
+      meal_allowance_paid: 1,
+      operational_allowance_paid: 1,
+      attendance_allowance_paid: 1,
+      minimum_salary_used: "",
+      shift: "",
+      grade_id: 1,
+      remark: "",
+      created_at: "",
+      updated_at: "",
+      deleted_at: "",
+      department_name: "",
+      marriage_code: "",
+      position_name: "",
+      grade_prefix: "",
+      grade_name: "",
+      manager_name: "",
+      contracts: [],
+      //ádd
 
-    name: "aaa",
-    gender: 1,
-    dob: "2023-01-03",
-    ktp_no: "123",
-    nc_id: "231",
-    type: "0",
-    basic_salary: 23,
-    audit_salary: 123,
-    safety_insurance: 123,
-    health_insurance: 123,
-    meal_allowance: 123,
-    contract_start_date: "2023-01-03",
+      name: "aaa",
+      gender: 1,
+      dob: "2023-01-03",
+      ktp_no: "123",
+      nc_id: "231",
+      type: 0,
+      basic_salary: 23,
+      audit_salary: 123,
+      safety_insurance: 123,
+      health_insurance: 123,
+      meal_allowance: 123,
+      contract_start_date: "2023-01-03",
     },
   ],
-  employee2: {
-    id: 0,
-    old_staff_id: 0,
-    staff_id: "",
-    department_id: 1,
-    company_id: 1,
-    manager_id: 1,
-    marriage_id: 1,
-    position_id: 1,
-    mother_name: "ádaa",
-    pob: "",
-    home_address_1: "",
-    home_address_2: "",
-    mobile_no: "",
-    tel_no: "",
-    bank_account_no: "",
-    bank_name: "",
-    card_number: "",
-    family_card_number: "",
-    health_insurance_no: "",
-    safety_insurance_no: "",
-    entitle_ot: 1,
-    meal_allowance_paid: 1,
-    operational_allowance_paid: 1,
-    attendance_allowance_paid: 1,
-    minimum_salary_used: "",
-    shift: "",
-    grade_id: 1,
-    remark: "",
-    created_at: "",
-    updated_at: "",
-    deleted_at: "",
-    department_name: "",
-    marriage_code: "",
-    position_name: "",
-    grade_prefix: "",
-    grade_name: "",
-    manager_name: "",
-    //ádd
+  // employee2: {
+  //   id: 0,
+  //   old_staff_id: 0,
+  //   staff_id: "",
+  //   department_id: 1,
+  //   company_id: 1,
+  //   manager_id: 1,
+  //   marriage_id: 1,
+  //   position_id: 1,
+  //   mother_name: "ádaa",
+  //   pob: "",
+  //   home_address_1: "",
+  //   home_address_2: "",
+  //   mobile_no: "",
+  //   tel_no: "",
+  //   bank_account_no: "",
+  //   bank_name: "",
+  //   card_number: "",
+  //   family_card_number: "",
+  //   health_insurance_no: "",
+  //   safety_insurance_no: "",
+  //   entitle_ot: 1,
+  //   meal_allowance_paid: 1,
+  //   operational_allowance_paid: 1,
+  //   attendance_allowance_paid: 1,
+  //   minimum_salary_used: "",
+  //   shift: "",
+  //   grade_id: 1,
+  //   remark: "",
+  //   created_at: "",
+  //   updated_at: "",
+  //   deleted_at: "",
+  //   department_name: "",
+  //   marriage_code: "",
+  //   position_name: "",
+  //   grade_prefix: "",
+  //   grade_name: "",
+  //   manager_name: "",
+  //   //ádd
 
-    name: "aaa",
-    gender: 1,
-    dob: "2023-01-03",
-    ktp_no: "123",
-    nc_id: "231",
-    type: "0",
-    basic_salary: 23,
-    audit_salary: 123,
-    safety_insurance: 123,
-    health_insurance: 123,
-    meal_allowance: 123,
-    contract_start_date: "2023-01-03",
-  },
+  //   name: "aaa",
+  //   gender: 1,
+  //   dob: "2023-01-03",
+  //   ktp_no: "123",
+  //   nc_id: "231",
+  //   type: "0",
+  //   basic_salary: 23,
+  //   audit_salary: 123,
+  //   safety_insurance: 123,
+  //   health_insurance: 123,
+  //   meal_allowance: 123,
+  //   contract_start_date: "2023-01-03",
+  // },
   dataEmployee: {
     current_page: 0,
     data: [],
@@ -161,8 +159,8 @@ const initialState: EmployeeState = {
     to: 0,
     total: 0,
   },
-  dataGrade:[],
-  dataBenefit:[],
+  dataGrade: [],
+  dataBenefit: [],
   dataMarriage: [],
   dataDepartment: [],
   dataPosition: [],
@@ -173,11 +171,16 @@ const initialState: EmployeeState = {
 
 export const getEmployee = createAsyncThunk(
   "employee/get",
-  async (page?: number) => {
-    const data = await fetchApi(
-      page != undefined ? `/api/employee?page=${page}` : "/api/employee",
-      "get"
-    );
+  async ({ page, query }: { page?: number; query?: string | null }) => {
+    let url = "/api/employee"
+    if (page !== undefined && query !== null && query !== undefined) {
+      url = `/api/employee?search=${query}&page=${page}`;
+    } else if (page !== undefined) {
+      url = `/api/employee?page=${page}`;
+    } else if (query !== null && query !== undefined) {
+      url = `/api/employee?search=${query}`;
+    }
+    const data = await fetchApi(url, "get");
     return data.data;
   }
 );
@@ -206,7 +209,6 @@ export const getBenefit = createAsyncThunk("benefit/get", async () => {
   return data.data;
 });
 
-
 export const addEmployee = createAsyncThunk(
   "employee/add",
   async (_, { getState }) => {
@@ -223,17 +225,39 @@ export const addEmployee = createAsyncThunk(
   }
 );
 
+// export const deleteEmployee = createAsyncThunk(
+//   "employee/delete",
+//   async (_, { getState }) => {
+//     const { employee } = getState() as RootState;
+//     console.log(employee.dataDelete);
+//     const body = {
+//       record_ids: employee.dataDelete,
+//     };
 
-export const deleteEmployee = createAsyncThunk("employee/delete", async (_, { getState }) => {
-  const { employee } = getState() as RootState;
-  console.log(employee.dataDelete);  
-  const body ={
-    record_ids: employee.dataDelete
+//     const data = await fetchApi(
+//       "/api/employee/multiple-delete",
+//       "delete",
+//       body
+//     );
+//     return data.data;
+//   }
+// );
+
+export const deleteEmployee = createAsyncThunk(
+  "employee/delete",
+  async (dataDelete: number[]) => {
+    console.log(dataDelete);
+    const body = {
+      record_ids: dataDelete,
+    };
+    const data = await fetchApi(
+      "/api/employee/multiple-delete",
+      "delete",
+      body
+    );
+    return data.data;
   }
-
-  const data = await fetchApi("/api/employee/multiple-delete", "delete", body);
-  return data.data;
-});
+);
 
 const employeeSlice = createSlice({
   name: "employee",
@@ -242,11 +266,11 @@ const employeeSlice = createSlice({
     changeEmployee: (state, action: PayloadAction<Value>) => {
       const { name1, value } = action.payload;
       state.employee[0][name1] = value;
-      // console.log(state.employee[0].name, value);
+      console.log(name1, value);
     },
-    dataDeletes:(state, action: PayloadAction<number[]>) => {
-      state.dataDelete = action.payload
-    } 
+    dataDeletes: (state, action: PayloadAction<number[]>) => {
+      state.dataDelete = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -263,9 +287,6 @@ const employeeSlice = createSlice({
         state.error = action.error.message ?? "Có lỗi";
       })
       // getDeparment
-      .addCase(getDepartment.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(getDepartment.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.dataDepartment = action.payload;
@@ -275,9 +296,6 @@ const employeeSlice = createSlice({
         state.error = action.error.message ?? "Có lỗi";
       })
       // getPosition
-      .addCase(getPosition.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(getPosition.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.dataPosition = action.payload;
@@ -287,9 +305,6 @@ const employeeSlice = createSlice({
         state.error = action.error.message ?? "Có lỗi";
       })
       // getMarriage
-      .addCase(getMarriage.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(getMarriage.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.dataMarriage = action.payload;

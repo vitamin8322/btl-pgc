@@ -4,12 +4,12 @@ export interface Employee {
   staff_id: string;
   name: string;
   gender: number | string;
-  department_id: number;
+  department_id: number | null;
   company_id: number;
   manager_id: number | null;
   marriage_id: number | string;
   position_id: number | null;
-  type: string;
+  type: number;
   mother_name: string;
   dob: string;
   pob: string | null;
@@ -48,7 +48,7 @@ export interface Employee {
   grade_prefix: string;
   grade_name: string;
   manager_name: string | null;
-  contracts: Contract[];
+  contracts: IContract[];
   [key: string]: any;
 }
 
@@ -62,7 +62,7 @@ export type test2 = {
   count: number;
 };
 
-export interface Contract {
+export interface IContract {
   id: number;
   employee_id: number;
   contract_date: string;
@@ -117,8 +117,8 @@ export interface IFormEmployee {
 
 export interface IFormContract {
   contract_start_date: string;
-  employee_id: string;
-  contract: Contract[];
+  type: number;
+  contract: IContract[];
 }
 export interface IFormEmploymentDetail {
   department_id: string;

@@ -15,45 +15,49 @@ import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox
 import PaginationEmployee from "./PaginationEmployee";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
+import ActionTable from "./ActionTable";
+import "./Table.scss";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const TableEmpoyee = ({}) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { dataEmployee } = useSelector((state: RootState) => state.employee);
+  const { dataEmployee, status } = useSelector(
+    (state: RootState) => state.employee
+  );
   const [selected, setSelected] = useState<number[]>([]);
   const navigate = useNavigate();
-  // console.log(dataEmployee);
 
   useEffect(() => {
     const fetchDataEmployee = async () => {
-      await dispatch(getEmployee());
+      await dispatch(getEmployee({}));
     };
     fetchDataEmployee();
   }, []);
 
   const columns = [
-    { field: "NIK", headerName: "NIK", width: 150 },
-    { field: "Name", headerName: "Name", width: 200 },
-    { field: "Gender", headerName: "Gender", width: 120 },
-    { field: "BankCardNo", headerName: "Bank Card No.", width: 200 },
-    { field: "BankAccountNo", headerName: "Bank Account No.", width: 200 },
-    { field: "FamilyCardNo", headerName: "Family Card No.", width: 200 },
-    { field: "MarriageStatus", headerName: "Marriage Status", width: 150 },
-    { field: "MotherName", headerName: "Mother Name", width: 200 },
-    { field: "Placeofbirth", headerName: "Place of birth", width: 200 },
-    { field: "Dateofbirth", headerName: "Date of birth", width: 200 },
-    { field: "HomeAddress", headerName: "Home Address", width: 300 },
+    { field: "NIK", headerName: "NIK", width: 95 },
+    { field: "Name", headerName: "Name", width: 150 },
+    { field: "Gender", headerName: "Gender", width: 70 },
+    { field: "BankCardNo", headerName: "Bank Card No.", width: 130 },
+    { field: "BankAccountNo", headerName: "Bank Account No.", width: 150 },
+    { field: "FamilyCardNo", headerName: "Family Card No.", width: 150 },
+    { field: "MarriageStatus", headerName: "Marriage Status", width: 130 },
+    { field: "MotherName", headerName: "Mother Name", width: 150 },
+    { field: "Placeofbirth", headerName: "Place of birth", width: 115 },
+    { field: "Dateofbirth", headerName: "Date of birth", width: 115 },
+    { field: "HomeAddress", headerName: "Home Address", width: 700 },
     {
       field: "NationalCardIDNo",
       headerName: "National Card ID No.",
-      width: 200,
+      width: 170,
     },
-    { field: "DateStart", headerName: "Date Start", width: 200 },
-    { field: "FirstContract", headerName: "First Contract", width: 200 },
-    { field: "SecondContract", headerName: "Second Contract", width: 200 },
-    { field: "EndContract", headerName: "End Contract", width: 200 },
-    { field: "Department", headerName: "Department", width: 200 },
-    { field: "EmployeeType", headerName: "Employee Type", width: 200 },
-    { field: "SalaryRp", headerName: "Salary Rp.", width: 200 },
+    { field: "DateStart", headerName: "Date Start", width: 90 },
+    { field: "FirstContract", headerName: "First Contract", width: 110 },
+    { field: "SecondContract", headerName: "Second Contract", width: 130 },
+    { field: "EndContract", headerName: "End Contract", width: 110 },
+    { field: "Department", headerName: "Department", width: 150 },
+    { field: "EmployeeType", headerName: "Employee Type", width: 120 },
+    { field: "SalaryRp", headerName: "Salary Rp.", width: 90 },
     { field: "Position", headerName: "Position", width: 150 },
     { field: "OTPaid", headerName: "O/T Paid", width: 80 },
     { field: "Mealpaid", headerName: "Meal paid", width: 90 },
@@ -66,7 +70,7 @@ const TableEmpoyee = ({}) => {
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
   const handleClick = (event: React.MouseEvent, id: number) => {
     const currentTime = new Date().getTime();
-    if (currentTime - lastClickTime < 500) {
+    if (currentTime - lastClickTime < 300) {
       // Xử lý logic cho sự kiện onDoubleClick
       console.log("Double click event");
       navigate(`/employee/create-or-update/${id}`);
@@ -106,16 +110,6 @@ const TableEmpoyee = ({}) => {
   };
 
   // console.log('selected', selected);
-
-  //pagination
-  const handleChangePage = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    console.log(page);
-    dispatch(getEmployee(page));
-  };
-
   //custom tablecell
 
   const TableCellCustom = styled(TableCell)(({}) => ({
@@ -147,150 +141,172 @@ const TableEmpoyee = ({}) => {
 
   return (
     <div>
-      {/* <StyledScrollbar autoHide={false}> */}
-      <TableContainer className="w-full max-w-1170  min-h-600 h-600 ">
-        <Table stickyHeader size="small" aria-label="sticky table">
-          <TableHead sx={{ height: "30px" }}>
-            <TableRow>
-              <TableCell
-                sx={{
-                  borderTopLeftRadius: "8px",
-                  backgroundColor: "rgb(236, 238, 240) !important",
-                  height: "31px",
-                  border: "1px solid white",
-                }}
-                padding="checkbox"
-              >
-                <Checkbox
-                  color="primary"
-                  sx={{
-                    // color: "rgb(48 164 108)",
-                    "&.Mui-checked": {
-                      color: "rgb(48 164 108)",
-                    },
-                    "&.MuiSvgIcon-root": {
-                      fill: "rgb(48 164 108)",
-                    },
-                  }}
-                  indeterminate={
-                    selected.length > 0 &&
-                    selected.length < dataEmployee.data.length
-                  }
-                  checked={
-                    dataEmployee.data.length > 0 &&
-                    selected.length === dataEmployee.data.length
-                  }
-                  onChange={handleSelectAllClick}
-                  inputProps={{
-                    "aria-label": "select all desserts",
-                  }}
-                  indeterminateIcon={
-                    <IndeterminateCheckBoxIcon
-                      sx={{ color: "rgb(48 164 108)" }}
-                    />
-                  }
-                />
-              </TableCell>
-              {columns.map((column, index) => (
+      <ActionTable dataDelete={selected} setSelected={setSelected} />
+      <hr
+        style={{
+          margin: "10px 0",
+          flexShrink: "0",
+          borderWidth: "0px 0px thin",
+          borderStyle: "solid",
+          borderColor: "rgba(193, 200, 205, 0.24)",
+        }}
+      />
+      <div className="relative">
+        <TableContainer className="w-full max-w-1170  h-525 ">
+          <Table stickyHeader size="small" aria-label="sticky table">
+            <TableHead sx={{ height: "30px" }}>
+              <TableRow>
                 <TableCell
                   sx={{
+                    borderTopLeftRadius: "8px",
                     backgroundColor: "rgb(236, 238, 240) !important",
-                    padding: "6px 10px",
+                    height: "31px",
                     border: "1px solid white",
-                    ...(index === columns.length - 1 && {
-                      borderTopRightRadius: "8px",
-                    }),
                   }}
-                  key={index}
-                  style={{ minWidth: `${column.width}px` }}
+                  padding="checkbox"
                 >
-                  {column.headerName}
+                  <Checkbox
+                    color="primary"
+                    sx={{
+                      // color: "rgb(48 164 108)",
+                      "&.Mui-checked": {
+                        color: "rgb(48 164 108)",
+                      },
+                      "&.MuiSvgIcon-root": {
+                        fill: "rgb(48 164 108)",
+                      },
+                    }}
+                    indeterminate={
+                      selected.length > 0 &&
+                      selected.length < dataEmployee.data.length
+                    }
+                    checked={
+                      dataEmployee.data.length > 0 &&
+                      selected.length === dataEmployee.data.length
+                    }
+                    onChange={handleSelectAllClick}
+                    inputProps={{
+                      "aria-label": "select all desserts",
+                    }}
+                    indeterminateIcon={
+                      <IndeterminateCheckBoxIcon
+                        sx={{ color: "rgb(48 164 108)" }}
+                      />
+                    }
+                  />
                 </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataEmployee.data.map((row, index) => {
-              const isItemSelected = isSelected(row.id);
-              const labelId = `enhanced-table-checkbox-${index}`;
-              return (
-                <CustomTableRow
-                  hover
-                  onClick={(event) => handleClick(event, row.id)}
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={row.id}
-                  selected={isItemSelected}
-                  sx={{
-                    cursor: "pointer",
-                  }}
-                  onDoubleClick={() => {
-                    console.log(row.id);
-                    navigate(`/employee/create-or-update/${row.id}`);
-                  }}
-                >
-                  <TableCellCustom padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      sx={{
-                        borderTopLeftRadius: "8px",
-                        "&.Mui-checked": {
-                          color: "rgb(48 164 108)",
-                        },
-                      }}
-                      checked={isItemSelected}
-                      inputProps={{
-                        "aria-labelledby": labelId,
-                      }}
-                    />
-                  </TableCellCustom>
-                  <TableCellCustom width={300}>{row.staff_id}</TableCellCustom>
-                  <TableCellCustom>{row.name}</TableCellCustom>
-                  <TableCellCustom>{row.gender}</TableCellCustom>
-                  <TableCellCustom>{row.card_number}</TableCellCustom>
-                  <TableCellCustom>{row.bank_account_no}</TableCellCustom>
-                  <TableCellCustom>{row.family_card_number}</TableCellCustom>
-                  <TableCellCustom>{row.marriage_code}</TableCellCustom>
-                  <TableCellCustom>{row.mother_name}</TableCellCustom>
-                  <TableCellCustom>{row.pob}</TableCellCustom>
-                  <TableCellCustom>{row.dob}</TableCellCustom>
-                  <TableCellCustom>{row.home_address_1}</TableCellCustom>
-                  <TableCellCustom>{row.nc_id}</TableCellCustom>
-                  <TableCellCustom>{row.contract_start_date}</TableCellCustom>
-                  {row?.contracts.length > 0 ? (
-                    <TableCellCustom>
-                      {row.contracts[0].contract_date}
+                {columns.map((column, index) => (
+                  <TableCell
+                    sx={{
+                      backgroundColor: "rgb(236, 238, 240) !important",
+                      padding: "6px 10px",
+                      border: "1px solid white",
+                      fontWeight: "600",
+                      fontSize: "13px",
+                      ...(index === columns.length - 1 && {
+                        borderTopRightRadius: "8px",
+                      }),
+                    }}
+                    key={index}
+                    style={{ minWidth: `${column.width}px` }}
+                  >
+                    {column.headerName}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dataEmployee.data.map((row, index) => {
+                const isItemSelected = isSelected(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <CustomTableRow
+                    hover
+                    onClick={(event) => handleClick(event, row.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                    onDoubleClick={() => {
+                      console.log(row.id);
+                      navigate(`/employee/create-or-update/${row.id}`);
+                    }}
+                  >
+                    <TableCellCustom padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        sx={{
+                          borderTopLeftRadius: "8px",
+                          "&.Mui-checked": {
+                            color: "rgb(48 164 108)",
+                          },
+                        }}
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
                     </TableCellCustom>
-                  ) : (
-                    <TableCellCustom></TableCellCustom>
-                  )}
-                  {row?.contracts.length > 1 ? (
-                    <TableCellCustom>
-                      {row.contracts[1].contract_date}
+                    <TableCellCustom width={300}>
+                      {row.staff_id}
                     </TableCellCustom>
-                  ) : (
-                    <TableCellCustom></TableCellCustom>
-                  )}
-                  {row?.contracts.length > 2 ? (
-                    <TableCellCustom>??</TableCellCustom>
-                  ) : (
-                    <TableCellCustom></TableCellCustom>
-                  )}
-                  <TableCellCustom>{row.department_name}</TableCellCustom>
-                  <TableCellCustom>{row.type}</TableCellCustom>
-                  <TableCellCustom>{row.basic_salary}</TableCellCustom>
-                  <TableCellCustom>{row.position_name}</TableCellCustom>
-                  <TableCellCustom>???</TableCellCustom>
-                  <TableCellCustom>???</TableCellCustom>
-                  <TableCellCustom>{row.meal_allowance}</TableCellCustom>
-                  <TableCellCustom>{row.grade_name}</TableCellCustom>
-                </CustomTableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    <TableCellCustom>{row.name}</TableCellCustom>
+                    <TableCellCustom>
+                      {row.gender ? "Male" : "Female"}
+                    </TableCellCustom>
+                    <TableCellCustom>{row.card_number}</TableCellCustom>
+                    <TableCellCustom>{row.bank_account_no}</TableCellCustom>
+                    <TableCellCustom>{row.family_card_number}</TableCellCustom>
+                    <TableCellCustom>{row.marriage_code}</TableCellCustom>
+                    <TableCellCustom>{row.mother_name}</TableCellCustom>
+                    <TableCellCustom>{row.pob}</TableCellCustom>
+                    <TableCellCustom>{row.dob}</TableCellCustom>
+                    <TableCellCustom>{row.home_address_1}</TableCellCustom>
+                    <TableCellCustom>{row.nc_id}</TableCellCustom>
+                    <TableCellCustom>{row.contract_start_date}</TableCellCustom>
+                    {row?.contracts.length > 0 ? (
+                      <TableCellCustom>
+                        {row.contracts[0].contract_date}
+                      </TableCellCustom>
+                    ) : (
+                      <TableCellCustom></TableCellCustom>
+                    )}
+                    {row?.contracts.length > 1 ? (
+                      <TableCellCustom>
+                        {row.contracts[1].contract_date}
+                      </TableCellCustom>
+                    ) : (
+                      <TableCellCustom></TableCellCustom>
+                    )}
+                    {row?.contracts.length > 2 ? (
+                      <TableCellCustom>??</TableCellCustom>
+                    ) : (
+                      <TableCellCustom></TableCellCustom>
+                    )}
+                    <TableCellCustom>{row.department_name}</TableCellCustom>
+                    <TableCellCustom>{row.type}</TableCellCustom>
+                    <TableCellCustom>{row.basic_salary}</TableCellCustom>
+                    <TableCellCustom>{row.position_name}</TableCellCustom>
+                    <TableCellCustom>???</TableCellCustom>
+                    <TableCellCustom>???</TableCellCustom>
+                    <TableCellCustom>{row.meal_allowance}</TableCellCustom>
+                    <TableCellCustom>{row.grade_name}</TableCellCustom>
+                  </CustomTableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {status == "loading" && (
+          <div className="absolute inset-0 flex h-full bg-loading">
+            <CircularProgress size={32} sx={{ margin: "auto" }} />
+          </div>
+        )}
+      </div>
       {/* </StyledScrollbar> */}
       <hr
         style={{

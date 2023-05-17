@@ -1,18 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AppDispatch, RootState } from "../redux/store";
-import { deleteEmployee, getEmployee } from "../redux/slice/employeeSlice";
+import { AppDispatch, RootState } from "../../redux/store";
+import { deleteEmployee, getEmployee } from "../../redux/slice/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import ButtonCustom from "./CustomComponents/ButtonCustom";
-import { ReactComponent as Add } from "../assets/image/Add.svg";
-import { ReactComponent as Delete } from "../assets/image/Delete.svg";
+import ButtonCustom from "../CustomComponents/ButtonCustom";
+import { ReactComponent as Add } from "../../assets/image/Add.svg";
+import { ReactComponent as Delete } from "../../assets/image/Delete.svg";
 // import SvgIcon from "@material-ui/core/SvgIcon";
 
-type Props = {};
+type PropsActionTable = {
+  dataDelete: number[];
+  setSelected: React.Dispatch<React.SetStateAction<number[]>>
+};
 
-const ActionTable = (props: Props) => {
+const ActionTable = (props: PropsActionTable) => {
+  const { dataDelete, setSelected } = props;
   const dispatch = useDispatch<AppDispatch>();
-  const { dataDelete } = useSelector((state: RootState) => state.employee);
+  // const { dataDelete } = useSelector((state: RootState) => state.employee);
   // console.log(dataDelete);
 
   return (
@@ -53,10 +57,15 @@ const ActionTable = (props: Props) => {
                 }
               />
             }
-            onClick={() => {
-              dispatch(deleteEmployee());
-              dispatch(getEmployee());
+            onClick={async () => {
+              try {
+                await dispatch(deleteEmployee(dataDelete));
+                await dispatch(getEmployee({}));
+                setSelected([])
+              } catch (error) {
+              }
             }}
+            
           ></ButtonCustom>
         </div>
       </div>

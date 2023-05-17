@@ -19,11 +19,23 @@ type Props = {};
 const TabSalary = (props: Props) => {
   return (
     <div className="flex flex-col gap-1 pb-5 px-5">
-      <InputWithIcon label="Basic Salary" isRequired />
-      <InputWithIcon label="Basic Salary (Audit)" isRequired />
-      <InputWithIcon label="Safety Insurance Amount" isRequired />
-      <InputWithIcon label="Healthy Insurance Amount" isRequired />
-      <InputWithIcon label="Meal Allowance" isRequired />
+      <InputWithIcon label="Basic Salary" isRequired name="basic_salary" />
+      <InputWithIcon
+        label="Basic Salary (Audit)"
+        isRequired
+        name="entitle_ot"
+      />
+      <InputWithIcon
+        label="Safety Insurance Amount"
+        isRequired
+        name="safety_insurance"
+      />
+      <InputWithIcon
+        label="Healthy Insurance Amount"
+        isRequired
+        name="health_insurance"
+      />
+      <InputWithIcon label="Meal Allowance" isRequired name="meal_allowance" />
     </div>
   );
 };

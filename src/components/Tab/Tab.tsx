@@ -58,7 +58,7 @@ const BasicTabs = () => {
   });
   const [formContract, setFormContract] = useState<IFormContract>({
     contract_start_date: "",
-    employee_id: "",
+    type: 0,
     contract: [],
   });
   const [formEmployeeDetail, setFormEmployeeDetail] =
@@ -68,7 +68,7 @@ const BasicTabs = () => {
     });
 
   const handleFormEmployeeChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>) => {
+    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
       const { name } = e.target;
       let value: any;
       value = e.target.value;
@@ -80,25 +80,24 @@ const BasicTabs = () => {
   );
 
   const handleFormContractChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>) => {
+    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
       const { name } = e.target;
-      console.log(e.target);
       let value: any;
       value = e.target.value;
       setFormContract((prevValues) => ({ ...prevValues, [name]: value }));
-      // dispatch(changeEmployee({ name, value }));
+      dispatch(changeEmployee({ name1: name, value }));
     },
     []
   );
 
   const handleFormEmployeeDetailChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>) => {
+    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
       const { name } = e.target;
       console.log(e.target);
       let value: any;
       value = e.target.value;
       setFormContract((prevValues) => ({ ...prevValues, [name]: value }));
-      // dispatch(changeEmployee({ name, value }));
+      dispatch(changeEmployee({ name1: name, value }));
     },
     []
   );

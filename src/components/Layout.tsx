@@ -1,5 +1,5 @@
 import Logo from "./../assets/image/logo.svg";
-import SiderBar from "./SiderBar";
+import SiderBar from "./SiderBar/SiderBar";
 
 type Props = {};
 

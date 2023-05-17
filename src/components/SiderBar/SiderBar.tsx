@@ -7,9 +7,10 @@ import Collapse from "@mui/material/Collapse";
 import { useState } from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-import { itemsSiderbar } from "../utils/dataSiderbar";
+import { itemsSiderbar } from "../../utils/dataSiderbar";
 import SvgIcon from "@mui/material/SvgIcon";
 import { NavLink, useLocation } from "react-router-dom";
+import './SiderBar.scss';
 type Props = {};
 
 const groupedItems = [
@@ -35,10 +36,11 @@ const SiderBar = (props: Props) => {
       [id]: !prevState[id],
     }));
   };
+  console.log("sidebar");
 
   return (
     <SimpleBar
-      autoHide={false}
+      // autoHide={false}
       style={{
         height: "100vh",
         position: "fixed",
@@ -56,6 +58,7 @@ const SiderBar = (props: Props) => {
           padding: "24px",
         }}
         component="nav"
+        className="hide-last-hr"
         aria-labelledby="nested-list-subheader"
       >
         {groupedItems.map((group) => (
@@ -98,9 +101,7 @@ const SiderBar = (props: Props) => {
                       : undefined
                   }
                 >
-                  {/* <ListItemIcon>{user}</ListItemIcon> */}
                   <img src={item.icon} alt="" />
-                  {/* <SvgIcon children={item.icon} inheritViewBox /> */}
                   <ListItemText
                     sx={{ marginLeft: "8px" }}
                     primary={item.name}
@@ -148,6 +149,15 @@ const SiderBar = (props: Props) => {
                 ) : null}
               </React.Fragment>
             ))}
+            <hr
+              style={{
+                marginTop: "10px",
+                flexShrink: "0",
+                borderWidth: "0px 0px thin",
+                borderStyle: "solid",
+                borderColor: "rgba(193, 200, 205, 0.24)",
+              }}
+            />
           </>
         ))}
       </List>

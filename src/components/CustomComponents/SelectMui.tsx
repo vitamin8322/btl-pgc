@@ -10,8 +10,8 @@ type PropsSelect = {
   label: string;
   placeholder?: string;
   isRequired?: boolean;
-  value?: string;
-  onChange?: (event: SelectChangeEvent) => void;
+  value?: string | number;
+  onChange?: (event: SelectChangeEvent<string | number>) => void;
   name: string;
   isNa?: boolean;
   data: {}[];
@@ -20,7 +20,7 @@ type PropsSelect = {
 const SelectMui = (props: PropsSelect) => {
   const { label, name, data, placeholder, isRequired, isNa, value, onChange } =
     props;
-  // console.log(label, isNa);
+  // console.log(label, value);
 
   const customPaperProps: PaperProps = {
     sx: {

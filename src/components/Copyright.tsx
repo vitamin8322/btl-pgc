@@ -4,7 +4,7 @@ type Props = {}
 
 const Copyright = (props: Props) => {
   return (
-    <div className="my-10 ">Copyright © 2022. All Rights Reserved</div>
+    <div className="my-10 text-xs text-gray">Copyright © 2022. All Rights Reserved</div>
   )
 }
 

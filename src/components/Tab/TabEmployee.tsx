@@ -8,11 +8,12 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { getCompany } from "../../redux/slice/authSlice";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { addEmployee, getMarriage } from "../../redux/slice/employeeSlice";
+import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 
 type PropsTabEmployee = {
   formEmployee: IFormEmployee;
   handleFormEmployeeChange?: (
-    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent
+    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
 };
 
@@ -38,14 +39,14 @@ const TabEmployee = (props: PropsTabEmployee) => {
 
   const dateGender = [
     {
-      id:0,
-      name: 'Male',
+      id: 0,
+      name: "Male",
     },
     {
-      id:1,
-      name:'Female'
-    }
-  ]
+      id: 1,
+      name: "Female",
+    },
+  ];
 
   return (
     <div className="flex pb-5 flex-wrap gap-10">
@@ -85,12 +86,13 @@ const TabEmployee = (props: PropsTabEmployee) => {
           onChange={handleFormEmployeeChange}
           label="Mother Name"
         />
-        <InputCustom
+        {/* <InputCustom
           value={formEmployee.dob}
           name="dob"
           onChange={handleFormEmployeeChange}
           label="Date of birth"
-        />
+        /> */}
+        <DatePickerCustom isRequired={true} label="Date of birth" name="dob" />
         <InputCustom
           value={formEmployee.pob}
           name="pob"
