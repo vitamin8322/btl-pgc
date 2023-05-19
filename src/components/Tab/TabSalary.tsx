@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { ChangeEvent } from "react";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
@@ -13,29 +13,55 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styled } from "@mui/material/styles";
 import InputWithIcon from "../CustomComponents/InputWithIcon";
+import { IFormSalary } from "../../models/Employee";
+import { SelectChangeEvent } from "@mui/material/Select";
 
-type Props = {};
+type PropsSalary = {
+  formSalary: IFormSalary;
+  handleFormSalary?: (
+    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
+  ) => void;
+};
 
-const TabSalary = (props: Props) => {
+const TabSalary = (props: PropsSalary) => {
+  const { formSalary, handleFormSalary } = props;
   return (
     <div className="flex flex-col gap-1 pb-5 px-5">
-      <InputWithIcon label="Basic Salary" isRequired name="basic_salary" />
+      <InputWithIcon
+        label="Basic Salary"
+        isRequired
+        value={formSalary.basic_salary}
+        onChange={handleFormSalary}
+        name="basic_salary"
+      />
       <InputWithIcon
         label="Basic Salary (Audit)"
         isRequired
-        name="entitle_ot"
+        value={formSalary.audit_salary}
+        onChange={handleFormSalary}
+        name="audit_salary"
       />
       <InputWithIcon
         label="Safety Insurance Amount"
         isRequired
+        value={formSalary.safety_insurance}
+        onChange={handleFormSalary}
         name="safety_insurance"
       />
       <InputWithIcon
         label="Healthy Insurance Amount"
         isRequired
+        value={formSalary.health_insurance}
+        onChange={handleFormSalary}
         name="health_insurance"
       />
-      <InputWithIcon label="Meal Allowance" isRequired name="meal_allowance" />
+      <InputWithIcon
+        label="Meal Allowance"
+        isRequired
+        value={formSalary.meal_allowance}
+        onChange={handleFormSalary}
+        name="meal_allowance"
+      />
     </div>
   );
 };

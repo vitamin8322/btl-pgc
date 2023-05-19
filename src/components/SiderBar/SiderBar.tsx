@@ -36,7 +36,6 @@ const SiderBar = (props: Props) => {
       [id]: !prevState[id],
     }));
   };
-  console.log("sidebar");
 
   return (
     <SimpleBar

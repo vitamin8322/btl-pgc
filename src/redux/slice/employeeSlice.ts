@@ -37,9 +37,9 @@ const initialState: EmployeeState = {
       old_staff_id: 0,
       staff_id: "",
       department_id: null,
-      company_id: 1,
-      manager_id: 1,
-      marriage_id: 1,
+      company_id: -1,
+      manager_id: -1,
+      marriage_id: -1,
       position_id: null,
       mother_name: "",
       pob: "",
@@ -53,10 +53,10 @@ const initialState: EmployeeState = {
       family_card_number: "",
       health_insurance_no: "",
       safety_insurance_no: "",
-      entitle_ot: 1,
-      meal_allowance_paid: 1,
-      operational_allowance_paid: 1,
-      attendance_allowance_paid: 1,
+      entitle_ot: -1,
+      meal_allowance_paid: -1,
+      operational_allowance_paid: -1,
+      attendance_allowance_paid: -1,
       minimum_salary_used: "",
       shift: "",
       grade_id: 1,
@@ -72,74 +72,20 @@ const initialState: EmployeeState = {
       manager_name: "",
       contracts: [],
       //ádd
-
-      name: "aaa",
-      gender: 1,
-      dob: "2023-01-03",
-      ktp_no: "123",
-      nc_id: "231",
+      name: "",
+      gender: null,
+      dob: "",
+      ktp_no: "",
+      nc_id: "",
       type: 0,
-      basic_salary: 23,
-      audit_salary: 123,
-      safety_insurance: 123,
-      health_insurance: 123,
-      meal_allowance: 123,
-      contract_start_date: "2023-01-03",
+      basic_salary: null,
+      audit_salary: null,
+      safety_insurance: null,
+      health_insurance: null,
+      meal_allowance: null,
+      contract_start_date: "",
     },
   ],
-  // employee2: {
-  //   id: 0,
-  //   old_staff_id: 0,
-  //   staff_id: "",
-  //   department_id: 1,
-  //   company_id: 1,
-  //   manager_id: 1,
-  //   marriage_id: 1,
-  //   position_id: 1,
-  //   mother_name: "ádaa",
-  //   pob: "",
-  //   home_address_1: "",
-  //   home_address_2: "",
-  //   mobile_no: "",
-  //   tel_no: "",
-  //   bank_account_no: "",
-  //   bank_name: "",
-  //   card_number: "",
-  //   family_card_number: "",
-  //   health_insurance_no: "",
-  //   safety_insurance_no: "",
-  //   entitle_ot: 1,
-  //   meal_allowance_paid: 1,
-  //   operational_allowance_paid: 1,
-  //   attendance_allowance_paid: 1,
-  //   minimum_salary_used: "",
-  //   shift: "",
-  //   grade_id: 1,
-  //   remark: "",
-  //   created_at: "",
-  //   updated_at: "",
-  //   deleted_at: "",
-  //   department_name: "",
-  //   marriage_code: "",
-  //   position_name: "",
-  //   grade_prefix: "",
-  //   grade_name: "",
-  //   manager_name: "",
-  //   //ádd
-
-  //   name: "aaa",
-  //   gender: 1,
-  //   dob: "2023-01-03",
-  //   ktp_no: "123",
-  //   nc_id: "231",
-  //   type: "0",
-  //   basic_salary: 23,
-  //   audit_salary: 123,
-  //   safety_insurance: 123,
-  //   health_insurance: 123,
-  //   meal_allowance: 123,
-  //   contract_start_date: "2023-01-03",
-  // },
   dataEmployee: {
     current_page: 0,
     data: [],
@@ -172,16 +118,23 @@ const initialState: EmployeeState = {
 export const getEmployee = createAsyncThunk(
   "employee/get",
   async ({ page, query }: { page?: number; query?: string | null }) => {
-    let url = "/api/employee"
-    if (page !== undefined && query !== null && query !== undefined) {
-      url = `/api/employee?search=${query}&page=${page}`;
-    } else if (page !== undefined) {
-      url = `/api/employee?page=${page}`;
-    } else if (query !== null && query !== undefined) {
-      url = `/api/employee?search=${query}`;
-    }
+    const searchParam =
+      query !== null && query !== undefined ? `search=${query}&` : "";
+    const pageParam = page !== undefined && page !== 0 ? `page=${page}` : "";
+    console.log(123, pageParam);
+
+    const url = `/api/employee?${searchParam}${pageParam}`;
     const data = await fetchApi(url, "get");
     return data.data;
+  }
+);
+
+export const getIdEmployee = createAsyncThunk(
+  "employeeId/get",
+  async (id: number) => {
+    const url = `/api/employee/${id}`;
+    const data = await fetchApi(url, "get");
+    return data;
   }
 );
 
@@ -322,7 +275,12 @@ const employeeSlice = createSlice({
       .addCase(getBenefit.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.dataBenefit = action.payload;
-      });
+      })
+      // getEmployee
+      .addCase(getIdEmployee.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.employee = action.payload;
+      })
   },
 });
 

@@ -13,11 +13,12 @@ export const AntTab = styled(Tab)(({ theme }) => ({
   marginRight: theme.spacing(1),
   borderRadius: "6px",
   color: "rgba(0, 0, 0, 0.85)",
+  minWidth:'180px',
   "&:hover": {
     opacity: 1,
   },
-  "&.MuiTab-root":{
-    color:'#0097ff'
+  "&.MuiTab-root": {
+    color: "#0097ff",
   },
   "&.Mui-selected": {
     color: "#fff",

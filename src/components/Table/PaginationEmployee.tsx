@@ -1,7 +1,7 @@
 import { Pagination, PaginationItem } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import React from "react";
+import React, { useState } from "react";
 import { getEmployee } from "../../redux/slice/employeeSlice";
 import { IEmployeeListResponse } from "../../models/Employee";
 import { useDispatch } from "react-redux";
@@ -18,23 +18,43 @@ const PaginationEmployee = (dataEmployee: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
-  console.log(location.search.includes('search'));
   const searchParams = new URLSearchParams(location.search.split("?")[1]);
+  // console.log(location);
+
   const searchValue = searchParams.get("search");
-  
+  const pageValue = Number(searchParams.get("page"));
+
+  // const handleChangePage = (
+  //   event: React.ChangeEvent<unknown>,
+  //   page: number
+  // ) => {
+  //   console.log(page);
+  //   if(location.search.includes('search') ===false){
+  //     dispatch(getEmployee({page: page}));
+  //     navigate(`/employee?page=${page}`);
+  //   }else{
+  //     dispatch(getEmployee({page:page, query: searchValue}));
+  //     navigate(`/employee?search=${searchValue}&page=${page}`);
+  //   }
+  // };
+
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
     page: number
   ) => {
     console.log(page);
-    if(location.search.includes('search') ===false){
-      navigate(`/employee?page=${page}`);
-      dispatch(getEmployee({page}));
-    }else{
-      navigate(`/employee?search=${searchValue}?page=${page}`);
-      dispatch(getEmployee({page:page, query: searchValue})); 
-    }
+    const queryParams = {
+      page,
+      query: searchValue,
+    };
+
+    const searchParamString = searchValue ? `search=${searchValue}&` : "";
+    const newURL = `/employee?${searchParamString}page=${page}`;
+
+    dispatch(getEmployee(queryParams));
+    navigate(newURL);
   };
+
   return (
     <div className="flex items-center h-55 gap-2.5">
       <Pagination
@@ -42,9 +62,9 @@ const PaginationEmployee = (dataEmployee: any) => {
         count={dataEmployee.dataEmployee.last_page}
         // rowsPerPage={rowsPerPage}
         // rowsPerPageOptions={[]}
-
         shape="rounded"
         showFirstButton
+        page={pageValue === null || pageValue === 0 ? 1 : pageValue}
         showLastButton
         onClick={() => handleChangePage}
         renderItem={(item) => (
@@ -73,10 +93,12 @@ const PaginationEmployee = (dataEmployee: any) => {
           />
         )}
       />
-      <div className="h-9 bg-gray2 py-2 px-3 rounded-md text-sm text-gray">
-        {dataEmployee.dataEmployee.from} - {dataEmployee.dataEmployee.to} of{" "}
-        {dataEmployee.dataEmployee.total}
-      </div>
+      {dataEmployee.dataEmployee.data.length > 0 && (
+        <div className="h-9 bg-gray2 py-2 px-3 rounded-md text-sm text-gray">
+          {dataEmployee.dataEmployee.from} - {dataEmployee.dataEmployee.to} of{" "}
+          {dataEmployee.dataEmployee.total}
+        </div>
+      )}
     </div>
   );
 };

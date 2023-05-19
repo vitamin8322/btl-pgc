@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch } from "../redux/store";
 import { addEmployee, getEmployee } from "../redux/slice/employeeSlice";
 import { useDispatch } from "react-redux";
@@ -17,18 +17,24 @@ type PropsHeading = {
 };
 
 const Heading = (props: PropsHeading) => {
-  const [query, setQuery] = useState<string | null>(null);
-  const debouncedValue = useDebounce<string | null>(query, 500);
   const dispatch = useDispatch<AppDispatch>();
   const { crumbs } = props;
   const { idEmployee } = useParams();
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const searchParams = new URLSearchParams(location.search.split("?")[1]);
+  const searchValue = searchParams.get("search");
+  
+  const [query, setQuery] = useState<string | null>(searchValue);
+  const debouncedValue = useDebounce<string | null>(query, 500);
 
   const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
   useEffect(() => {
+
+    
     if (debouncedValue && !debouncedValue.trim()) {
       setQuery("");
       return;
@@ -45,6 +51,7 @@ const Heading = (props: PropsHeading) => {
         <FormControl>
           <OutlinedInput
             className="h-40 w-200 !rounded-lg"
+            value={query}
             placeholder="Search..."
             onChange={handleChangeQuery}
             sx={{

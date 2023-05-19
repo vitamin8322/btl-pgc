@@ -6,6 +6,7 @@ import {
   IFormContract,
   IFormEmployee,
   IFormEmploymentDetail,
+  IFormSalary,
 } from "../../models/Employee";
 import TabEmployee from "./TabEmployee";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -31,7 +32,8 @@ const BasicTabs = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { company } = useSelector((state: RootState) => state.auth);
   const { employee } = useSelector((state: RootState) => state.employee);
-
+  // console.log('employee', employee);
+  
   //funx
   const { idEmployee } = useParams();
   const [value, setValue] = useState(0);
@@ -61,11 +63,18 @@ const BasicTabs = () => {
     type: 0,
     contract: [],
   });
-  const [formEmployeeDetail, setFormEmployeeDetail] =
+  const [formEmploymentDetail, setFormEmploymentDetail] =
     useState<IFormEmploymentDetail>({
       department_id: "",
       position_id: "",
     });
+  const [formSalary, setFormSalary] = useState<IFormSalary>({
+    basic_salary: null,
+    audit_salary: null,
+    safety_insurance: null,
+    health_insurance: null,
+    meal_allowance: null,
+  });
 
   const handleFormEmployeeChange = useCallback(
     (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
@@ -90,13 +99,25 @@ const BasicTabs = () => {
     []
   );
 
-  const handleFormEmployeeDetailChange = useCallback(
+  const handleFormEmploymentDetailChange = useCallback(
     (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
       const { name } = e.target;
-      console.log(e.target);
       let value: any;
       value = e.target.value;
-      setFormContract((prevValues) => ({ ...prevValues, [name]: value }));
+      setFormEmploymentDetail((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+      dispatch(changeEmployee({ name1: name, value }));
+    },
+    []
+  );
+  const handleFormSalary = useCallback(
+    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
+      const { name } = e.target;
+      let value: any;
+      value = e.target.value;
+      setFormSalary((prevValues) => ({ ...prevValues, [name]: value }));
       dispatch(changeEmployee({ name1: name, value }));
     },
     []
@@ -136,12 +157,15 @@ const BasicTabs = () => {
       </TabPanel>
       <TabPanel value={value} title="Employment Details" index={2}>
         <TabEmployment
-          formEmploymentDetail={formEmployeeDetail}
-          handleFormContractChange={handleFormEmployeeDetailChange}
+          formEmploymentDetail={formEmploymentDetail}
+          handleFormEmploymentDetailChange={handleFormEmploymentDetailChange}
         />
       </TabPanel>
       <TabPanel value={value} title="Salary & Wages" index={3}>
-        <TabSalary />
+        <TabSalary
+          formSalary={formSalary}
+          handleFormSalary={handleFormSalary}
+        />
       </TabPanel>
       <TabPanel value={value} title="Others" index={4}>
         <TabOthers />

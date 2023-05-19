@@ -1,14 +1,14 @@
 import React, { ChangeEvent, memo } from "react";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
-import {  styled } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 type PropsInputWithIcon = {
   label?: string;
   isRequired?: boolean;
   name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
+  value?: string | number | null;
 };
 
 const StyledFilledInput = styled(FilledInput)({
@@ -30,7 +30,6 @@ const StyledFilledInput = styled(FilledInput)({
   },
 });
 
-
 const InputWithIcon = (props: PropsInputWithIcon) => {
   const { label, onChange, value, name, isRequired } = props;
 
@@ -45,6 +44,9 @@ const InputWithIcon = (props: PropsInputWithIcon) => {
       <StyledFilledInput
         type="number"
         disableUnderline={true}
+        onChange={onChange}
+        name={name}
+        value={value}
         startAdornment={
           <InputAdornment position="start" sx={{ color: "blue" }}>
             Rp

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../redux/store";
 import { deleteEmployee, getEmployee } from "../../redux/slice/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,12 +10,43 @@ import { ReactComponent as Delete } from "../../assets/image/Delete.svg";
 
 type PropsActionTable = {
   dataDelete: number[];
-  setSelected: React.Dispatch<React.SetStateAction<number[]>>
+  setSelected: React.Dispatch<React.SetStateAction<number[]>>;
+  lastPage: number | undefined;
+  lengthData: number
 };
 
 const ActionTable = (props: PropsActionTable) => {
-  const { dataDelete, setSelected } = props;
+  const { dataDelete, setSelected, lastPage, lengthData } = props;
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search.split("?")[1]);
+
+  const searchValue = searchParams.get("search");
+  const pageValue = Number(searchParams.get("page"));
+
+  const handleDeleteEmployee = async () => {
+    try {
+      await dispatch(deleteEmployee(dataDelete));
+      const queryParams = {
+        page: lastPage == pageValue && dataDelete.length > lengthData ? pageValue - 1 : pageValue,
+        query: searchValue,
+      };
+      console.log(queryParams);
+
+      await dispatch(getEmployee(queryParams));
+      const searchParamString =
+        queryParams.page && queryParams.query
+          ? `search=${queryParams.query}&`
+          : "";
+      const newURL = `/employee?${searchParamString}page=${queryParams.page}`;
+      console.log(newURL);
+
+      navigate(newURL);
+      setSelected([]);
+    } catch (error) {}
+  };
+
   // const { dataDelete } = useSelector((state: RootState) => state.employee);
   // console.log(dataDelete);
 
@@ -57,15 +88,7 @@ const ActionTable = (props: PropsActionTable) => {
                 }
               />
             }
-            onClick={async () => {
-              try {
-                await dispatch(deleteEmployee(dataDelete));
-                await dispatch(getEmployee({}));
-                setSelected([])
-              } catch (error) {
-              }
-            }}
-            
+            onClick={handleDeleteEmployee}
           ></ButtonCustom>
         </div>
       </div>

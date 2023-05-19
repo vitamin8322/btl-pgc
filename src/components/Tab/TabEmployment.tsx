@@ -8,7 +8,7 @@ import SelectMui from "../CustomComponents/SelectMui";
 
 type PropsTabEmployment = {
   formEmploymentDetail: IFormEmploymentDetail;
-  handleFormContractChange?: (
+  handleFormEmploymentDetailChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
 };
@@ -19,7 +19,7 @@ const TabEmployment = (props: PropsTabEmployment) => {
   const { dataDepartment, dataPosition } = useSelector((state: RootState) => state.employee);
   
   //funs
-  const { formEmploymentDetail, handleFormContractChange } = props;
+  const { formEmploymentDetail, handleFormEmploymentDetailChange } = props;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +36,7 @@ const TabEmployment = (props: PropsTabEmployment) => {
           label="Department"
           placeholder="Choose Department"
           value={formEmploymentDetail.department_id}
-          onChange={handleFormContractChange}
+          onChange={handleFormEmploymentDetailChange}
           isNa
           name="department_id"
         />
@@ -45,7 +45,7 @@ const TabEmployment = (props: PropsTabEmployment) => {
           label="Position"
           placeholder="Choose Position"
           value={formEmploymentDetail.position_id}
-          onChange={handleFormContractChange}
+          onChange={handleFormEmploymentDetailChange}
           isNa
           name="position_id"
         />

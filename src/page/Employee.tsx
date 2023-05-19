@@ -4,17 +4,35 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import ActionTable from "../components/Table/ActionTable";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
-import { dataDeletes } from "../redux/slice/employeeSlice";
+import { dataDeletes, getEmployee } from "../redux/slice/employeeSlice";
+import { useLocation } from "react-router-dom";
 
 type Props = {};
 
 const Employee = (props: Props) => {
   
+  const location = useLocation(); 
+  const Params = new URLSearchParams(location.search.split("?")[1]);
+  // console.log(location);
+  
+  const searchValue = Params.get("search");
+  const pageValue = Params.get("page");
+  // console.log(searchValue);
+  // console.log(pageValue);
+  
+
   const dispatch = useDispatch<AppDispatch>();
   const { dataDelete } = useSelector((state: RootState) => state.employee);
   useEffect(() => {
-    dispatch(dataDeletes([]));
+    if(location.search.includes('search') ===false){
+      dispatch(getEmployee({page:Number(pageValue)}));
+      // navigate(`/employee?page=${page}`);
+    }else{
+      dispatch(getEmployee({page:Number(pageValue), query: searchValue})); 
+      // navigate(`/employee?search=${searchValue}&page=${page}`);
+    }
   },[])
+
 
 
   return (

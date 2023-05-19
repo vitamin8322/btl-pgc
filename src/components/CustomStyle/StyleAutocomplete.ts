@@ -1,5 +1,5 @@
 export const autocompleteStyles = {
-    width: "316px",
+    width: "308px",
     maxHeight: "300px",
     // margin: "10px 0",
     backgroundColor: "rgb(241, 243, 245)",

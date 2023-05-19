@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { PaperProps } from "@mui/material/Paper";
 import { IMarriageStatus } from "../../models/Employee";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 type PropsSelect = {
   label: string;
   placeholder?: string;
@@ -15,11 +15,23 @@ type PropsSelect = {
   name: string;
   isNa?: boolean;
   data: {}[];
+  disabled?: boolean;
+  width?: number;
 };
 
 const SelectMui = (props: PropsSelect) => {
-  const { label, name, data, placeholder, isRequired, isNa, value, onChange } =
-    props;
+  const {
+    label,
+    name,
+    data,
+    placeholder,
+    isRequired,
+    isNa,
+    value,
+    onChange,
+    disabled,
+    width,
+  } = props;
   // console.log(label, value);
 
   const customPaperProps: PaperProps = {
@@ -67,7 +79,10 @@ const SelectMui = (props: PropsSelect) => {
       </label>
       <Select
         displayEmpty
-        className={`select h-12 min-w-290 max-w-300 mb-2.5`}
+        disabled={disabled}
+        className={`select h-12 min-w-290 mb-2.5 ${
+          disabled ? "!bg-disabled" : ""
+        }  w-${width}`}
         id={name}
         input={<CustomInputSelect />}
         MenuProps={{

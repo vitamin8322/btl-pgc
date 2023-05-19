@@ -1,8 +1,6 @@
-import * as React from "react";
-import Chip from "@mui/material/Chip";
+import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import Stack from "@mui/material/Stack";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -12,7 +10,7 @@ import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import { styled } from "@mui/material/styles";
 import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";
 import SelectMui from "../CustomComponents/SelectMui";
-import Textarea from "@mui/joy/Textarea";
+import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
 
 const CustomTag = styled("div")(({}) => ({
   display: "inline-flex",
@@ -67,6 +65,9 @@ export default function Tags() {
   const [selectedOption, setSelectedOption] = useState<IBenefit[] | undefined>(
     undefined
   );
+  const [selectedGradeIndex, setSelectedGradeIndex] = useState(-1);
+  console.log(selectedGradeIndex);
+
   const handleOptionChange = (event: any, newValue: IBenefit[] | null) => {
     setSelectedOption(newValue ?? undefined);
   };
@@ -81,8 +82,38 @@ export default function Tags() {
 
   return (
     <div className="flex gap-1 flex-col">
-      <div>
-        <SelectMui label="Grade" name="grade" data={dataGrade} />
+      <div className="flex items-center h-auto">
+        <div className="font-normal min-w-175 flex">Grade</div>
+        <div>
+          <Autocomplete
+            disablePortal
+            options={dataGrade}
+            getOptionLabel={(option) => option.name}
+            sx={autocompleteStyles}
+            renderInput={(params) => <TextField {...params} />}
+            onChange={(event, newValue) => {
+              if (newValue) {
+                const selectedIndex = dataGrade.findIndex(
+                  (item) => item.name === newValue.name
+                );
+                setSelectedGradeIndex(selectedIndex);
+              } else {
+                setSelectedGradeIndex(-1);
+              }
+            }}
+          />
+        </div>
+      </div>
+      <div className="flex items-center h-auto">
+        <div className="font-normal min-w-175 flex"></div>
+        <div className="flex w-308 flex-wrap text-sm">
+          {selectedGradeIndex > -1 &&
+            dataGrade[selectedGradeIndex].benefits.map((benefits, id) => (
+              <div className="text-gray mx-1 bg-gray3 px-2 rounded-md mb-1 h-6 flex items-center">
+                {benefits.name}
+              </div>
+            ))}
+        </div>
       </div>
       <div className="flex items-center h-auto">
         <div className="font-normal min-w-175 flex">Benefit</div>
@@ -95,7 +126,7 @@ export default function Tags() {
           onChange={handleOptionChange}
           disableCloseOnSelect
           sx={autocompleteStyles}
-          clearIcon={<AccessibilityNewIcon />}
+          clearIcon={<Clear />}
           // renderTags={(value, getTagProps) => {
           //   return (
           //     value &&
@@ -125,7 +156,13 @@ export default function Tags() {
         <TextAreaStyle />
       </div>
       <div>
-        <SelectMui label="HRM User Account" name="HRM" data={[]} />
+        <SelectMui
+          disabled
+          width={308}
+          label="HRM User Account"
+          name="HRM"
+          data={[]}
+        />
       </div>
     </div>
   );

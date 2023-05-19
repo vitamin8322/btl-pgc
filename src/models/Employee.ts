@@ -3,7 +3,7 @@ export interface Employee {
   old_staff_id: number | null;
   staff_id: string;
   name: string;
-  gender: number | string;
+  gender: number | null;
   department_id: number | null;
   company_id: number;
   manager_id: number | null;
@@ -25,11 +25,11 @@ export interface Employee {
   family_card_number: string;
   health_insurance_no: string;
   safety_insurance_no: string;
-  basic_salary: number;
-  audit_salary: number;
-  health_insurance: number;
-  safety_insurance: number;
-  meal_allowance: number;
+  basic_salary: number | null;
+  audit_salary: number | null;
+  health_insurance: number | null;
+  safety_insurance: number | null;
+  meal_allowance: number | null;
   entitle_ot: number;
   meal_allowance_paid: number;
   operational_allowance_paid: number;
@@ -123,6 +123,13 @@ export interface IFormContract {
 export interface IFormEmploymentDetail {
   department_id: string;
   position_id: string;
+}
+export interface IFormSalary {
+  basic_salary: number | null;
+  audit_salary: number | null;
+  safety_insurance: number | null;
+  health_insurance: number | null;
+  meal_allowance: number | null;
 }
 
 export interface IMarriageStatus {

@@ -38,7 +38,6 @@ const Home = (props: Props) => {
           <Breadcrumbs crumbs={crumbs} />
           <Heading crumbs={crumbs}/>
             <Outlet />
-          {/* <Heading /> */}
           <Copyright />
         </div>
       </div>

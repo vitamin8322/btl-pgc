@@ -24,6 +24,8 @@ const TabEmployee = (props: PropsTabEmployee) => {
   const { dataMarriage, employee } = useSelector(
     (state: RootState) => state.employee
   );
+  console.log(employee);
+  
   //funs
   const { formEmployee, handleFormEmployeeChange } = props;
   const { idEmployee } = useParams();
@@ -54,8 +56,8 @@ const TabEmployee = (props: PropsTabEmployee) => {
         {idEmployee ? (
           <>
             <InputCustom
-              value={formEmployee.nik}
-              name="nik"
+              // value={employee[0].staff_id}
+              name="staff_id"
               onChange={handleFormEmployeeChange}
               label="NIK"
             />
