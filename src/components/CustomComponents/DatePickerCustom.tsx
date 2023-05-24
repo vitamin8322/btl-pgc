@@ -1,4 +1,4 @@
-import React, { ChangeEvent, forwardRef, useState } from "react";
+import React, { ChangeEvent, forwardRef, useEffect, useState } from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -39,25 +39,24 @@ type PropsInputDatePicker = {
   label?: string;
   isRequired?: boolean;
   name?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: ( date: Date,event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   size?: boolean;
 };
 const DatePickerCustom = (props: PropsInputDatePicker) => {
   const { label, onChange, value, name, isRequired, size } = props;
-  const [startDate, setStartDate] = useState<Date | null>();
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const dispatch = useDispatch<AppDispatch>();
-
-  const handleChangeDate = (date: Date, event: ChangeEvent<HTMLInputElement> ) => {
+  const handleChangeDate = (
+    date: Date,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     setStartDate(date);
-    // Format startDate to "YYYY-MM-DD"
     const formattedDate = moment(date).format("YYYY-MM-DD");
     console.log(name);
-    
-    if(name != undefined){
-      dispatch(changeEmployee({ name1: name,value: formattedDate }));
+    if (name != undefined) {
+      dispatch(changeEmployee({ name1: name, value: formattedDate }));
     }
-    // Thực hiện các xử lý khác khi ngày thay đổi
   };
 
   const ExampleCustomInput = forwardRef(
@@ -87,6 +86,9 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
                 className="pointer"
                 onClick={(e) => {
                   setStartDate(null);
+                  if (name != undefined) {
+                    dispatch(changeEmployee({ name1: name, value: null }));
+                  }
                   e.stopPropagation();
                 }}
               >
@@ -116,12 +118,17 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
         )}
       </label>
       <DatePicker
-        selected={startDate}
-        onChange={handleChangeDate}
+        selected={
+          value != undefined && value != "" && value != null
+            ? new Date(String(value))
+            : startDate
+        }
+        onChange={onChange ? onChange : handleChangeDate}
         // isClearable
         name={name}
         calendarStartDay={1}
         fixedHeight
+        dateFormat="yyyy/MM/dd"
         className="max-w-265"
         customInput={<ExampleCustomInput />}
         dayClassName={() => "example-datepicker-day-class"}

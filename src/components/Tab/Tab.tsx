@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import TabPanel from "./TabPanel";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   IFormContract,
   IFormEmployee,
@@ -16,9 +16,20 @@ import { AntTabs } from "../CustomStyle/StyleTabs";
 import { AntTab } from "../CustomStyle/StyleTab";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { changeEmployee } from "../../redux/slice/employeeSlice";
+import {
+  changeEmployee,
+  getBenefit,
+  getGrade,
+  getIdEmployee,
+  resetEmployee,
+} from "../../redux/slice/employeeSlice";
 import TabOthers from "./TabOthers";
 import TabSalary from "./TabSalary";
+import {
+  mountDataContract,
+  removeAllDataContract,
+} from "../../redux/slice/contractSlice";
+import { mountDataDocument, removeAllDataDocument } from "../../redux/slice/documentSlice";
 
 function a11yProps(index: number) {
   return {
@@ -31,11 +42,50 @@ const BasicTabs = () => {
   // redux
   const dispatch = useDispatch<AppDispatch>();
   const { company } = useSelector((state: RootState) => state.auth);
+  const { dataDocument } = useSelector((state: RootState) => state.document);
   const { employee } = useSelector((state: RootState) => state.employee);
-  // console.log('employee', employee);
-  
-  //funx
+  const { dataFormContract, dataContract } = useSelector(
+    (state: RootState) => state.contract
+  );
   const { idEmployee } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (idEmployee) {
+        await dispatch(getIdEmployee(Number(idEmployee)));
+      } else {
+        await dispatch(resetEmployee());
+      }
+      // await dispatch(removeAllDataContract())
+      // await dispatch(removeAllDataDocument())
+      await dispatch(getGrade());
+      await dispatch(getBenefit());
+    };
+    fetchData();
+  }, [dispatch, idEmployee]);
+  
+  useEffect(() => {
+    const handleDataUpdate = async () => {
+      await dispatch(mountDataDocument(employee.documents));
+      await dispatch(mountDataContract(employee.contracts));
+    };
+  
+    if (employee.documents.length > 0) {
+      handleDataUpdate();
+    }
+  }, [dispatch, employee.documents, employee.contracts]);
+  
+
+  useEffect(() => {
+    dispatch(mountDataDocument(employee.documents));
+    dispatch(mountDataContract(employee.contracts));
+  }, [employee]);
+
+  // console.log(dataDocument);
+
+  // console.log(employee);
+
+  //funx
   const [value, setValue] = useState(0);
   const [formEmployee, setFormEmployee] = useState<IFormEmployee>({
     nik: "",
@@ -87,7 +137,6 @@ const BasicTabs = () => {
     },
     []
   );
-
   const handleFormContractChange = useCallback(
     (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
       const { name } = e.target;
@@ -98,7 +147,6 @@ const BasicTabs = () => {
     },
     []
   );
-
   const handleFormEmploymentDetailChange = useCallback(
     (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
       const { name } = e.target;
@@ -147,11 +195,13 @@ const BasicTabs = () => {
         <TabEmployee
           formEmployee={formEmployee}
           handleFormEmployeeChange={handleFormEmployeeChange}
+          employee={employee}
         />
       </TabPanel>
       <TabPanel value={value} title="Contract Information" index={1}>
         <TabContract
           formContract={formContract}
+          employee={employee}
           handleFormContractChange={handleFormContractChange}
         />
       </TabPanel>
@@ -159,16 +209,18 @@ const BasicTabs = () => {
         <TabEmployment
           formEmploymentDetail={formEmploymentDetail}
           handleFormEmploymentDetailChange={handleFormEmploymentDetailChange}
+          employee={employee}
         />
       </TabPanel>
       <TabPanel value={value} title="Salary & Wages" index={3}>
         <TabSalary
           formSalary={formSalary}
+          employee={employee}
           handleFormSalary={handleFormSalary}
         />
       </TabPanel>
       <TabPanel value={value} title="Others" index={4}>
-        <TabOthers />
+        <TabOthers employee={employee} />
       </TabPanel>
     </Box>
   );

@@ -13,7 +13,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styled } from "@mui/material/styles";
 import InputWithIcon from "../CustomComponents/InputWithIcon";
-import { IFormSalary } from "../../models/Employee";
+import { Employee, IFormSalary } from "../../models/Employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 type PropsSalary = {
@@ -21,44 +21,45 @@ type PropsSalary = {
   handleFormSalary?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
+  employee:Employee
 };
 
 const TabSalary = (props: PropsSalary) => {
-  const { formSalary, handleFormSalary } = props;
+  const { formSalary, handleFormSalary, employee } = props;
   return (
     <div className="flex flex-col gap-1 pb-5 px-5">
       <InputWithIcon
         label="Basic Salary"
         isRequired
-        value={formSalary.basic_salary}
+        value={employee.basic_salary}
         onChange={handleFormSalary}
         name="basic_salary"
       />
       <InputWithIcon
         label="Basic Salary (Audit)"
         isRequired
-        value={formSalary.audit_salary}
+        value={employee.audit_salary}
         onChange={handleFormSalary}
         name="audit_salary"
       />
       <InputWithIcon
         label="Safety Insurance Amount"
         isRequired
-        value={formSalary.safety_insurance}
+        value={employee.safety_insurance}
         onChange={handleFormSalary}
         name="safety_insurance"
       />
       <InputWithIcon
         label="Healthy Insurance Amount"
         isRequired
-        value={formSalary.health_insurance}
+        value={employee.health_insurance}
         onChange={handleFormSalary}
         name="health_insurance"
       />
       <InputWithIcon
         label="Meal Allowance"
         isRequired
-        value={formSalary.meal_allowance}
+        value={employee.meal_allowance}
         onChange={handleFormSalary}
         name="meal_allowance"
       />

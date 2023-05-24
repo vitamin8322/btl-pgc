@@ -1,25 +1,32 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { ChangeEvent, useEffect } from "react";
-import { IFormEmploymentDetail } from "../../models/Employee";
+import { Employee, IFormEmploymentDetail } from "../../models/Employee";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getDepartment, getPosition } from "../../redux/slice/employeeSlice";
 import SelectMui from "../CustomComponents/SelectMui";
+import CheckBoxMui from "../CustomComponents/CheckBoxMui";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 type PropsTabEmployment = {
   formEmploymentDetail: IFormEmploymentDetail;
   handleFormEmploymentDetailChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
+  employee: Employee;
 };
 
 const TabEmployment = (props: PropsTabEmployment) => {
   //redux
   const dispatch = useDispatch<AppDispatch>();
-  const { dataDepartment, dataPosition } = useSelector((state: RootState) => state.employee);
-  
+  const { dataDepartment, dataPosition } = useSelector(
+    (state: RootState) => state.employee
+  );
+
   //funs
-  const { formEmploymentDetail, handleFormEmploymentDetailChange } = props;
+  const { formEmploymentDetail, handleFormEmploymentDetailChange, employee } =
+    props;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,19 +42,43 @@ const TabEmployment = (props: PropsTabEmployment) => {
           data={dataDepartment}
           label="Department"
           placeholder="Choose Department"
-          value={formEmploymentDetail.department_id}
+          value={employee.department_id ?? ""}
           onChange={handleFormEmploymentDetailChange}
           isNa
           name="department_id"
         />
-         <SelectMui
+        <SelectMui
           data={dataPosition}
           label="Position"
           placeholder="Choose Position"
-          value={formEmploymentDetail.position_id}
+          value={employee.position_id ?? ""}
           onChange={handleFormEmploymentDetailChange}
           isNa
           name="position_id"
+        />
+        <CheckBoxMui
+          label="Entitled OT"
+          value={employee.entitle_ot}
+          name="entitle_ot"
+        />
+        <CheckBoxMui
+          label="Meal Allowance Paid"
+          value={employee.meal_allowance_paid}
+          name="meal_allowance_paid"
+        />
+        <CheckBoxMui
+          label="Operational Allowance Paid"
+          checked
+          value={employee.operational_allowance_paid}
+          name="operational_allowance_paid"
+          disabled
+        />
+        <CheckBoxMui
+          label="Attendance Allowance Paid"
+          checked
+          value={employee.attendance_allowance_paid}
+          name="attendance_allowance_paid"
+          disabled
         />
       </div>
     </div>

@@ -1,27 +1,29 @@
-import Cookies from 'js-cookie';
-import { ACCESS_TOKEN_KEY } from '../utils/constants';
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN_KEY } from "../utils/constants";
 
 export function fetchApi(
   url: string,
-  method: 'get' | 'post' | 'delete' | 'put' = 'get',
+  method: "get" | "post" | "delete" | "put" = "get",
   body?: object | FormData,
   auth = true,
-  contentType?: string,
+  contentType?: string
 ): Promise<any> {
-  
   return fetch(url, {
-    credentials: 'include',
+    credentials: "include",
     method,
-    body: typeof body === 'object' ? JSON.stringify(body) : body,
+    body: body instanceof FormData ? body : JSON.stringify(body),
     headers:
-      contentType !== 'multipart/form-data'
+      contentType !== "multipart/form-data"
         ? {
-            'Content-Type': contentType || 'application/json',
-            Authorization:`Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}`|| '',
+            "Content-Type": contentType || "application/json",
+            Authorization: `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` || "",
           }
-        : {},
-    cache: 'no-store',
-  }).then(res => {
+        : {
+            Authorization: `Bearer ${Cookies.get(ACCESS_TOKEN_KEY)}` || "",
+          },
+
+    cache: "no-store",
+  }).then((res) => {
     if (res.status === 401) {
       // handle unauthorized error here.
     }

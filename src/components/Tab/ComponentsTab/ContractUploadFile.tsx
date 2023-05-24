@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import InputCustom from "../../CustomComponents/InputCustom";
 import Button from "@mui/material/Button";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
@@ -12,45 +12,32 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import { ReactComponent as Delete } from "../../../assets/image/Delete.svg";
 import { ReactComponent as Dowload } from "../../../assets/image/Dowload.svg";
+import { ReactComponent as Clear } from "../../../assets/image/Clear.svg";
+import { fetchApi } from "../../../hooks/api";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import {
+  addDataContract,
+  addDataTableContract,
+  addDataToForm,
+  mountDataContract,
+} from "../../../redux/slice/contractSlice";
+import moment from "moment";
+import { useLocation, useParams } from "react-router-dom";
 
 type Props = {};
 
 const ContractUploadFile = (props: Props) => {
-  const data = [
-    {
-      id: 130,
-      employee_id: 1631,
-      contract_date: "2023-05-24",
-      name: "123",
-      document:
-        "https://api-training.hrm.div4.pgtest.co/storage/contracts/1631/2_1684223333.jpg",
-      created_at: "2023-05-16T07:48:53.000000Z",
-      updated_at: "2023-05-16T07:48:53.000000Z",
-      deleted_at: null,
-    },
-  ];
-
-  const headers = [
-    { field: "No", headerName: "No" },
-    { field: "ContractName", headerName: "Contract Name" },
-    { field: "SignDate", headerName: "Sign Date" },
-    { field: "Action", headerName: "Action." },
-  ];
   //custom tablecell
   const TableCellCustom = styled(TableCell)(({}) => ({
-    // backgroundColor: "rgb(248, 249, 250)",
     border: "1px solid white",
     color: "rgb(104, 112, 118)",
     fontSize: "12px",
     padding: "0 10px",
-
-    // "&.MuiTableCell-root": {
-    //   display: "flex",
-    // },
   }));
   const CustomTableRow = styled(TableRow)(({ theme, selected }) => ({
     cursor: "pointer",
-    height:'36px',
+    height: "36px",
     backgroundColor: selected
       ? "rgb(237 246 255) !important"
       : "rgb(248, 249, 250)",
@@ -62,6 +49,73 @@ const ContractUploadFile = (props: Props) => {
       color: "transparent",
     },
   }));
+  const dispatch = useDispatch<AppDispatch>();
+  const { employee } = useSelector((state: RootState) => state.employee);
+  const { dataFormContract, dataContract } = useSelector(
+    (state: RootState) => state.contract
+  );
+
+  const { idEmployee } = useParams();
+
+  useEffect(() => {
+    // dispatch(mountDataContract(employee.contracts));
+  }, []);
+  // console.log(dataContract);
+
+  const headers = [
+    { field: "No", headerName: "No" },
+    { field: "ContractName", headerName: "Contract Name" },
+    { field: "SignDate", headerName: "Sign Date" },
+    { field: "Action", headerName: "Action." },
+  ];
+  const [file, setFile] = useState<File | null>(null);
+  const [formContract, setFormContract] = useState({ date: "", name: "" });
+
+  const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files && e.target.files[0];
+    setFile(selectedFile || null);
+  };
+  const changeContractName = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormContract((prevValues) => ({ ...prevValues, name: e.target.value }));
+  };
+
+  const handleChangeDate = (
+    date: Date,
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    console.log(123, date);
+    setFormContract((prevValues) => ({ ...prevValues, date: String(date) }));
+  };
+
+  const handleDataContract = () => {
+    if (file != null) {
+      dispatch(
+        addDataToForm({
+          employee_id: idEmployee ?? '0',
+          documents: [file],
+          names: [formContract.name],
+          contract_dates: [
+            moment(formContract.date).format("YYYY-MM-DD"),
+            // file.date
+          ],
+          modified_contracts: [],
+        })
+      );
+      dispatch(
+        addDataTableContract({
+          id: file.lastModified,
+          employee_id: -1,
+          contract_date: formContract.date,
+          name: formContract.name,
+          document: "",
+          created_at: "",
+          updated_at: "",
+          deleted_at: "",
+        })
+      );
+    }
+    setFormContract({ date: "", name: "" })
+  };
 
   return (
     <div className="flex flex-col border-solid border-gray2 border rounded-md">
@@ -79,8 +133,20 @@ const ContractUploadFile = (props: Props) => {
       />
       <div className="flex w-full gap-5 pt-5 pr-4 pb-7 pl-5 flex-wrap">
         <div className="w-2/6 flex flex-col gap-4">
-          <DatePickerCustom size label="Contract Date" name="contract_date" />
-          <InputCustom name="" size label="Contract Name" />
+          <DatePickerCustom
+            size
+            label="Contract Date"
+            name="contract_date"
+            onChange={handleChangeDate}
+            value={formContract.date}
+          />
+          <InputCustom
+            name=""
+            size
+            label="Contract Name"
+            onChange={changeContractName}
+            value={formContract.name}
+          />
           <div className="flex flex-wrap gap-2.5">
             <Button
               variant="contained"
@@ -102,7 +168,7 @@ const ContractUploadFile = (props: Props) => {
             >
               <FileUploadOutlinedIcon />
               Upload File
-              <input type="file" hidden />
+              <input type="file" hidden onChange={handleUploadFile} />
             </Button>
             <Button
               variant="contained"
@@ -120,10 +186,19 @@ const ContractUploadFile = (props: Props) => {
                   backgroundColor: "rgb(54, 215, 180)",
                 },
               }}
+              onClick={handleDataContract}
             >
               Add
             </Button>
           </div>
+          {file && (
+            <div className="flex min-w-175 justify-between items-center max-w bg-gray2">
+              <p>{file.name}</p>
+              <button>
+                <Clear />
+              </button>
+            </div>
+          )}
         </div>
         <hr
           style={{
@@ -154,7 +229,6 @@ const ContractUploadFile = (props: Props) => {
                           }),
                         }}
                         key={index}
-                        // style={{ minWidth: `${column.width}px` }}
                       >
                         {column.headerName}
                       </TableCell>
@@ -162,8 +236,8 @@ const ContractUploadFile = (props: Props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data &&
-                  data.map((row: any, index: number) => {
+                {dataContract &&
+                  dataContract.map((row: any, index: number) => {
                     return (
                       <CustomTableRow
                         hover
@@ -178,19 +252,25 @@ const ContractUploadFile = (props: Props) => {
                         <TableCellCustom style={{ minWidth: `50px` }}>
                           {row.name}
                         </TableCellCustom>
-                        <TableCellCustom>{row.contract_date}</TableCellCustom>
+                        <TableCellCustom>
+                          {moment(row.contract_date).format("YYYY-MM-DD")}
+                        </TableCellCustom>
                         <TableCellCustom>
                           <div className="flex justify-center items-center gap-1">
-                            <span>
-                              <button className="flex gap-1 hover:bg-greenHover h-6 text-green bg-green2 items-center rounded-md py-2 px-3">
-                                <span>1_1684228584.jpg</span>
-                                <Dowload />
-                              </button>
+                            <span className="w-32">
+                              {row.document != "" && (
+                                <button className="flex gap-1 hover:bg-greenHover h-6  text-green bg-green2 items-center rounded-md py-2 px-3">
+                                  <span className="text-ellipsis overflow-hidden whitespace-nowrap w-20">
+                                    {row.document}
+                                  </span>
+                                  <Dowload />
+                                </button>
+                              )}
                             </span>
-                              <button className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
-                                <Delete fill="red" className="m-1" />
-                                Delete
-                              </button>
+                            <button className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
+                              <Delete fill="red" className="m-1" />
+                              Delete
+                            </button>
                           </div>
                         </TableCellCustom>
                       </CustomTableRow>

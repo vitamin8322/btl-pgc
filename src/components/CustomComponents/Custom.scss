@@ -191,3 +191,16 @@
 //   text-align: right;
 //   margin-right: 20px;
 // }
+
+
+
+.MuiFormControlLabel-label.Mui-disabled{
+  color:#000000 !important;
+}
+
+.Mui-checked{
+  color: rgb(48, 164, 108) !important
+}
+.Mui-disabled{
+  color: rgba(0, 0, 0, 0.26) !important;
+}

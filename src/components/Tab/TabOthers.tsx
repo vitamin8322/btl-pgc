@@ -1,16 +1,21 @@
-import React from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { getBenefit, getGrade } from "../../redux/slice/employeeSlice";
-import { IBenefit } from "../../models/Employee";
+import {
+  changeEmployee,
+  getBenefit,
+  getGrade,
+} from "../../redux/slice/employeeSlice";
+import { Employee, IBenefit } from "../../models/Employee";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import { styled } from "@mui/material/styles";
 import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";
 import SelectMui from "../CustomComponents/SelectMui";
 import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
+import DocumentUpload from "./ComponentsTab/DocumentUpload";
 
 const CustomTag = styled("div")(({}) => ({
   display: "inline-flex",
@@ -47,38 +52,65 @@ const TextAreaStyle = styled("textarea")(({ theme }) => ({
   },
 }));
 
-export default function Tags() {
+type PropsTagOther = {
+  // formEmployee: IFormEmployee;
+  employee: Employee;
+  // handleFormEmployeeChange?: (
+  //   event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
+  // ) => void;
+};
+
+const TagOther = (props: PropsTagOther) => {
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { dataGrade, dataBenefit } = useSelector(
     (state: RootState) => state.employee
   );
+  const { employee } = props;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getGrade());
-      await dispatch(getBenefit());
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //   };
+  //   fetchData();
+  // }, []);
 
   const [selectedOption, setSelectedOption] = useState<IBenefit[] | undefined>(
     undefined
   );
-  const [selectedGradeIndex, setSelectedGradeIndex] = useState(-1);
-  console.log(selectedGradeIndex);
+  const [selectedGradeIndex, setSelectedGradeIndex] = useState(
+    dataGrade.findIndex((item) => item.id === employee.grade_id)
+  );
+  // console.log(selectedGradeIndex);
 
   const handleOptionChange = (event: any, newValue: IBenefit[] | null) => {
     setSelectedOption(newValue ?? undefined);
+    console.log(newValue);
+    if (newValue) {
+      const idArray = newValue.map((item) => item.id);
+      console.log(idArray);
+      dispatch(changeEmployee({ name1: "benefits", value: idArray }));
+    }
   };
 
-  const handleDelete = (item: IBenefit) => {
-    const newSelected = selectedOption
-      ? selectedOption.filter((option: any) => option.id !== item.id)
-      : [];
+  const hanleChangeRemark = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      const { name } = e.target;
+      let value: any;
+      value = e.target.value;
+      dispatch(changeEmployee({ name1: name, value }));
+    },
+    []
+  );
 
-    setSelectedOption(newSelected);
-  };
+  const idArrayBenefit = employee.benefits.map((item) => item.id);
+  const defaultValue = dataBenefit.filter((item) =>
+    idArrayBenefit.includes(item.id)
+  );
+  // useEffect(() => {
+  //   const idArray = employee.grade.map((item) => item.id);
+
+  //   defaultValue = dataBenefit.filter((item) =>  employee.benefits.map((item) => item.id).includes(item.id));
+  // }, [])
 
   return (
     <div className="flex gap-1 flex-col">
@@ -88,17 +120,27 @@ export default function Tags() {
           <Autocomplete
             disablePortal
             options={dataGrade}
-            getOptionLabel={(option) => option.name}
+            getOptionLabel={(option) => {
+              return option.name;
+            }}
+            defaultValue={
+              dataGrade.find((item) => item.id === employee.grade_id) || null
+            }
             sx={autocompleteStyles}
-            renderInput={(params) => <TextField {...params} />}
-            onChange={(event, newValue) => {
-              if (newValue) {
+            renderInput={(params) => <TextField {...params} autoFocus />}
+            onChange={(event, value) => {
+              if (value) {
+                dispatch(changeEmployee({ name1: "grade", value }));
+                dispatch(
+                  changeEmployee({ name1: "grade_id", value: value.id })
+                );
                 const selectedIndex = dataGrade.findIndex(
-                  (item) => item.name === newValue.name
+                  (item) => item.name === value.name
                 );
                 setSelectedGradeIndex(selectedIndex);
               } else {
                 setSelectedGradeIndex(-1);
+                dispatch(changeEmployee({ name1: "grade_id", value: null }));
               }
             }}
           />
@@ -126,6 +168,7 @@ export default function Tags() {
           onChange={handleOptionChange}
           disableCloseOnSelect
           sx={autocompleteStyles}
+          defaultValue={ dataBenefit.filter((item) =>  employee.benefits.map((item) => item.id).includes(item.id))}
           clearIcon={<Clear />}
           // renderTags={(value, getTagProps) => {
           //   return (
@@ -147,13 +190,18 @@ export default function Tags() {
                 overflowX: "hidden",
                 marginTop: "5px",
               }}
+              autoFocus
             />
           )}
         />
       </div>
       <div className="flex items-center ">
         <div className="font-normal min-w-175 flex">Remark</div>
-        <TextAreaStyle />
+        <TextAreaStyle
+          value={employee.remark}
+          name="remark"
+          onChange={hanleChangeRemark}
+        />
       </div>
       <div>
         <SelectMui
@@ -164,6 +212,9 @@ export default function Tags() {
           data={[]}
         />
       </div>
+      <DocumentUpload />
     </div>
   );
-}
+};
+
+export default TagOther;

@@ -9,13 +9,14 @@ type PropsInput = {
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   size?:boolean;
+  disabled?: boolean;
 };
 
 
 const InputCustom = (props: PropsInput) => {
-  const { label, onChange, value, name, isRequired, size } = props;
+  const { label, onChange, value, name, isRequired, size,disabled } = props;
   
-  // console.log(label);
+  // console.log(label, value);
   
   return (
     <>
@@ -29,8 +30,11 @@ const InputCustom = (props: PropsInput) => {
         <input
           onChange={onChange}
           value={value}
+          disabled={disabled}
           name={name}
-          className="input h-12 w-full max-w-300 "
+          className={`input h-12 w-full max-w-300  ${
+            disabled ? "!bg-disabled" : ""
+          }`}
         />
       </div>
     </>

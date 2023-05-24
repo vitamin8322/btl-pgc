@@ -32,7 +32,7 @@ const SelectMui = (props: PropsSelect) => {
     disabled,
     width,
   } = props;
-  // console.log(label, value);
+  // console.log(label, value); 
 
   const customPaperProps: PaperProps = {
     sx: {
@@ -67,14 +67,12 @@ const SelectMui = (props: PropsSelect) => {
     },
   };
 
-  // console.log(props);
-
   return (
     <div className="flex items-center h-12">
       <label htmlFor={label} className="font-normal min-w-175 flex">
         {label}
         {isRequired && (
-          <span className="text-required font-normal text-lg">* </span>
+          <span className="text-required font-normal text-lg">*</span>
         )}
       </label>
       <Select
@@ -91,23 +89,13 @@ const SelectMui = (props: PropsSelect) => {
         IconComponent={ExpandMoreIcon}
         onChange={onChange}
         name={name}
-        value={value == "" ? undefined : value}
-        defaultValue={isNa ? "" : undefined}
-        renderValue={(selected: any) => {
-          if (selected === "" || selected === undefined) {
-            return placeholder;
-          }
-          const selectedItem = data.find(
-            (item: any) => item?.id === selected
-          ) as IMarriageStatus;
-
-          return selectedItem?.name;
-        }}
+        value={value}
+        defaultValue={isNa ? "" : value}
       >
-        {/* <InputLabel shrink={false} className="!hidden">
+        {isNa && <MenuItem value={""} className="text-blue1">N/A</MenuItem>}
+        <MenuItem value={""}  className="!hidden text-blue1">
           {placeholder}
-        </InputLabel> */}
-        {isNa && <MenuItem value={""}>N/A</MenuItem>}
+        </MenuItem>
         {data.map((item: any) => (
           <MenuItem value={item.id} key={item.key}>
             {item.name}

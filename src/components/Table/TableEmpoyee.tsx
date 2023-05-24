@@ -94,10 +94,13 @@ const TableEmpoyee = ({}) => {
     console.log(id);
     
     if (currentTime - lastClickTime < 300) {
-      // Xử lý logic cho sự kiện onDoubleClick
-      // console.log("Double click event");
-      dispatch(getIdEmployee(id))
-      navigate(`/employee/create-or-update/${id}`);
+      const handleDoubleClick = async () => {
+        // Xử lý logic cho sự kiện onDoubleClick
+        // console.log("Double click event");
+        // await dispatch(getIdEmployee(id));
+        navigate(`/employee/create-or-update/${id}`);
+      }
+      handleDoubleClick();
     } else {
       // Xử lý logic cho sự kiện onClick
       const selectedIndex = selected.indexOf(id);
@@ -286,14 +289,14 @@ const TableEmpoyee = ({}) => {
                       </TableCellCustom>
                       <TableCellCustom>{row.name}</TableCellCustom>
                       <TableCellCustom>
-                        {row.gender ? "Male" : "Female"}
+                        {row.gender ? "Female" : "Male"}
                       </TableCellCustom>
                       <TableCellCustom>{row.card_number}</TableCellCustom>
                       <TableCellCustom>{row.bank_account_no}</TableCellCustom>
                       <TableCellCustom>
                         {row.family_card_number}
                       </TableCellCustom>
-                      <TableCellCustom>{row.marriage_code}</TableCellCustom>
+                      <TableCellCustom>{row.marriage_id}</TableCellCustom>
                       <TableCellCustom>{row.mother_name}</TableCellCustom>
                       <TableCellCustom>{row.pob}</TableCellCustom>
                       <TableCellCustom>{row.dob}</TableCellCustom>

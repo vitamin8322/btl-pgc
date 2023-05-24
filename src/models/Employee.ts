@@ -3,13 +3,14 @@ export interface Employee {
   old_staff_id: number | null;
   staff_id: string;
   name: string;
-  gender: number | null;
+  gender: number |  string;
   department_id: number | null;
-  company_id: number;
+  company_id: number | null;
   manager_id: number | null;
-  marriage_id: number | string;
+  marriage_id: number | string | null;
+  marriage: IMarriageStatus[]
   position_id: number | null;
-  type: number;
+  type: number| string | null;
   mother_name: string;
   dob: string;
   pob: string | null;
@@ -37,18 +38,20 @@ export interface Employee {
   minimum_salary_used: string;
   contract_start_date: string;
   shift: string;
-  grade_id: number;
+  grade_id: number | null;
   remark: string;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
   department_name: string;
-  marriage_code: string;
   position_name: string | null;
   grade_prefix: string;
   grade_name: string;
   manager_name: string | null;
+  documents: IDocument[];
   contracts: IContract[];
+  grade: IGrade[];
+  benefits: IBenefit[];
   [key: string]: any;
 }
 
@@ -180,3 +183,24 @@ export interface IGrade {
   benefits: IBenefit[];
 }
 
+
+export interface IContractFormData {
+  employee_id: string;
+  names: string[];
+  contract_dates: string[];
+  documents: File[];
+  modified_contracts: string[];
+}
+
+export interface IDocumentFormData{
+  employee_id: string;
+  documents: File[];
+}
+
+export interface  IDocument {
+  id: number;
+  employee_id: number;
+  created_at: string;
+  document: string;
+  updated_at: string | null;
+}

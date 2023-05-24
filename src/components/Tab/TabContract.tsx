@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect } from "react";
 import InputCustom from "../CustomComponents/InputCustom";
-import { IFormContract } from "../../models/Employee";
+import { Employee, IFormContract } from "../../models/Employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import SelectMui from "../CustomComponents/SelectMui";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,7 @@ type PropsTabContract = {
   handleFormContractChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
+  employee: Employee;
 };
 
 const TabContract = (props: PropsTabContract) => {
@@ -21,7 +22,7 @@ const TabContract = (props: PropsTabContract) => {
   const dispatch = useDispatch<AppDispatch>();
   const { dataDepartment } = useSelector((state: RootState) => state.employee);
 
-  const { formContract, handleFormContractChange } = props;
+  const { formContract, handleFormContractChange, employee } = props;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +34,7 @@ const TabContract = (props: PropsTabContract) => {
 
   const data = [
     {
-      id: 0,
+      id: "0",
       name: "Parmanent",
       code: "MK01",
       company_id: 1,
@@ -41,7 +42,7 @@ const TabContract = (props: PropsTabContract) => {
       updated_at: null,
     },
     {
-      id: 1,
+      id: "1",
       name: "Part-time",
       code: "S01",
       company_id: 1,
@@ -49,7 +50,7 @@ const TabContract = (props: PropsTabContract) => {
       updated_at: null,
     },
     {
-      id: 2,
+      id: "2",
       name: "Contract",
       code: "M01",
       company_id: 1,
@@ -61,23 +62,20 @@ const TabContract = (props: PropsTabContract) => {
   return (
     <div>
       <div className="flex flex-col gap-2.5 px-2.5">
-        {/* <InputCustom
-          value={formContract.contract_start_date}
-          name="contract_start_date"
+        <DatePickerCustom
           isRequired={true}
-          onChange={handleFormContractChange}
+          value={employee.contract_start_date}
           label="Date Start"
-        /> */}
-          <DatePickerCustom isRequired={true}  label="Date Start" name="contract_start_date"/>
+          name="contract_start_date"
+        />
 
         <SelectMui
           data={data}
           label="Employee Type"
           placeholder="Choose Type"
           isRequired={true}
-          value={formContract.type}
+          value={employee.type ?? ""}
           onChange={handleFormContractChange}
-          //   isNa
           name="type"
         />
         <ContractUploadFile />

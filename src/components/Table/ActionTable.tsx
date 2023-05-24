@@ -12,7 +12,7 @@ type PropsActionTable = {
   dataDelete: number[];
   setSelected: React.Dispatch<React.SetStateAction<number[]>>;
   lastPage: number | undefined;
-  lengthData: number
+  lengthData: number;
 };
 
 const ActionTable = (props: PropsActionTable) => {
@@ -28,11 +28,16 @@ const ActionTable = (props: PropsActionTable) => {
   const handleDeleteEmployee = async () => {
     try {
       await dispatch(deleteEmployee(dataDelete));
+      console.log("lastPage", lastPage);
+      console.log("pageValue", pageValue);
+
       const queryParams = {
-        page: lastPage == pageValue && dataDelete.length > lengthData ? pageValue - 1 : pageValue,
+        page:
+          lastPage == pageValue && dataDelete.length == lengthData
+            ? pageValue - 1
+            : pageValue,
         query: searchValue,
       };
-      console.log(queryParams);
 
       await dispatch(getEmployee(queryParams));
       const searchParamString =
@@ -40,7 +45,6 @@ const ActionTable = (props: PropsActionTable) => {
           ? `search=${queryParams.query}&`
           : "";
       const newURL = `/employee?${searchParamString}page=${queryParams.page}`;
-      console.log(newURL);
 
       navigate(newURL);
       setSelected([]);
