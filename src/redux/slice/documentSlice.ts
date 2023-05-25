@@ -31,9 +31,9 @@ const initialState: Document = {
 
 export const addDataDocument = createAsyncThunk(
     "document/add",
-    async (formData: IDocumentFormData, { getState }) => {
+    async ( { id, formData }: { id?: string; formData: IDocumentFormData }, { getState }) => {
       const formdata = new FormData();
-      formdata.append("employee_id", formData.employee_id);
+      formdata.append("employee_id", id || '');
       formData.documents.forEach((doc) =>
         formdata.append("documents[]", doc, doc.name)
       );
@@ -57,7 +57,7 @@ export const addDataDocument = createAsyncThunk(
         state.dataFormDocument.employee_id = employee_id;
         state.dataFormDocument.documents.push(...documents);
       },
-      removeDataFormConTtract: (state, action: PayloadAction<number>) => {
+      removeDataFormDocument: (state, action: PayloadAction<number>) => {
         const id = action.payload;
         state.dataFormDocument.documents.splice(id, 1);
       },
@@ -66,6 +66,9 @@ export const addDataDocument = createAsyncThunk(
         state.dataDocument = state.dataDocument.filter(
           (document) => document.id !== idToRemove
         );
+      },
+      removeAllDataFromDocument: (state) => {
+        state.dataFormDocument = initialState.dataFormDocument
       },
       removeAllDataDocument: (state) => {
         state.dataDocument = [];
@@ -82,10 +85,11 @@ export const addDataDocument = createAsyncThunk(
   export const {
     addDataToDocument,
     addDataTableDocument,
-    removeDataFormConTtract,
+    removeDataFormDocument,
     mountDataDocument,
     removeDataDocumentById,
     removeAllDataDocument,
+    removeAllDataFromDocument
   } = documentSlice.actions;
   
   export default documentSlice.reducer;

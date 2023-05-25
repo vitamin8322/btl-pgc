@@ -14,18 +14,7 @@ interface Contract {
 }
 
 const initialState: Contract = {
-  dataContract: [
-    {
-      id: -1,
-      employee_id: -1,
-      contract_date: "",
-      name: "",
-      document: "",
-      created_at: "",
-      updated_at: "",
-      deleted_at: "",
-    },
-  ],
+  dataContract: [],
   dataFormContract: {
     employee_id: "",
     names: [],
@@ -37,9 +26,14 @@ const initialState: Contract = {
 
 export const addDataContract = createAsyncThunk(
   "contract/add",
-  async (formData: IContractFormData, { getState }) => {
+  async (
+    { id, formData }: { id?: string; formData: IContractFormData },
+    { getState }
+  ) => {
     const formdata = new FormData();
-    formdata.append("employee_id", formData.employee_id);
+    console.log(formData.employee_id);
+
+    formdata.append("employee_id", id || "");
     formData.names.forEach((name) => formdata.append("names[]", name));
     formData.contract_dates.forEach((date) =>
       formdata.append("contract_dates[]", date)
@@ -64,20 +58,22 @@ const contractSlice = createSlice({
   reducers: {
     addDataToForm: (state, action: PayloadAction<IContractFormData>) => {
       const { employee_id, names, contract_dates, documents } = action.payload;
-      console.log(1234432,employee_id);
-      
-      if(employee_id!=='0'){
+      console.log(1234432, employee_id);
+
+      if (employee_id !== "0") {
         state.dataFormContract.employee_id = employee_id;
       }
-      if(names.length>0){
+      if (names[0] != "") {
+        console.log(names);
+
         state.dataFormContract.names.push(...names);
         state.dataFormContract.contract_dates.push(...contract_dates);
         state.dataFormContract.documents.push(...documents);
       }
-      
     },
     removeDataFormConTtract: (state, action: PayloadAction<number>) => {
       const id = action.payload;
+      console.log(id);
       state.dataFormContract.names.splice(id, 1);
       state.dataFormContract.contract_dates.splice(id, 1);
       state.dataFormContract.documents.splice(id, 1);
@@ -88,8 +84,11 @@ const contractSlice = createSlice({
         (contract) => contract.id !== idToRemove
       );
     },
+    removeAllDataFormConTract: (state) => {
+      state.dataFormContract = initialState.dataFormContract;
+    },
     removeAllDataContract: (state) => {
-      state.dataContract = [];
+      state.dataContract = initialState.dataContract;
     },
     mountDataContract: (state, action: PayloadAction<IContract[]>) => {
       state.dataContract = action.payload;
@@ -107,6 +106,7 @@ export const {
   mountDataContract,
   removeDataContractById,
   removeAllDataContract,
+  removeAllDataFormConTract
 } = contractSlice.actions;
 
 export default contractSlice.reducer;

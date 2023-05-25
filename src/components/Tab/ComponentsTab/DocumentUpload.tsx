@@ -14,10 +14,11 @@ import { ReactComponent as Delete } from "../../../assets/image/Delete.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import {
-  addDataDocument,
   addDataTableDocument,
   addDataToDocument,
   mountDataDocument,
+  removeDataDocumentById,
+  removeDataFormDocument,
 } from "../../../redux/slice/documentSlice";
 import { useParams } from "react-router-dom";
 
@@ -56,12 +57,13 @@ const DocumentUpload = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { employee } = useSelector((state: RootState) => state.employee);
   const { dataDocument, dataFormDocument } = useSelector((state: RootState) => state.document);
+  
   const handleUploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files && e.target.files[0];
-    if (idEmployee && selectedFile) {
+    if ( selectedFile) {
       dispatch(
         addDataToDocument({
-          employee_id:  idEmployee,
+          employee_id:  idEmployee || '0',
           documents: [selectedFile],
         })
       );
@@ -80,6 +82,15 @@ const DocumentUpload = (props: Props) => {
   // },[])
 
   // console.log(dataDocument);
+
+  const handleDeleteFileDocument = (document: string, index:number,id: number ) => {
+    if(document==='') {
+      console.log(123);
+      
+      dispatch(removeDataDocumentById(id))
+      dispatch(removeDataFormDocument(index))
+    }
+  }
 
   return (
     <div className="flex flex-col border-solid  border-gray2 border rounded-md">
@@ -107,7 +118,6 @@ const DocumentUpload = (props: Props) => {
           Upload
           <input type="file" hidden onChange={handleUploadFile} />
         </Button>
-        {/* <button onClick={() => dispatch(addDataDocument(dataFormDocument))}>add</button> */}
       </div>
       <div className="px-5 w-full">
         <TableContainer className="w-full max-w-1170 h-225 ">
@@ -161,7 +171,7 @@ const DocumentUpload = (props: Props) => {
                               </button>
                             )}
                           </span>
-                          <button className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
+                          <button onClick={() => handleDeleteFileDocument(row.updated_at, index, row.id)} className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
                             <Delete fill="red" className="m-1" />
                           </button>
                         </div>

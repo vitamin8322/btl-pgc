@@ -56,35 +56,25 @@ const Heading = (props: PropsHeading) => {
       navigate(`/employee?search=${query}&page=${1}`);
     }
   }, [debouncedValue]);
-  const id = employee?.id
-
+  const id = employee?.id;
 
   useEffect(() => {
     if (status === "succeeded1") {
-      console.log(1231232,id);
-      dispatch(
-        addDataToForm({
-          employee_id: String(id),
-          documents: [],
-          names: [''],
-          contract_dates: [''
-            // moment(formContract.date).format("YYYY-MM-DD"),
-            // file.date
-          ],
-          modified_contracts: [],
-        })
-      );
       console.log(dataFormContract);
-      
-      if (id !== 0) {
-        dispatch(addDataContract(dataFormContract));
+      console.log(dataFormDocument);
+      if (employee?.id !== 0 && dataFormContract.documents.length > 0) {
+        dispatch(
+          addDataContract({ id: String(id), formData: dataFormContract })
+        );
       }
-      if (id !== 0) {
-        dispatch(addDataDocument(dataFormDocument));
+      if (employee?.id !== 0 && dataFormDocument.documents.length > 0) {
+        dispatch(
+          addDataDocument({ id: String(id), formData: dataFormDocument })
+        );
       }
     }
-  }, [status, employee]);
-  
+  }, [status, employee, dataFormDocument]);
+
   const rightHeading = () => {
     if (crumbs.length == 2) {
       return (
@@ -110,31 +100,33 @@ const Heading = (props: PropsHeading) => {
         <button
           onClick={async () => {
             await dispatch(addEmployee());
-            // if (status === "succeeded") {
-            //   console.log('ád', employee);
-            //   console.log(1231232,id);
-            //   if (id !== 0) {
-            //     dispatch(addDataContract(dataFormContract));
-            //   }
-            //   if (id !== 0) {
-            //     dispatch(addDataDocument(dataFormDocument));
-            //   }
-            // }
           }}
+          className="bg-blue1 text-white px-6 py-2 h-12 rounded-md"
         >
           Add
         </button>
       ) : (
         <button
           onClick={() => {
-            if (dataFormContract.employee_id !== "") {
-              dispatch(addDataContract(dataFormContract));
+            if (
+              dataFormContract.employee_id !== "" &&
+              dataFormContract.documents.length > 0
+            ) {
+              dispatch(
+                addDataContract({ id: String(id), formData: dataFormContract })
+              );
             }
-            if (dataFormDocument.employee_id !== "") {
-              dispatch(addDataDocument(dataFormDocument));
+            if (
+              dataFormDocument.employee_id !== "" &&
+              dataFormDocument.documents.length > 0
+            ) {
+              dispatch(
+                addDataDocument({ id: String(id), formData: dataFormDocument })
+              );
             }
             dispatch(editEmployee(Number(idEmployee)));
           }}
+          className="bg-blue1 text-white px-6 py-2 h-12 rounded-md"
         >
           Save Change
         </button>

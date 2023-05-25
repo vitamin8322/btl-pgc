@@ -28,8 +28,13 @@ import TabSalary from "./TabSalary";
 import {
   mountDataContract,
   removeAllDataContract,
+  removeAllDataFormConTract,
 } from "../../redux/slice/contractSlice";
-import { mountDataDocument, removeAllDataDocument } from "../../redux/slice/documentSlice";
+import {
+  mountDataDocument,
+  removeAllDataDocument,
+  removeAllDataFromDocument,
+} from "../../redux/slice/documentSlice";
 
 function a11yProps(index: number) {
   return {
@@ -54,32 +59,41 @@ const BasicTabs = () => {
       if (idEmployee) {
         await dispatch(getIdEmployee(Number(idEmployee)));
       } else {
-        await dispatch(resetEmployee());
+        dispatch(resetEmployee());
+        dispatch(removeAllDataContract());
+        dispatch(removeAllDataDocument());
       }
-      // await dispatch(removeAllDataContract())
-      // await dispatch(removeAllDataDocument())
+      dispatch(removeAllDataFromDocument());
+      dispatch(removeAllDataFormConTract());
+      
       await dispatch(getGrade());
       await dispatch(getBenefit());
     };
     fetchData();
-  }, [dispatch, idEmployee]);
-  
-  useEffect(() => {
-    const handleDataUpdate = async () => {
-      await dispatch(mountDataDocument(employee.documents));
-      await dispatch(mountDataContract(employee.contracts));
-    };
-  
-    if (employee.documents.length > 0) {
-      handleDataUpdate();
-    }
-  }, [dispatch, employee.documents, employee.contracts]);
-  
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(mountDataDocument(employee.documents));
-    dispatch(mountDataContract(employee.contracts));
-  }, [employee]);
+    const handleDataUpdate = () => {
+      dispatch(mountDataDocument(employee.documents));
+      dispatch(mountDataContract(employee.contracts));
+    };
+    if(employee.benefits.length > 0){
+      const arrBenefits = employee.benefits.map((item) => item.id)
+      dispatch(changeEmployee({ name1: 'benefits',value: arrBenefits}));
+    }
+
+    // if (employee.documents.length > 0 ) {
+    if (idEmployee !== undefined) {
+      handleDataUpdate();
+    }
+    // }
+  }, [dispatch, employee.documents, employee.contracts]);
+  // console.log(dataContract);
+
+  // useEffect(() => {
+  //   dispatch(mountDataDocument(employee.documents));
+  //   dispatch(mountDataContract(employee.contracts));
+  // }, [employee]);
 
   // console.log(dataDocument);
 

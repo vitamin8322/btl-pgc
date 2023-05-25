@@ -193,7 +193,7 @@ export interface IContractFormData {
 }
 
 export interface IDocumentFormData{
-  employee_id: string;
+  employee_id: string | null;
   documents: File[];
 }
 

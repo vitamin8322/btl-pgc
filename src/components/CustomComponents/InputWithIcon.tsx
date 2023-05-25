@@ -1,7 +1,8 @@
-import React, { ChangeEvent, memo } from "react";
+import React, { ChangeEvent, memo, useState } from "react";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
 
 type PropsInputWithIcon = {
   label?: string;
@@ -11,7 +12,7 @@ type PropsInputWithIcon = {
   value?: string | number | null;
 };
 
-const StyledFilledInput = styled(FilledInput)({
+const StyledFilledInput = styled(TextField)({
   width: "308px",
   borderRadius: "6px",
   backgroundColor: "rgb(241, 243, 245)",
@@ -31,8 +32,15 @@ const StyledFilledInput = styled(FilledInput)({
 });
 
 const InputWithIcon = (props: PropsInputWithIcon) => {
-  const { label, onChange, value, name, isRequired } = props;
+  const { label, onChange,  name, isRequired } = props;
+  const [value, setValue] = useState('');
+  const [error, setError] = useState(false);
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+    setError(inputValue.length < 5); // Kiểm tra lỗi khi độ dài nhỏ hơn 5 ký tự
+  };
   return (
     <div className="flex items-center">
       <label htmlFor={label} className="font-normal min-w-211 flex">
@@ -43,15 +51,26 @@ const InputWithIcon = (props: PropsInputWithIcon) => {
       </label>
       <StyledFilledInput
         type="number"
-        disableUnderline={true}
-        onChange={onChange}
+        // disableUnderline={true}
+        // onChange={onChange}
         name={name}
         value={value}
-        startAdornment={
-          <InputAdornment position="start" sx={{ color: "blue" }}>
+        onChange={handleChange}
+        error={error} // Xác định trạng thái lỗi
+        helperText={error ? 'Value must have at least 5 characters' : ''} // Hiển thị thông báo lỗi
+      
+        // startAdornment={
+        //   <InputAdornment position="start" sx={{ color: "blue" }}>
+        //     Rp
+        //   </InputAdornment>
+        // }
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start" sx={{ color: "blue" }}>
             Rp
           </InputAdornment>
-        }
+          ),
+        }}
       />
     </div>
   );

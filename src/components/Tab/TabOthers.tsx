@@ -17,6 +17,7 @@ import SelectMui from "../CustomComponents/SelectMui";
 import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
 import DocumentUpload from "./ComponentsTab/DocumentUpload";
 
+
 const CustomTag = styled("div")(({}) => ({
   display: "inline-flex",
   alignItems: "center",
@@ -102,16 +103,13 @@ const TagOther = (props: PropsTagOther) => {
     []
   );
 
-  const idArrayBenefit = employee.benefits.map((item) => item.id);
-  const defaultValue = dataBenefit.filter((item) =>
-    idArrayBenefit.includes(item.id)
-  );
   // useEffect(() => {
   //   const idArray = employee.grade.map((item) => item.id);
 
   //   defaultValue = dataBenefit.filter((item) =>  employee.benefits.map((item) => item.id).includes(item.id));
   // }, [])
-
+  console.log(employee.benefits);
+  
   return (
     <div className="flex gap-1 flex-col">
       <div className="flex items-center h-auto">
@@ -168,7 +166,8 @@ const TagOther = (props: PropsTagOther) => {
           onChange={handleOptionChange}
           disableCloseOnSelect
           sx={autocompleteStyles}
-          defaultValue={ dataBenefit.filter((item) =>  employee.benefits.map((item) => item.id).includes(item.id))}
+          defaultValue={dataBenefit.filter((item) => employee.benefits.includes(item.id as any))}
+
           clearIcon={<Clear />}
           // renderTags={(value, getTagProps) => {
           //   return (

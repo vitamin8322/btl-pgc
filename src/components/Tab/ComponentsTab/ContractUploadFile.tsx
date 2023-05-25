@@ -21,6 +21,8 @@ import {
   addDataTableContract,
   addDataToForm,
   mountDataContract,
+  removeDataContractById,
+  removeDataFormConTtract,
 } from "../../../redux/slice/contractSlice";
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
@@ -83,7 +85,7 @@ const ContractUploadFile = (props: Props) => {
     date: Date,
     event: ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(123, date);
+    // console.log(123, date);
     setFormContract((prevValues) => ({ ...prevValues, date: String(date) }));
   };
 
@@ -91,7 +93,7 @@ const ContractUploadFile = (props: Props) => {
     if (file != null) {
       dispatch(
         addDataToForm({
-          employee_id: idEmployee ?? '0',
+          employee_id: idEmployee ?? "0",
           documents: [file],
           names: [formContract.name],
           contract_dates: [
@@ -114,8 +116,16 @@ const ContractUploadFile = (props: Props) => {
         })
       );
     }
-    setFormContract({ date: "", name: "" })
+    setFormContract({ date: "", name: "" });
   };
+
+  const handleDeleteFileContract = (document: string, index:number,id: number ) => {
+    if(document==='') {
+      dispatch(removeDataContractById(id))
+      
+      dispatch(removeDataFormConTtract(index))
+    }
+  }
 
   return (
     <div className="flex flex-col border-solid border-gray2 border rounded-md">
@@ -237,6 +247,7 @@ const ContractUploadFile = (props: Props) => {
               </TableHead>
               <TableBody>
                 {dataContract &&
+                  dataContract[0]?.id !== -1 &&
                   dataContract.map((row: any, index: number) => {
                     return (
                       <CustomTableRow
@@ -261,13 +272,14 @@ const ContractUploadFile = (props: Props) => {
                               {row.document != "" && (
                                 <button className="flex gap-1 hover:bg-greenHover h-6  text-green bg-green2 items-center rounded-md py-2 px-3">
                                   <span className="text-ellipsis overflow-hidden whitespace-nowrap w-20">
-                                    {row.document}
+                                    {/* {row.document} */}
+                                    {row.document.split("/").pop()}
                                   </span>
                                   <Dowload />
                                 </button>
                               )}
                             </span>
-                            <button className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
+                            <button onClick={() => handleDeleteFileContract(row.document, index, row.id)} className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
                               <Delete fill="red" className="m-1" />
                               Delete
                             </button>
