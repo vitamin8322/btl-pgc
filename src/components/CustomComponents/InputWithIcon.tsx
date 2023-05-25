@@ -3,6 +3,9 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
+import { changeEmployee } from "../../redux/slice/employeeSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
 
 type PropsInputWithIcon = {
   label?: string;
@@ -10,6 +13,10 @@ type PropsInputWithIcon = {
   name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string | number | null;
+  type?: string;
+  isIcon?: boolean;
+  length?: number;
+  helpText?: string;
 };
 
 const StyledFilledInput = styled(TextField)({
@@ -32,14 +39,24 @@ const StyledFilledInput = styled(TextField)({
 });
 
 const InputWithIcon = (props: PropsInputWithIcon) => {
-  const { label, onChange,  name, isRequired } = props;
-  const [value, setValue] = useState('');
+  const { label, name, isRequired, type, isIcon, length } = props;
+  const [value, setValue] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
+  const [touched, setTouched] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setValue(inputValue);
-    setError(inputValue.length < 5); // Kiểm tra lỗi khi độ dài nhỏ hơn 5 ký tự
+    // length ? setError(inputValue.length < length) : setError(false);
+    setError(inputValue.length < 3)
+    console.log(name, inputValue);
+    if (name) {
+      dispatch(changeEmployee({ name1: name, value: inputValue }));
+    }
+  };
+  const handleBlur = () => {
+    setTouched(true);
   };
   return (
     <div className="flex items-center">
@@ -57,8 +74,8 @@ const InputWithIcon = (props: PropsInputWithIcon) => {
         value={value}
         onChange={handleChange}
         error={error} // Xác định trạng thái lỗi
-        helperText={error ? 'Value must have at least 5 characters' : ''} // Hiển thị thông báo lỗi
-      
+        onBlur={handleBlur}
+        helperText={touched && (error && value !='' ? 'Value must have at least 5 characters' : value ? '' : 'Please input')}// Hiển thị thông báo lỗi
         // startAdornment={
         //   <InputAdornment position="start" sx={{ color: "blue" }}>
         //     Rp
@@ -67,8 +84,8 @@ const InputWithIcon = (props: PropsInputWithIcon) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start" sx={{ color: "blue" }}>
-            Rp
-          </InputAdornment>
+              Rp
+            </InputAdornment>
           ),
         }}
       />
