@@ -7,13 +7,14 @@ export const AntTab = styled(Tab)(({ theme }) => ({
   //   [theme.breakpoints.up("sm")]: {
   //     minWidth: 0,
   //   },
+  height:'42px',
   backgroundColor: "rgb(237 246 255)",
   fontSize: "14px",
   fontWeight: "400",
-  marginRight: theme.spacing(1),
   borderRadius: "6px",
   color: "rgba(0, 0, 0, 0.85)",
   minWidth:'180px',
+  minHeight:'42px',
   "&:hover": {
     opacity: 1,
   },
@@ -24,4 +25,7 @@ export const AntTab = styled(Tab)(({ theme }) => ({
     color: "#fff",
     backgroundColor: "rgb(0, 129, 241)",
   },
+  '.MuiButtonBase-root.MuiTab-root': {
+    height: '48px !important'
+  }
 }));

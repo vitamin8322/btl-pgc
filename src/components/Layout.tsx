@@ -1,8 +1,22 @@
 import Logo from "./../assets/image/logo.svg";
+import SelectMui from "./CustomComponents/SelectMui";
 import SiderBar from "./SiderBar/SiderBar";
 
 type Props = {};
 
+const data = [
+  {
+    id: "0",
+    name: "en",
+    code: "en",
+    
+  },
+  {
+    id: "1",
+    name: "vn",
+    code: "vn",
+  },
+];
 const Layout = (props: Props) => {
   return (
       <div className="flex bg-white items-center shadow-header fixed w-full top-0 right-0 z-20 justify-between h-16 px-6">
@@ -13,7 +27,9 @@ const Layout = (props: Props) => {
           </h2>
         </div>
         <div className="flex">
-          <div>1</div>
+          <div>
+            <SelectMui data={data} value={0} icon/>
+          </div>
           <div>2</div>
         </div>
       </div>

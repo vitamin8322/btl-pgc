@@ -7,7 +7,7 @@ import { changeEmployee } from "../../redux/slice/employeeSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 
-type PropsInputWithIcon = {
+type PropsTextFieldCustom = {
   label?: string;
   isRequired?: boolean;
   name?: string;
@@ -17,12 +17,16 @@ type PropsInputWithIcon = {
   isIcon?: boolean;
   length?: number;
   helpText?: string;
+  disabled?: boolean;
+  width?: number;
+  pls?: boolean;
 };
 
 const StyledFilledInput = styled(TextField)({
-  width: "308px",
+  width: "100%",
+  maxWidth: "308px",
   borderRadius: "6px",
-  backgroundColor: "rgb(241, 243, 245)",
+  // backgroundColor: rgb(241, 243, 245),
   "& .MuiFilledInput-input": {
     padding: "12px",
     paddingLeft: "0",
@@ -38,51 +42,82 @@ const StyledFilledInput = styled(TextField)({
   },
 });
 
-const InputWithIcon = (props: PropsInputWithIcon) => {
-  const { label, name, isRequired, type, isIcon, length } = props;
-  const [value, setValue] = useState("");
+const TextFieldCustom = (props: PropsTextFieldCustom) => {
+  const {
+    label,
+    value,
+    name,
+    isRequired,
+    onChange,
+    type = "text",
+    isIcon,
+    length,
+    disabled,
+    width = 175,
+    pls,
+  } = props;
+
+  // const [value, setValue] = useState<string | number>();
   const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
   const [touched, setTouched] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    setValue(inputValue);
-    // length ? setError(inputValue.length < length) : setError(false);
-    setError(inputValue.length < 3)
-    console.log(name, inputValue);
+    // setValue(inputValue);
+    if (type === "number") {
+      setError(parseInt(inputValue) < 0);
+    }
+    if (length) {
+      setError(inputValue.length > length);
+    }
     if (name) {
       dispatch(changeEmployee({ name1: name, value: inputValue }));
+    }
+    if (inputValue === "" && isRequired) {
+      setError(true);
+    }
+    if(onChange){
+      onChange(e)
     }
   };
   const handleBlur = () => {
     setTouched(true);
+    if ((value === "" || value === undefined) && isRequired) {
+      setError(true);
+    }
   };
+
+  
+
   return (
-    <div className="flex items-center">
-      <label htmlFor={label} className="font-normal min-w-211 flex">
+    <div className="flex items-center input__number input__custom">
+      <label htmlFor={label} className={`font-normal flex min-w-${width}`}>
         {label}
         {isRequired && (
           <span className="text-required font-normal text-lg">*</span>
         )}
       </label>
       <StyledFilledInput
-        type="number"
+        type={type}
         // disableUnderline={true}
         // onChange={onChange}
+        // className="bg-required"
         name={name}
         value={value}
         onChange={handleChange}
-        error={error} // Xác định trạng thái lỗi
+        disabled={disabled}
+        error={error}
         onBlur={handleBlur}
-        helperText={touched && (error && value !='' ? 'Value must have at least 5 characters' : value ? '' : 'Please input')}// Hiển thị thông báo lỗi
-        // startAdornment={
-        //   <InputAdornment position="start" sx={{ color: "blue" }}>
-        //     Rp
-        //   </InputAdornment>
-        // }
+        helperText={
+          (touched && value === "" && error) || (value === "" && error) || error
+            ? value === "" && !onChange
+              ? `Please input ${label}`
+              :onChange?'' : `Maximum length is ${length} characters`
+            : ""
+        }
         InputProps={{
-          startAdornment: (
+          startAdornment: isIcon && (
             <InputAdornment position="start" sx={{ color: "blue" }}>
               Rp
             </InputAdornment>
@@ -93,4 +128,4 @@ const InputWithIcon = (props: PropsInputWithIcon) => {
   );
 };
 
-export default InputWithIcon;
+export default memo(TextFieldCustom);

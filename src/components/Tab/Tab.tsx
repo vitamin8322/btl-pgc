@@ -18,12 +18,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import {
   changeEmployee,
+  checkContract,
+  checkEmployee,
   getBenefit,
   getGrade,
   getIdEmployee,
   resetEmployee,
 } from "../../redux/slice/employeeSlice";
 import TabOthers from "./TabOthers";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import TabSalary from "./TabSalary";
 import {
   mountDataContract,
@@ -35,6 +38,8 @@ import {
   removeAllDataDocument,
   removeAllDataFromDocument,
 } from "../../redux/slice/documentSlice";
+import "./CustomTab.scss";
+import BasicModal from "../CustomComponents/ModalCustom";
 
 function a11yProps(index: number) {
   return {
@@ -48,7 +53,8 @@ const BasicTabs = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { company } = useSelector((state: RootState) => state.auth);
   const { dataDocument } = useSelector((state: RootState) => state.document);
-  const { employee } = useSelector((state: RootState) => state.employee);
+  const { employee, checkValidationEmplyee, checkValidationContract } =
+    useSelector((state: RootState) => state.employee);
   const { dataFormContract, dataContract } = useSelector(
     (state: RootState) => state.contract
   );
@@ -65,7 +71,7 @@ const BasicTabs = () => {
       }
       dispatch(removeAllDataFromDocument());
       dispatch(removeAllDataFormConTract());
-      
+
       await dispatch(getGrade());
       await dispatch(getBenefit());
     };
@@ -77,56 +83,19 @@ const BasicTabs = () => {
       dispatch(mountDataDocument(employee.documents));
       dispatch(mountDataContract(employee.contracts));
     };
-    if(employee.benefits.length > 0){
-      const arrBenefits = employee.benefits.map((item) => item.id)
-      dispatch(changeEmployee({ name1: 'benefits',value: arrBenefits}));
+    if (employee.benefits.length > 0) {
+      const arrBenefits = employee.benefits.map((item) => item.id);
+      dispatch(changeEmployee({ name1: "benefits", value: arrBenefits }));
     }
 
-    // if (employee.documents.length > 0 ) {
     if (idEmployee !== undefined) {
       handleDataUpdate();
     }
     // }
-  }, [dispatch, employee.documents, employee.contracts]);
-  // console.log(dataContract);
-
-  // useEffect(() => {
-  //   dispatch(mountDataDocument(employee.documents));
-  //   dispatch(mountDataContract(employee.contracts));
-  // }, [employee]);
-
-  // console.log(dataDocument);
-
-  // console.log(employee);
+  }, [dispatch, employee?.documents, employee?.contracts]);
 
   //funx
   const [value, setValue] = useState(0);
-  const [formEmployee, setFormEmployee] = useState<IFormEmployee>({
-    nik: "",
-    name: "",
-    gender: "",
-    mother_name: "",
-    dob: "",
-    pob: "",
-    ktp_no: "",
-    nc_id: "",
-    home_address_1: "",
-    home_address_2: "",
-    mobile_no: "",
-    tel_no: "",
-    marriage_id: "",
-    card_number: "",
-    bank_account_no: "",
-    bank_name: "",
-    family_card_number: "",
-    safety_insurance_no: "",
-    health_insurance_no: "",
-  });
-  const [formContract, setFormContract] = useState<IFormContract>({
-    contract_start_date: "",
-    type: 0,
-    contract: [],
-  });
   const [formEmploymentDetail, setFormEmploymentDetail] =
     useState<IFormEmploymentDetail>({
       department_id: "",
@@ -145,7 +114,6 @@ const BasicTabs = () => {
       const { name } = e.target;
       let value: any;
       value = e.target.value;
-      setFormEmployee((prevValues) => ({ ...prevValues, [name]: value }));
       dispatch(changeEmployee({ name1: name, value }));
       // console.log(employee);
     },
@@ -156,7 +124,6 @@ const BasicTabs = () => {
       const { name } = e.target;
       let value: any;
       value = e.target.value;
-      setFormContract((prevValues) => ({ ...prevValues, [name]: value }));
       dispatch(changeEmployee({ name1: name, value }));
     },
     []
@@ -174,21 +141,29 @@ const BasicTabs = () => {
     },
     []
   );
-  const handleFormSalary = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
-      const { name } = e.target;
-      let value: any;
-      value = e.target.value;
-      setFormSalary((prevValues) => ({ ...prevValues, [name]: value }));
-      dispatch(changeEmployee({ name1: name, value }));
-    },
-    []
-  );
+
+  const [checkTab1, setCheckTab1] = useState();
+  const [checkTab2, setCheckTab2] = useState({ validation: false, count: 0 });
+
+  useEffect(() => {
+    dispatch(checkEmployee());
+    // dispatch(checkContract());
+  }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(newValue);
     setValue(newValue);
+    dispatch(checkEmployee());
+    if (checkTab2.count > 0) {
+      dispatch(checkContract());
+    }
+    if (newValue === 1) {
+      if (checkTab2.count > 0) {
+        dispatch(checkContract());
+      }
+      checkTab2.count++;
+    }
   };
-
   return (
     <Box sx={{ width: "100%", padding: "10px" }}>
       <Box sx={{}}>
@@ -196,10 +171,22 @@ const BasicTabs = () => {
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
-          className="border-none !border-b-0 mb-10"
+          className="border-none !border-b-0 mb-5"
         >
-          <AntTab label="Employee Information" {...a11yProps(0)} />
-          <AntTab label="Contract Information" {...a11yProps(1)} />
+          <AntTab
+            icon={checkValidationEmplyee ? <ErrorOutlineRoundedIcon /> : ""}
+            iconPosition={"end"}
+            label="Employee Information"
+            {...a11yProps(0)}
+            className={`${checkValidationEmplyee ? "errorTab" : ""}  `}
+          />
+          <AntTab
+            icon={checkValidationContract ? <ErrorOutlineRoundedIcon /> : ""}
+            iconPosition={"end"}
+            label="Contract Information"
+            className={`${checkValidationContract ? "errorTab" : ""}  `}
+            {...a11yProps(1)}
+          />
           <AntTab label="Employment Details" {...a11yProps(2)} />
           <AntTab label="Salary & Wagese" {...a11yProps(3)} />
           <AntTab label="Others" {...a11yProps(4)} />
@@ -207,14 +194,12 @@ const BasicTabs = () => {
       </Box>
       <TabPanel value={value} title="Personal Information" index={0}>
         <TabEmployee
-          formEmployee={formEmployee}
           handleFormEmployeeChange={handleFormEmployeeChange}
           employee={employee}
         />
       </TabPanel>
       <TabPanel value={value} title="Contract Information" index={1}>
         <TabContract
-          formContract={formContract}
           employee={employee}
           handleFormContractChange={handleFormContractChange}
         />
@@ -227,11 +212,7 @@ const BasicTabs = () => {
         />
       </TabPanel>
       <TabPanel value={value} title="Salary & Wages" index={3}>
-        <TabSalary
-          formSalary={formSalary}
-          employee={employee}
-          handleFormSalary={handleFormSalary}
-        />
+        <TabSalary formSalary={formSalary} employee={employee} />
       </TabPanel>
       <TabPanel value={value} title="Others" index={4}>
         <TabOthers employee={employee} />

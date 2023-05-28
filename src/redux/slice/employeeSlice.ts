@@ -21,7 +21,9 @@ interface EmployeeState {
   dataDelete: number[];
   dataGrade: IGrade[];
   dataBenefit: IBenefit[];
-  status: "idle" | "loading" | "succeeded1" |"succeeded" | "failed";
+  checkValidationEmplyee: boolean;
+  checkValidationContract: boolean;
+  status: "idle" | "loading" | "succeeded1" | "succeeded" | "failed";
   error: string | null;
 }
 
@@ -38,7 +40,7 @@ const initialState: EmployeeState = {
     department_id: null,
     company_id: null,
     manager_id: null,
-    marriage:[],
+    marriage: [],
     marriage_id: null,
     position_id: null,
     mother_name: "",
@@ -70,13 +72,13 @@ const initialState: EmployeeState = {
     grade_name: "",
     manager_name: "",
     contracts: [],
-    documents:[],
-    grade:[],
-    benefits:[],
+    documents: [],
+    grade: [],
+    benefits: [],
 
     //ádd
     name: "",
-    gender: '',
+    gender: "",
     dob: "",
     ktp_no: "",
     nc_id: "",
@@ -87,7 +89,6 @@ const initialState: EmployeeState = {
     health_insurance: 0,
     meal_allowance: 0,
     contract_start_date: "",
-
   },
   dataEmployee: {
     current_page: 0,
@@ -114,6 +115,8 @@ const initialState: EmployeeState = {
   dataDepartment: [],
   dataPosition: [],
   dataDelete: [],
+  checkValidationEmplyee: false,
+  checkValidationContract: false,
   status: "idle",
   error: null,
 };
@@ -227,6 +230,31 @@ const employeeSlice = createSlice({
     resetEmployee: (state) => {
       state.employee = initialState.employee;
     },
+    checkEmployee: (state) => {
+      if (
+        state.employee.name === "" ||
+        state.employee.gender === "" ||
+        state.employee.dob === "" ||
+        state.employee.dob === null ||
+        state.employee.ktp_no === "" ||
+        state.employee.nc_id === ""
+      ) {
+        state.checkValidationEmplyee = true;
+      } else {
+        state.checkValidationEmplyee = false;
+      }
+    },
+    checkContract: (state) => {
+      if (
+        state.employee.type === null ||
+        state.employee.contract_start_date === "" ||
+        state.employee.contract_start_date === null
+      ) {
+        state.checkValidationContract = true;
+      } else {
+        state.checkValidationContract = false;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -292,6 +320,12 @@ const employeeSlice = createSlice({
   },
 });
 
-export const { changeEmployee, dataDeletes, resetEmployee } = employeeSlice.actions;
+export const {
+  changeEmployee,
+  dataDeletes,
+  resetEmployee,
+  checkEmployee,
+  checkContract,
+} = employeeSlice.actions;
 
 export default employeeSlice.reducer;

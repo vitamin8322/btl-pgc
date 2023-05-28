@@ -26,6 +26,7 @@ import {
 } from "../../../redux/slice/contractSlice";
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
+import TextFieldCustom from "../../CustomComponents/TextFieldCustom";
 
 type Props = {};
 
@@ -119,13 +120,17 @@ const ContractUploadFile = (props: Props) => {
     setFormContract({ date: "", name: "" });
   };
 
-  const handleDeleteFileContract = (document: string, index:number,id: number ) => {
-    if(document==='') {
-      dispatch(removeDataContractById(id))
-      
-      dispatch(removeDataFormConTtract(index))
+  const handleDeleteFileContract = (
+    document: string,
+    index: number,
+    id: number
+  ) => {
+    if (document === "") {
+      dispatch(removeDataContractById(id));
+
+      dispatch(removeDataFormConTtract(index));
     }
-  }
+  };
 
   return (
     <div className="flex flex-col border-solid border-gray2 border rounded-md">
@@ -150,12 +155,24 @@ const ContractUploadFile = (props: Props) => {
             onChange={handleChangeDate}
             value={formContract.date}
           />
-          <InputCustom
+          {/* <TextFieldCustom
             name=""
-            size
             label="Contract Name"
             onChange={changeContractName}
+            isRequired={true}
             value={formContract.name}
+            width={128}
+            length={30}
+          /> */}
+          <TextFieldCustom
+            value={formContract.name}
+            name=""
+            isRequired={true}
+            onChange={changeContractName}
+            // onChange={handleFormEmployeeChange}
+            label="Name"
+            width={128}
+            length={50}
           />
           <div className="flex flex-wrap gap-2.5">
             <Button
@@ -279,7 +296,16 @@ const ContractUploadFile = (props: Props) => {
                                 </button>
                               )}
                             </span>
-                            <button onClick={() => handleDeleteFileContract(row.document, index, row.id)} className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3">
+                            <button
+                              onClick={() =>
+                                handleDeleteFileContract(
+                                  row.document,
+                                  index,
+                                  row.id
+                                )
+                              }
+                              className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3"
+                            >
                               <Delete fill="red" className="m-1" />
                               Delete
                             </button>

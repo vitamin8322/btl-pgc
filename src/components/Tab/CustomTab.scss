@@ -1,0 +1,11 @@
+.errorTab.MuiTab-root{
+    background-color: rgba(229, 72, 77, 0.08);
+    color: rgb(229, 72, 77) !important;
+    svg{
+        fill: #FFB7B9
+    }
+}
+.errorTab.Mui-selected{
+    color: rgb(255, 239, 239) !important;
+    background-color: rgb(229, 72, 77) !important;
+}

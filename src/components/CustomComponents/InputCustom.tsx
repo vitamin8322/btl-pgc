@@ -10,18 +10,19 @@ type PropsInput = {
   value?: string;
   size?:boolean;
   disabled?: boolean;
+  width?:number
 };
 
 
 const InputCustom = (props: PropsInput) => {
-  const { label, onChange, value, name, isRequired, size,disabled } = props;
-  
+  const { label, onChange, value, name, isRequired, size,disabled, width=175 } = props;
+
   // console.log(label, value);
-  
+  // ${size ?`min-w-128` : `min-w-175` 211}
   return (
     <>
-      <div className="flex items-center h-12">
-        <label htmlFor={label} className={`font-normal ${size ?`min-w-128` : `min-w-175`} flex`}>
+      <div className="flex items-center h-12 ">
+        <label htmlFor={label} className={`font-normal min-w-${width} flex`}>
           {label}
           {isRequired && (
             <span className="text-required font-normal text-lg">*</span>

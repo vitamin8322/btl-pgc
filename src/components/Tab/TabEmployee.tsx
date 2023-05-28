@@ -9,9 +9,9 @@ import { getCompany } from "../../redux/slice/authSlice";
 import { SelectChangeEvent } from "@mui/material/Select";
 import { addEmployee, getMarriage } from "../../redux/slice/employeeSlice";
 import DatePickerCustom from "../CustomComponents/DatePickerCustom";
+import TextFieldCustom from "../CustomComponents/TextFieldCustom";
 
 type PropsTabEmployee = {
-  formEmployee: IFormEmployee;
   employee: Employee;
   handleFormEmployeeChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
@@ -22,15 +22,13 @@ const TabEmployee = (props: PropsTabEmployee) => {
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { company } = useSelector((state: RootState) => state.auth);
-  const { dataMarriage} = useSelector(
-    (state: RootState) => state.employee
-  );
+  const { dataMarriage } = useSelector((state: RootState) => state.employee);
 
   //funs
-  const { formEmployee, handleFormEmployeeChange, employee  } = props;
+  const {  handleFormEmployeeChange, employee } = props;
   const { idEmployee } = useParams();
-    // console.log(employee);
-    
+  // console.log(employee);
+
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getCompany());
@@ -56,10 +54,10 @@ const TabEmployee = (props: PropsTabEmployee) => {
       <div className="flex flex-col gap-2.5 px-2.5">
         {idEmployee ? (
           <>
-            <InputCustom
+            <TextFieldCustom
               value={employee.staff_id}
               name="staff_id"
-              onChange={handleFormEmployeeChange}
+              // onChange={handleFormEmployeeChange}
               label="NIK"
               disabled
             />
@@ -67,28 +65,30 @@ const TabEmployee = (props: PropsTabEmployee) => {
         ) : (
           <></>
         )}
-        <InputCustom
+        <TextFieldCustom
           value={employee.name}
           name="name"
           isRequired={true}
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Name"
-        />
+          length={50}
+          />
         <SelectMui
           data={dateGender}
           label="Gender"
           placeholder="Choose Gender"
           isRequired={true}
           value={employee.gender}
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           // isNa
           name="gender"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.mother_name}
           name="mother_name"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Mother Name"
+          length={50}
         />
         <DatePickerCustom
           isRequired={true}
@@ -96,103 +96,119 @@ const TabEmployee = (props: PropsTabEmployee) => {
           name="dob"
           value={employee.dob}
         />
-        <InputCustom
-          value={formEmployee.pob}
+        <TextFieldCustom
+          value={employee.pob}
           name="pob"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Place of birth"
+          length={50}
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.ktp_no}
           name="ktp_no"
           isRequired={true}
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="KTP No."
+          length={20}
+          type="number"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.nc_id}
           name="nc_id"
           isRequired={true}
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
+
           label="National Card ID"
+          length={20}
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.home_address_1}
           name="home_address_1"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Home Address 1"
+          length={100}
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.home_address_2 ?? ""}
           name="home_address_2"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Home Address 2"
+          length={100}
         />
       </div>
       <div className="flex flex-col gap-2.5 px-2.5">
-        <InputCustom
+        <TextFieldCustom
           value={employee.mobile_no ?? ""}
           name="mobile_no"
           onChange={handleFormEmployeeChange}
           label="Mobile No."
+          length={20}
+          type="number"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.tel_no}
           name="tel_no"
           onChange={handleFormEmployeeChange}
           label="Tel No."
+          length={20}
+          type="number"
         />
-        {/* <InputCustom
-        value={formEmployee.marriageStatus}
-        name="marriageStatus"
-        onChange={handleFormEmployeeChange}
-        label="Marriage Status"
-      /> */}
         <SelectMui
           data={dataMarriage}
           label="Marriage Status"
           placeholder="Choose Marriage Status"
           // isRe quired={true}
-          value={employee.marriage_id ?? ''}
-          onChange={handleFormEmployeeChange}
+          value={employee.marriage_id ?? ""}
+          // onChange={handleFormEmployeeChange}
           isNa
           name="marriage_id"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.card_number ?? ""}
           name="card_number"
           onChange={handleFormEmployeeChange}
           label="Bank Card No."
+          length={30}
+          type="number"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.bank_account_no}
           name="bank_account_no"
           onChange={handleFormEmployeeChange}
           label="Bank Account No."
+          length={30}
+          type="number"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.bank_name}
           name="bank_name"
           onChange={handleFormEmployeeChange}
           label="Bank Name"
+          length={100}
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.family_card_number}
           name="family_card_number"
           onChange={handleFormEmployeeChange}
           label="Family Card Number"
+          length={30}
+          type="number"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.safety_insurance_no}
           name="safety_insurance_no"
           onChange={handleFormEmployeeChange}
           label="Safety Insurance No."
+          length={30}
+          type="number"
         />
-        <InputCustom
+        <TextFieldCustom
           value={employee.health_insurance_no}
           name="health_insurance_no"
           onChange={handleFormEmployeeChange}
           label="Health Insurance No."
+          length={30}
+          type="number"
         />
       </div>
     </div>

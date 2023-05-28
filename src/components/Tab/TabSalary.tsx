@@ -12,55 +12,63 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styled } from "@mui/material/styles";
-import InputWithIcon from "../CustomComponents/InputWithIcon";
+import TextFieldCustom from "../CustomComponents/TextFieldCustom";
 import { Employee, IFormSalary } from "../../models/Employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 type PropsSalary = {
   formSalary: IFormSalary;
-  handleFormSalary?: (
-    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
-  ) => void;
+  
   employee:Employee
 };
 
 const TabSalary = (props: PropsSalary) => {
-  const { formSalary, handleFormSalary, employee } = props;
+  const { formSalary,  employee } = props;
   return (
     <div className="flex flex-col gap-1 pb-5 px-5">
-      <InputWithIcon
+      <TextFieldCustom
         label="Basic Salary"
         isRequired
         value={employee.basic_salary}
-        onChange={handleFormSalary}
+        isIcon
+        type='number'
+        width={211}
         name="basic_salary"
       />
-      <InputWithIcon
+      <TextFieldCustom
         label="Basic Salary (Audit)"
         isRequired
         value={employee.audit_salary}
-        onChange={handleFormSalary}
+        isIcon
+        type='number'
+        width={211}
         name="audit_salary"
       />
-      <InputWithIcon
+      <TextFieldCustom
         label="Safety Insurance Amount"
         isRequired
         value={employee.safety_insurance}
-        onChange={handleFormSalary}
+        isIcon
+        type='number'
+        width={211}
         name="safety_insurance"
       />
-      <InputWithIcon
+      <TextFieldCustom
         label="Healthy Insurance Amount"
         isRequired
         value={employee.health_insurance}
-        onChange={handleFormSalary}
+        isIcon
+        type='number'
+        width={211}
         name="health_insurance"
       />
-      <InputWithIcon
+      <TextFieldCustom
         label="Meal Allowance"
         isRequired
         value={employee.meal_allowance}
-        onChange={handleFormSalary}
+        isIcon
+        type='number'
+        width={211}
         name="meal_allowance"
       />
     </div>

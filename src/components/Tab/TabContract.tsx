@@ -10,7 +10,6 @@ import ContractUploadFile from "./ComponentsTab/ContractUploadFile";
 import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 
 type PropsTabContract = {
-  formContract: IFormContract;
   handleFormContractChange?: (
     event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
   ) => void;
@@ -22,7 +21,7 @@ const TabContract = (props: PropsTabContract) => {
   const dispatch = useDispatch<AppDispatch>();
   const { dataDepartment } = useSelector((state: RootState) => state.employee);
 
-  const { formContract, handleFormContractChange, employee } = props;
+  const {  handleFormContractChange, employee } = props;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +74,7 @@ const TabContract = (props: PropsTabContract) => {
           placeholder="Choose Type"
           isRequired={true}
           value={employee.type ?? ""}
-          onChange={handleFormContractChange}
+          // onChange={handleFormContractChange}
           name="type"
         />
         <ContractUploadFile />

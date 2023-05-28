@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .min-w-211 {
+    min-width: 211px;
+  }
+}
+
 .App {
   text-align: center;
 }
