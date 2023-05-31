@@ -73,7 +73,7 @@ const initialState: EmployeeState = {
     manager_name: "",
     contracts: [],
     documents: [],
-    grade: [],
+    grade: null,
     benefits: [],
 
     //ádd
@@ -202,7 +202,6 @@ export const editEmployee = createAsyncThunk(
 export const deleteEmployee = createAsyncThunk(
   "employee/delete",
   async (dataDelete: number[]) => {
-    console.log(dataDelete);
     const body = {
       record_ids: dataDelete,
     };

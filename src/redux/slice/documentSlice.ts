@@ -25,6 +25,7 @@ const initialState: Document = {
   dataFormDocument: {
     employee_id: "",
     documents: [],
+    deleted_ids: []
   },
 };
 
@@ -34,8 +35,12 @@ export const addDataDocument = createAsyncThunk(
     async ( { id, formData }: { id?: string; formData: IDocumentFormData }, { getState }) => {
       const formdata = new FormData();
       formdata.append("employee_id", id || '');
-      formData.documents.forEach((doc) =>
+      formData.documents && formData.documents.forEach((doc) =>
         formdata.append("documents[]", doc, doc.name)
+      );
+      console.log("📢[documentSlice.ts:42]: formData: ", formData);
+      formData.deleted_ids && formData.deleted_ids.forEach((id) =>
+        formdata.append("deleted_ids[]", String(id))
       );
       await fetchApi(
         "/api/employee-document/upload",
@@ -52,14 +57,11 @@ export const addDataDocument = createAsyncThunk(
     name: "document",
     initialState,
     reducers: {
-      addDataToDocument: (state, action: PayloadAction<IDocumentFormData>) => {
-        const { employee_id, documents } = action.payload;
+      addordelDataToDocument: (state, action: PayloadAction<IDocumentFormData>) => {
+        const { employee_id, documents, deleted_ids } = action.payload;
         state.dataFormDocument.employee_id = employee_id;
-        state.dataFormDocument.documents.push(...documents);
-      },
-      removeDataFormDocument: (state, action: PayloadAction<number>) => {
-        const id = action.payload;
-        state.dataFormDocument.documents.splice(id, 1);
+        state.dataFormDocument.documents && documents && state.dataFormDocument.documents.push(...documents);
+        state.dataFormDocument.deleted_ids && deleted_ids && state.dataFormDocument.deleted_ids.push(...deleted_ids);
       },
       removeDataDocumentById: (state, action: PayloadAction<number>) => {
         const idToRemove = action.payload;
@@ -83,9 +85,8 @@ export const addDataDocument = createAsyncThunk(
   });
   
   export const {
-    addDataToDocument,
+    addordelDataToDocument,
     addDataTableDocument,
-    removeDataFormDocument,
     mountDataDocument,
     removeDataDocumentById,
     removeAllDataDocument,

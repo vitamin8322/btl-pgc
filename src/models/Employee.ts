@@ -50,7 +50,7 @@ export interface Employee {
   manager_name: string | null;
   documents: IDocument[];
   contracts: IContract[];
-  grade: IGrade[];
+  grade: IGrade | null;
   benefits: IBenefit[];
 }
 
@@ -175,7 +175,6 @@ export interface IGrade {
   benefits: IBenefit[];
 }
 
-
 export interface IContractFormData {
   employee_id: string;
   names: string[];
@@ -186,7 +185,8 @@ export interface IContractFormData {
 
 export interface IDocumentFormData{
   employee_id: string | null;
-  documents: File[];
+  documents?: File[];
+  deleted_ids?: number[]
 }
 
 export interface  IDocument {

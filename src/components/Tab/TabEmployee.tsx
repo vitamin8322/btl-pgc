@@ -26,14 +26,14 @@ const TabEmployee = (props: PropsTabEmployee) => {
   const { idEmployee } = useParams();
   // console.log(employee);
   
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getCompany());
-      await dispatch(getMarriage());
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await dispatch(getCompany());
+  //     await dispatch(getMarriage());
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const dateGender = [
     {

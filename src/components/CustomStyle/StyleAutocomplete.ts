@@ -1,13 +1,10 @@
 export const autocompleteStyles = {
     width: "308px",
     maxHeight: "300px",
-    // margin: "10px 0",
     backgroundColor: "rgb(241, 243, 245)",
     borderRadius: "8px",
     fontSize: "0.8125rem",
-    // height:'48px',
     marginBottom:'4px',
-    // marginTop:'0',
     "& .MuiAutocomplete-inputRoot": {
       padding: "8px",
       "& input": {

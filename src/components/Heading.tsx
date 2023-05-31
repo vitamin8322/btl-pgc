@@ -5,7 +5,7 @@ import {
   InputLabel,
   OutlinedInput,
 } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../redux/store";
@@ -45,9 +45,10 @@ const Heading = (props: PropsHeading) => {
   const { dataFormDocument } = useSelector(
     (state: RootState) => state.document
   );
-  const handleChangeQuery = (e: ChangeEvent<HTMLInputElement>) => {
+
+  const handleChangeQuery = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
-  };
+  }, []);
 
   useEffect(() => {
     if (debouncedValue && !debouncedValue.trim()) {
@@ -63,20 +64,22 @@ const Heading = (props: PropsHeading) => {
 
   useEffect(() => {
     if (status === "succeededAdd") {
-      // console.log(dataFormContract);
-      // console.log(dataFormDocument);
       if (employee?.id !== 0 && dataFormContract.documents.length > 0) {
         dispatch(
           addDataContract({ id: String(id), formData: dataFormContract })
         );
       }
-      if (employee?.id !== 0 && dataFormDocument.documents.length > 0) {
+      if (
+        employee?.id !== 0 &&
+        dataFormDocument.documents &&
+        dataFormDocument.documents.length > 0
+      ) {
         dispatch(
           addDataDocument({ id: String(id), formData: dataFormDocument })
         );
       }
     }
-  }, [status, employee, dataFormContract,dataFormDocument ]);
+  }, [status, employee, dataFormContract, dataFormDocument]);
 
   const hanldeAdd = async () => {
     await dispatch(addEmployee());
@@ -93,7 +96,9 @@ const Heading = (props: PropsHeading) => {
     }
     if (
       dataFormDocument.employee_id !== "" &&
-      dataFormDocument.documents.length > 0
+      ((dataFormDocument.documents && dataFormDocument.documents.length > 0) ||
+        (dataFormDocument.deleted_ids &&
+          dataFormDocument.deleted_ids.length > 0))
     ) {
       dispatch(addDataDocument({ id: String(id), formData: dataFormDocument }));
     }
@@ -101,9 +106,6 @@ const Heading = (props: PropsHeading) => {
     await navigate(`/employee`);
     NotistackCustom("success", "Change saved", closeSnackbar);
   };
-
-  console.log(status);
-  
 
   const rightHeading = () => {
     if (crumbs.length == 2) {
@@ -149,10 +151,7 @@ const Heading = (props: PropsHeading) => {
           </>
         ) : (
           <>
-            <Button
-              disabled
-              className="!bg-loading !px-6 !py-2 !h-12 !rounded"
-            >
+            <Button disabled className="!bg-loading !px-6 !py-2 !h-12 !rounded">
               <CircularProgress size={16} className="!text-iconLoading" />
             </Button>
           </>
@@ -176,10 +175,7 @@ const Heading = (props: PropsHeading) => {
           Save Change
         </Button>
       ) : (
-        <Button
-          disabled
-          className="!bg-loading !px-6 !py-2 !h-12 !rounded"
-        >
+        <Button disabled className="!bg-loading !px-6 !py-2 !h-12 !rounded">
           <CircularProgress size={16} className="!text-iconLoading" />
         </Button>
       );

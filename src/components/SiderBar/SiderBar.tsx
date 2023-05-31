@@ -36,7 +36,7 @@ const SiderBar = (props: Props) => {
       [id]: !prevState[id],
     }));
   };
-
+  
   return (
     <SimpleBar
       // autoHide={false}

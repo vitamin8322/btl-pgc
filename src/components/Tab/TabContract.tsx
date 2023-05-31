@@ -20,13 +20,13 @@ const TabContract = (props: PropsTabContract) => {
 
   const {   employee } = props;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getDepartment());
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await dispatch(getDepartment());
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const data = [
     {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ICompany, ILoginFormFields } from "../models/Auth";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -32,7 +32,6 @@ const LoginFrom = (props: Props) => {
 
   // func
   const [showPassword, setShowPassword] = useState<Boolean>(false);
-  const [apiCallCount, setApiCallCount] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getCompany());
@@ -58,21 +57,31 @@ const LoginFrom = (props: Props) => {
   const watchPassword = watch("password", "text");
   const watchFactory = watch("factory");
 
-  const onSubmitLogin = async (formData: ILoginFormFields) => {
-    try {
-      await dispatch(
-        loginAuth({
-          name: formData.name,
-          password: formData.password,
-          factory: 1,
-        })
-      );
-      setApiCallCount((prevCount) => prevCount + 1);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
+  const onSubmitLogin = useCallback(
+    async (formData: ILoginFormFields) => {
+      try {
+        await dispatch(
+          loginAuth({
+            name: formData.name,
+            password: formData.password,
+            factory: 1,
+          })
+        );
+      } catch (error) {
+        console.log("error", error);
+      }
+    },
+    [dispatch]
+  );
 
+
+  const companyOptions = useMemo(() => {
+    return company.map((item: ICompany) => (
+      <MenuItem value={item.id} key={item.id}>
+        {item.name}
+      </MenuItem>
+    ));
+  }, [company]);
 
   useEffect(() => {
     if (login.message != "Success" && status == "succeeded") {
@@ -162,11 +171,7 @@ const LoginFrom = (props: Props) => {
               <InputLabel shrink={false} className="!hidden">
                 Select Factory
               </InputLabel>
-              {company.map((item: ICompany) => (
-                <MenuItem value={item.id} key={item.id}>
-                  {item.name}
-                </MenuItem>
-              ))}
+              {companyOptions}
             </Select>
             {errors.factory && watchFactory == null && (
               <div className="error !mt-1">{errors.factory.message}</div>

@@ -35,9 +35,9 @@ export const RoutesPath = (props: Props) => {
             </Route>
           </Route>
 
-          {/* <Route element={<HomeRoute />}>
+          <Route element={<HomeRoute />}>
             <Route path={ROUTES.login} element={<Login />} />
-          </Route> */}
+          </Route>
           <Route path={ROUTES.login} element={<Login />} />
         </Routes>
       </Router>

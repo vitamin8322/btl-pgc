@@ -23,12 +23,12 @@
   @apply block font-medium float-left  p-1;
 }
 
-.select{
-  @apply bg-input border-none rounded-lg focus:outline-none appearance-none
+.select {
+  @apply bg-input border-none rounded-lg focus:outline-none appearance-none;
 }
 
-.error{
-  @apply text-required w-450 text-xs font-normal float-right mt-08
+.error {
+  @apply text-required w-450 text-xs font-normal float-right mt-08;
 }
 /* 
 .simplebar-content{
@@ -52,11 +52,39 @@
   border: 1px solid white !important;
 } */
 
-.css-gdh49b-MuiAutocomplete-listbox .MuiAutocomplete-option[aria-selected="true"]{
+.css-gdh49b-MuiAutocomplete-listbox
+  .MuiAutocomplete-option[aria-selected="true"] {
   background-color: rgb(233, 249, 238) !important;
   color: rgb(48, 164, 108) !important;
 }
 
-.css-1mmoate-MuiFormControl-root-MuiTextField-root{
-  margin-top:0 !important
+.css-1mmoate-MuiFormControl-root-MuiTextField-root {
+  margin-top: 0 !important;
+}
+
+.table__custom::-webkit-scrollbar {
+  background-color: rgba(0, 0, 0, 0);
+  width: 12px;
+  height: 12px;
+  z-index: 999999;
+}
+.table__custom::-webkit-scrollbar-button {
+  display: none;
+}
+.table__custom::-webkit-scrollbar-thumb {
+  background-color: rgb(215, 219, 223);
+  border-radius: 32px;
+  border: 2px solid rgb(241, 243, 245);
+}
+.table__custom::-webkit-scrollbar-track {
+  background-color: rgb(241, 243, 245);
+  border-radius: 32px;
+}
+
+tr th:first-child{
+  border-top-left-radius: 8px
+}
+
+tr th:last-child{
+  border-top-right-radius: 8px;
 }

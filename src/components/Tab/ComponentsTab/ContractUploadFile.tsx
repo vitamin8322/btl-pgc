@@ -79,6 +79,9 @@ const ContractUploadFile = (props: Props) => {
     const selectedFile = e.target.files && e.target.files[0];
     setFile(selectedFile || null);
   };
+  const handleClearFile = () => {
+    setFile(null)
+  }
   const changeContractName = (e: ChangeEvent<HTMLInputElement>) => {
     setFormContract((prevValues) => ({ ...prevValues, name: e.target.value }));
   };
@@ -131,6 +134,7 @@ const ContractUploadFile = (props: Props) => {
       dispatch(removeDataFormConTtract(index));
     }
   };
+
 
   return (
     <div className="flex flex-col border-solid border-gray2 border rounded-md">
@@ -212,7 +216,7 @@ const ContractUploadFile = (props: Props) => {
           {file && (
             <div className="flex min-w-175 justify-between items-center max-w py-1 px-3 bg-gray2">
               <p>{file.name}</p>
-              <button>
+              <button onClick={handleClearFile}>
                 <Clear />
               </button>
             </div>
@@ -231,7 +235,7 @@ const ContractUploadFile = (props: Props) => {
           }}
         />
         <div className="w-62">
-          <TableContainer className="w-full h-225 ">
+          <TableContainer className="w-full h-225 table__custom">
             <Table stickyHeader size="small" aria-label="sticky table">
               <TableHead sx={{ height: "30px" }}>
                 <TableRow>

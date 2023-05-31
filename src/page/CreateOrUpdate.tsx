@@ -13,26 +13,9 @@ import { mountDataContract } from '../redux/slice/contractSlice';
 type Props = {}
 
 const CreateOrUpdate = (props: Props) => {
-  const { idEmployee } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
-  const { employee } = useSelector((state: RootState) => state.employee);
-  
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (idEmployee) {
-  //       await dispatch(getIdEmployee(Number(idEmployee)));
-  //       await dispatch(mountDataDocument(employee.documents));
-  //       await dispatch(mountDataContract(employee.contracts));
-  //     } else {
-  //       await dispatch(resetEmployee());
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
   
   return (
     <div>
-      {/* {idEmployee ? <>Edit</> : <>Add</>}  */}
       <Tab />
     </div>
   )

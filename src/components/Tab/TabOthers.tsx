@@ -17,7 +17,6 @@ import SelectMui from "../CustomComponents/SelectMui";
 import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
 import DocumentUpload from "./ComponentsTab/DocumentUpload";
 
-
 const CustomTag = styled("div")(({}) => ({
   display: "inline-flex",
   alignItems: "center",
@@ -79,7 +78,10 @@ const TagOthers = (props: PropsTagOther) => {
   );
   // console.log(selectedGradeIndex);
 
-  const handleOptionChange = (event: React.SyntheticEvent, newValue: IBenefit[] | null) => {
+  const handleOptionChange = (
+    event: React.SyntheticEvent,
+    newValue: IBenefit[] | null
+  ) => {
     setSelectedOption(newValue ?? undefined);
     if (newValue) {
       const idArray = newValue.map((item) => item.id);
@@ -98,13 +100,6 @@ const TagOthers = (props: PropsTagOther) => {
     []
   );
 
-  // useEffect(() => {
-  //   const idArray = employee.grade.map((item) => item.id);
-
-  //   defaultValue = dataBenefit.filter((item) =>  employee.benefits.map((item) => item.id).includes(item.id));
-  // }, [])
-  console.log(employee.benefits);
-  
   return (
     <div className="flex gap-1 flex-col">
       <div className="flex items-center h-auto">
@@ -142,8 +137,14 @@ const TagOthers = (props: PropsTagOther) => {
       <div className="flex items-center h-auto">
         <div className="font-normal min-w-175 flex"></div>
         <div className="flex w-308 flex-wrap text-sm">
-          {selectedGradeIndex > -1 &&
+          {/* {selectedGradeIndex > -1 &&
             dataGrade[selectedGradeIndex].benefits.map((benefits, id) => (
+              <div className="text-gray mx-1 bg-gray3 px-2 rounded-md mb-1 h-6 flex items-center">
+                {benefits.name}
+              </div>
+            ))} */}
+          {employee.grade?.benefits &&
+            employee.grade?.benefits.map((benefits, id) => (
               <div className="text-gray mx-1 bg-gray3 px-2 rounded-md mb-1 h-6 flex items-center">
                 {benefits.name}
               </div>
@@ -161,8 +162,9 @@ const TagOthers = (props: PropsTagOther) => {
           onChange={handleOptionChange}
           disableCloseOnSelect
           sx={autocompleteStyles}
-          defaultValue={dataBenefit.filter((item) => employee.benefits.includes(item.id as any))}
-
+          defaultValue={dataBenefit.filter((item) =>
+            employee.benefits.includes(item.id as any)
+          )}
           clearIcon={<Clear />}
           // renderTags={(value, getTagProps) => {
           //   return (
@@ -172,7 +174,7 @@ const TagOthers = (props: PropsTagOther) => {
           //         {option.name}
           //         <AccessibilityNewIcon onClick={() => handleDelete(option)} />
           //       </CustomTag>
-          //     ))
+          //     )) 
           //   );
           // }}
           renderInput={(params) => (

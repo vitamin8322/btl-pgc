@@ -128,9 +128,6 @@ const TableEmpoyee = ({}) => {
     }
   };
 
-  console.log('dataEmployee', dataEmployee);
-  
-
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = dataEmployee.data.map((n) => n.id);
@@ -141,9 +138,6 @@ const TableEmpoyee = ({}) => {
     setSelected([]);
     dispatch(dataDeletes([]));
   };
-
-  // console.log('selected', selected);
-  //custom tablecell
 
   const TableCellCustom = styled(TableCell)(({}) => ({
     // backgroundColor: "rgb(248, 249, 250)",
@@ -190,13 +184,12 @@ const TableEmpoyee = ({}) => {
         }}
       />
       <div className="relative">
-        <TableContainer className="w-full max-w-1170  h-525 ">
+        <TableContainer className="w-full max-w-1170  h-525 table__custom">
           <Table stickyHeader size="small" aria-label="sticky table">
             <TableHead sx={{ height: "30px" }}>
               <TableRow>
                 <TableCell
                   sx={{
-                    borderTopLeftRadius: "8px",
                     backgroundColor: "rgb(236, 238, 240) !important",
                     height: "31px",
                     border: "1px solid white",
@@ -241,9 +234,6 @@ const TableEmpoyee = ({}) => {
                       border: "1px solid white",
                       fontWeight: "600",
                       fontSize: "13px",
-                      ...(index === columns.length - 1 && {
-                        borderTopRightRadius: "8px",
-                      }),
                     }}
                     key={index}
                     style={{ minWidth: `${column.width}px` }}

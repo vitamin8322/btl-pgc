@@ -24,6 +24,7 @@ import {
   getDepartment,
   getGrade,
   getIdEmployee,
+  getMarriage,
   getPosition,
   resetEmployee,
 } from "../../redux/slice/employeeSlice";
@@ -42,6 +43,7 @@ import {
 } from "../../redux/slice/documentSlice";
 import "./CustomTab.scss";
 import BasicModal from "../CustomComponents/DialogsCustom";
+import { getCompany } from "../../redux/slice/authSlice";
 
 function a11yProps(index: number) {
   return {
@@ -78,9 +80,11 @@ const BasicTabs = () => {
       await dispatch(getBenefit());
       await dispatch(getDepartment());
       await dispatch(getPosition());
+      await dispatch(getCompany());
+      await dispatch(getMarriage());
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const handleDataUpdate = () => {
@@ -91,11 +95,9 @@ const BasicTabs = () => {
       const arrBenefits = employee.benefits.map((item: IBenefit) => item?.id);
       dispatch(changeEmployee({ name1: "benefits", value: arrBenefits }));
     }
-
     if (idEmployee !== undefined) {
       handleDataUpdate();
     }
-    // }
   }, [dispatch, employee?.documents, employee?.contracts]);
 
   //funx
@@ -106,22 +108,28 @@ const BasicTabs = () => {
     if (!idEmployee) {
       dispatch(checkEmployee());
     }
-    // dispatch(checkContract());
   }, []);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    dispatch(checkEmployee());
-    if (checkTab2.count > 0) {
-      dispatch(checkContract());
-    }
-    if (newValue === 1) {
+  const handleChange = useCallback(
+    (e: React.SyntheticEvent, newValue: number) => {
+      setValue(newValue);
+      dispatch(checkEmployee());
       if (checkTab2.count > 0) {
         dispatch(checkContract());
       }
-      checkTab2.count++;
-    }
-  };
+      if (newValue === 1) {
+        if (checkTab2.count > 0) {
+          dispatch(checkContract());
+        }
+        setCheckTab2((prevState) => ({
+          ...prevState,
+          count: prevState.count + 1,
+        }));
+      }
+    },
+    [dispatch, checkTab2.count]
+  );
+
   return (
     <Box sx={{ width: "100%", padding: "10px" }}>
       <Box sx={{}}>
@@ -151,22 +159,16 @@ const BasicTabs = () => {
         </AntTabs>
       </Box>
       <TabPanel value={value} title="Personal Information" index={0}>
-        <TabEmployee
-          employee={employee}
-        />
+        <TabEmployee employee={employee} />
       </TabPanel>
       <TabPanel value={value} title="Contract Information" index={1}>
-        <TabContract
-          employee={employee}
-        />
+        <TabContract employee={employee} />
       </TabPanel>
       <TabPanel value={value} title="Employment Details" index={2}>
-        <TabEmployment
-          employee={employee}
-        />
+        <TabEmployment employee={employee} />
       </TabPanel>
       <TabPanel value={value} title="Salary & Wages" index={3}>
-        <TabSalary  employee={employee} />
+        <TabSalary employee={employee} />
       </TabPanel>
       <TabPanel value={value} title="Others" index={4}>
         <TabOthers employee={employee} />
