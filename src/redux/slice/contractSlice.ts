@@ -64,8 +64,6 @@ const contractSlice = createSlice({
         state.dataFormContract.employee_id = employee_id;
       }
       if (names[0] != "") {
-        console.log(names);
-
         state.dataFormContract.names.push(...names);
         state.dataFormContract.contract_dates.push(...contract_dates);
         state.dataFormContract.documents.push(...documents);

@@ -10,10 +10,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
 type PropsTabEmployment = {
-  formEmploymentDetail: IFormEmploymentDetail;
-  handleFormEmploymentDetailChange?: (
-    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
-  ) => void;
   employee: Employee;
 };
 
@@ -25,7 +21,7 @@ const TabEmployment = (props: PropsTabEmployment) => {
   );
 
   //funs
-  const { formEmploymentDetail, handleFormEmploymentDetailChange, employee } =
+  const {   employee } =
     props;
 
   return (
@@ -36,7 +32,6 @@ const TabEmployment = (props: PropsTabEmployment) => {
           label="Department"
           placeholder="Choose Department"
           value={employee.department_id ?? ""}
-          onChange={handleFormEmploymentDetailChange}
           isNa
           name="department_id"
         />
@@ -45,7 +40,6 @@ const TabEmployment = (props: PropsTabEmployment) => {
           label="Position"
           placeholder="Choose Position"
           value={employee.position_id ?? ""}
-          onChange={handleFormEmploymentDetailChange}
           isNa
           name="position_id"
         />

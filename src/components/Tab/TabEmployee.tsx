@@ -13,9 +13,6 @@ import TextFieldCustom from "../CustomComponents/TextFieldCustom";
 
 type PropsTabEmployee = {
   employee: Employee;
-  handleFormEmployeeChange?: (
-    event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
-  ) => void;
 };
 
 const TabEmployee = (props: PropsTabEmployee) => {
@@ -25,7 +22,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
   const { dataMarriage } = useSelector((state: RootState) => state.employee);
 
   //funs
-  const {  handleFormEmployeeChange, employee } = props;
+  const { employee } = props;
   const { idEmployee } = useParams();
   // console.log(employee);
   
@@ -131,7 +128,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.mobile_no ?? ""}
           name="mobile_no"
-          // onChange={handleFormEmployeeChange}
           label="Mobile No."
           length={20}
           type="number"
@@ -139,7 +135,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.tel_no}
           name="tel_no"
-          // onChange={handleFormEmployeeChange}
           label="Tel No."
           length={20}
           type="number"
@@ -150,14 +145,12 @@ const TabEmployee = (props: PropsTabEmployee) => {
           placeholder="Choose Marriage Status"
           // isRe quired={true}
           value={employee.marriage_id ?? ""}
-          // onChange={handleFormEmployeeChange}
           isNa
           name="marriage_id"
         />
         <TextFieldCustom
           value={employee.card_number ?? ""}
           name="card_number"
-          // onChange={handleFormEmployeeChange}
           label="Bank Card No."
           length={30}
           type="number"
@@ -165,7 +158,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.bank_account_no}
           name="bank_account_no"
-          onChange={handleFormEmployeeChange}
           label="Bank Account No."
           length={30}
           type="number"
@@ -173,14 +165,12 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.bank_name}
           name="bank_name"
-          onChange={handleFormEmployeeChange}
           label="Bank Name"
           length={100}
         />
         <TextFieldCustom
           value={employee.family_card_number}
           name="family_card_number"
-          onChange={handleFormEmployeeChange}
           label="Family Card Number"
           length={30}
           type="number"
@@ -188,7 +178,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.safety_insurance_no}
           name="safety_insurance_no"
-          onChange={handleFormEmployeeChange}
           label="Safety Insurance No."
           length={30}
           type="number"
@@ -196,7 +185,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.health_insurance_no}
           name="health_insurance_no"
-          onChange={handleFormEmployeeChange}
           label="Health Insurance No."
           length={30}
           type="number"

@@ -85,15 +85,13 @@ const DocumentUpload = (props: Props) => {
 
   const handleDeleteFileDocument = (document: string, index:number,id: number ) => {
     if(document==='') {
-      console.log(123);
-      
       dispatch(removeDataDocumentById(id))
       dispatch(removeDataFormDocument(index))
     }
   }
 
   return (
-    <div className="flex flex-col border-solid  border-gray2 border rounded-md">
+    <div className="flex flex-col border-solid border-gray2 border rounded-md">
       <div className="max-w-400 flex justify-between items-center  h-16 pl-5">
         <div>Document</div>
         <Button

@@ -18,7 +18,6 @@ import Attendance from "./page/Attendance";
 interface Props {}
 
 export const RoutesPath = (props: Props) => {
-  console.log(123123213);
   
   return (
     <Suspense fallback={<div>Loading.....</div>}>

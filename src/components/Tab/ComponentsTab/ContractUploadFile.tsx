@@ -27,6 +27,7 @@ import {
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import TextFieldCustom from "../../CustomComponents/TextFieldCustom";
+import { IContract } from "../../../models/Employee";
 
 type Props = {};
 
@@ -255,7 +256,7 @@ const ContractUploadFile = (props: Props) => {
               <TableBody>
                 {dataContract &&
                   dataContract[0]?.id !== -1 &&
-                  dataContract.map((row: any, index: number) => {
+                  dataContract.map((row: IContract, index: number) => {
                     return (
                       <CustomTableRow
                         hover

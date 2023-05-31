@@ -13,17 +13,15 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styled } from "@mui/material/styles";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
-import { Employee, IFormSalary } from "../../models/Employee";
+import { Employee,  } from "../../models/Employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 type PropsSalary = {
-  formSalary: IFormSalary;
-  
   employee:Employee
 };
 
 const TabSalary = (props: PropsSalary) => {
-  const { formSalary,  employee } = props;
+  const {   employee } = props;
   return (
     <div className="flex flex-col gap-1 pb-5 px-5">
       <TextFieldCustom

@@ -9,7 +9,7 @@ import {
   getBenefit,
   getGrade,
 } from "../../redux/slice/employeeSlice";
-import { Employee, IBenefit } from "../../models/Employee";
+import { Employee, IBenefit, IGrade } from "../../models/Employee";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import { styled } from "@mui/material/styles";
 import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";
@@ -54,14 +54,10 @@ const TextAreaStyle = styled("textarea")(({ theme }) => ({
 }));
 
 type PropsTagOther = {
-  // formEmployee: IFormEmployee;
   employee: Employee;
-  // handleFormEmployeeChange?: (
-  //   event: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>
-  // ) => void;
 };
 
-const TagOther = (props: PropsTagOther) => {
+const TagOthers = (props: PropsTagOther) => {
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { dataGrade, dataBenefit } = useSelector(
@@ -83,7 +79,7 @@ const TagOther = (props: PropsTagOther) => {
   );
   // console.log(selectedGradeIndex);
 
-  const handleOptionChange = (event: any, newValue: IBenefit[] | null) => {
+  const handleOptionChange = (event: React.SyntheticEvent, newValue: IBenefit[] | null) => {
     setSelectedOption(newValue ?? undefined);
     if (newValue) {
       const idArray = newValue.map((item) => item.id);
@@ -95,7 +91,7 @@ const TagOther = (props: PropsTagOther) => {
   const hanleChangeRemark = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
       const { name } = e.target;
-      let value: any;
+      let value: string | number | null | IGrade | number[];
       value = e.target.value;
       dispatch(changeEmployee({ name1: name, value }));
     },
@@ -215,4 +211,4 @@ const TagOther = (props: PropsTagOther) => {
   );
 };
 
-export default TagOther;
+export default TagOthers;

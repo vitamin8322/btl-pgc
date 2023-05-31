@@ -53,10 +53,8 @@ const Layout = (props: Props) => {
   };
 
   // const hanleOpenDialog = () => {
-  //   console.log(22113);
   //   setOpenDialog(true);
   // };
-  console.log("📢[Layout.tsx:60]: openDialog: ", openDialog);
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;

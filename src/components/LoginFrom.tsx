@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { fetchApi } from "../hooks/api";
 import { ICompany, ILoginFormFields } from "../models/Auth";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MenuItem from "@mui/material/MenuItem";
@@ -12,8 +11,6 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
 import { getCompany, loginAuth, resetLogin } from "../redux/slice/authSlice";
-import { toast } from "react-toastify";
-import close from "../assets/image/x.png";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../utils/constants";
@@ -25,7 +22,7 @@ type Props = {};
 
 const LoginFrom = (props: Props) => {
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const {  closeSnackbar } = useSnackbar();
 
   // redux
   const dispatch = useDispatch<AppDispatch>();
@@ -34,11 +31,6 @@ const LoginFrom = (props: Props) => {
   );
 
   // func
-  const [formLogin, setFormLogin] = useState<ILoginFormFields>({
-    name: "",
-    password: "",
-    factory: 0,
-  });
   const [showPassword, setShowPassword] = useState<Boolean>(false);
   const [apiCallCount, setApiCallCount] = useState(0);
   useEffect(() => {

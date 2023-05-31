@@ -76,7 +76,7 @@ const Heading = (props: PropsHeading) => {
         );
       }
     }
-  }, [status, employee, dataFormDocument]);
+  }, [status, employee, dataFormContract,dataFormDocument ]);
 
   const hanldeAdd = async () => {
     await dispatch(addEmployee());

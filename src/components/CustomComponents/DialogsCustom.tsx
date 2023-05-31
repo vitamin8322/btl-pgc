@@ -63,13 +63,11 @@ const CustomizedDialogs = (props: PropDialog) => {
   const handleClickOpen = () => {
     setOpen(true);
     // onClick && onClick();
-    // console.log(123);
   };
   const handleClose = () => {
     // onClick
     setOpen(false);
   };
-  console.log("📢[DialogsCustom.tsx:73]: loading: ", loading);
   return (
     <div>
       {React.cloneElement(button, {

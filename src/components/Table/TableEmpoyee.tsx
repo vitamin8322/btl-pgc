@@ -95,8 +95,6 @@ const TableEmpoyee = ({}) => {
   const isSelected = (id: number) => selected.indexOf(id) !== -1;
   const handleClick = (event: React.MouseEvent, id: number) => {
     const currentTime = new Date().getTime();
-    console.log(id);
-    
     if (currentTime - lastClickTime < 300) {
       const handleDoubleClick = async () => {
         // Xử lý logic cho sự kiện onDoubleClick
@@ -129,6 +127,9 @@ const TableEmpoyee = ({}) => {
       
     }
   };
+
+  console.log('dataEmployee', dataEmployee);
+  
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
@@ -270,7 +271,6 @@ const TableEmpoyee = ({}) => {
                         cursor: "pointer",
                       }}
                       onDoubleClick={() => {
-                        console.log(row.id);
                         navigate(`/employee/create-or-update/${row.id}`);
                       }}
                     >

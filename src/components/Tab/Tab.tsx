@@ -3,10 +3,10 @@ import TabPanel from "./TabPanel";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import {
+  IBenefit,
   IFormContract,
   IFormEmployee,
   IFormEmploymentDetail,
-  IFormSalary,
 } from "../../models/Employee";
 import TabEmployee from "./TabEmployee";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -88,7 +88,7 @@ const BasicTabs = () => {
       dispatch(mountDataContract(employee.contracts));
     };
     if (employee.benefits.length > 0) {
-      const arrBenefits = employee.benefits.map((item) => item?.id);
+      const arrBenefits = employee.benefits.map((item: IBenefit) => item?.id);
       dispatch(changeEmployee({ name1: "benefits", value: arrBenefits }));
     }
 
@@ -100,53 +100,6 @@ const BasicTabs = () => {
 
   //funx
   const [value, setValue] = useState(0);
-  const [formEmploymentDetail, setFormEmploymentDetail] =
-    useState<IFormEmploymentDetail>({
-      department_id: "",
-      position_id: "",
-    });
-  const [formSalary, setFormSalary] = useState<IFormSalary>({
-    basic_salary: null,
-    audit_salary: null,
-    safety_insurance: null,
-    health_insurance: null,
-    meal_allowance: null,
-  });
-
-  const handleFormEmployeeChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
-      const { name } = e.target;
-      let value: any;
-      value = e.target.value;
-      dispatch(changeEmployee({ name1: name, value }));
-      // console.log(employee);
-    },
-    []
-  );
-  const handleFormContractChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
-      const { name } = e.target;
-      let value: any;
-      value = e.target.value;
-      dispatch(changeEmployee({ name1: name, value }));
-    },
-    []
-  );
-  const handleFormEmploymentDetailChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> | SelectChangeEvent<string | number>) => {
-      const { name } = e.target;
-      let value: any;
-      value = e.target.value;
-      setFormEmploymentDetail((prevValues) => ({
-        ...prevValues,
-        [name]: value,
-      }));
-      dispatch(changeEmployee({ name1: name, value }));
-    },
-    []
-  );
-
-  const [checkTab1, setCheckTab1] = useState();
   const [checkTab2, setCheckTab2] = useState({ validation: false, count: 0 });
 
   useEffect(() => {
@@ -199,25 +152,21 @@ const BasicTabs = () => {
       </Box>
       <TabPanel value={value} title="Personal Information" index={0}>
         <TabEmployee
-          handleFormEmployeeChange={handleFormEmployeeChange}
           employee={employee}
         />
       </TabPanel>
       <TabPanel value={value} title="Contract Information" index={1}>
         <TabContract
           employee={employee}
-          handleFormContractChange={handleFormContractChange}
         />
       </TabPanel>
       <TabPanel value={value} title="Employment Details" index={2}>
         <TabEmployment
-          formEmploymentDetail={formEmploymentDetail}
-          handleFormEmploymentDetailChange={handleFormEmploymentDetailChange}
           employee={employee}
         />
       </TabPanel>
       <TabPanel value={value} title="Salary & Wages" index={3}>
-        <TabSalary formSalary={formSalary} employee={employee} />
+        <TabSalary  employee={employee} />
       </TabPanel>
       <TabPanel value={value} title="Others" index={4}>
         <TabOthers employee={employee} />

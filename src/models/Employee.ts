@@ -126,13 +126,6 @@ export interface IFormEmploymentDetail {
   department_id: string;
   position_id: string;
 }
-export interface IFormSalary {
-  basic_salary: number | null;
-  audit_salary: number | null;
-  safety_insurance: number | null;
-  health_insurance: number | null;
-  meal_allowance: number | null;
-}
 
 export interface IMarriageStatus {
   id: number;

@@ -60,7 +60,6 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
   const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
   const [touched, setTouched] = useState(false);
-  // console.log();
   // console.log(value);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
