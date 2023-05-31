@@ -91,7 +91,7 @@ const ContractUploadFile = (props: Props) => {
   };
 
   const handleDataContract = () => {
-    if (file != null) {
+    if (file != null && formContract.date!=='' && formContract.name !=='') {
       dispatch(
         addDataToForm({
           employee_id: idEmployee ?? "0",
@@ -116,8 +116,8 @@ const ContractUploadFile = (props: Props) => {
           deleted_at: "",
         })
       );
+      setFormContract({ date: "", name: "" });
     }
-    setFormContract({ date: "", name: "" });
   };
 
   const handleDeleteFileContract = (
@@ -127,7 +127,6 @@ const ContractUploadFile = (props: Props) => {
   ) => {
     if (document === "") {
       dispatch(removeDataContractById(id));
-
       dispatch(removeDataFormConTtract(index));
     }
   };
@@ -154,22 +153,13 @@ const ContractUploadFile = (props: Props) => {
             name="contract_date"
             onChange={handleChangeDate}
             value={formContract.date}
+            setValueDate={setFormContract}
           />
-          {/* <TextFieldCustom
-            name=""
-            label="Contract Name"
-            onChange={changeContractName}
-            isRequired={true}
-            value={formContract.name}
-            width={128}
-            length={30}
-          /> */}
           <TextFieldCustom
             value={formContract.name}
             name=""
             isRequired={true}
             onChange={changeContractName}
-            // onChange={handleFormEmployeeChange}
             label="Name"
             width={128}
             length={50}
@@ -195,7 +185,7 @@ const ContractUploadFile = (props: Props) => {
             >
               <FileUploadOutlinedIcon />
               Upload File
-              <input type="file" hidden onChange={handleUploadFile} />
+              <input type="file" accept="image/*,.pdf,.csv,.xlsx,.docx" hidden onChange={handleUploadFile} />
             </Button>
             <Button
               variant="contained"
@@ -219,7 +209,7 @@ const ContractUploadFile = (props: Props) => {
             </Button>
           </div>
           {file && (
-            <div className="flex min-w-175 justify-between items-center max-w bg-gray2">
+            <div className="flex min-w-175 justify-between items-center max-w py-1 px-3 bg-gray2">
               <p>{file.name}</p>
               <button>
                 <Clear />

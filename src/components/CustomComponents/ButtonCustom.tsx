@@ -11,10 +11,11 @@ type ButtonProps = {
   backgroundColorHover?: string;
   icon?: React.ReactNode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  disabled?: boolean
 };
 
 const ButtonCustom = (props: ButtonProps) => {
-  const { backgroundColor, color, backgroundColorHover, icon, onClick, name } =
+  const { backgroundColor, color, backgroundColorHover, icon, onClick, name, disabled } =
     props;
 
   const ColorButton = styled(Button)(({}) => ({
@@ -27,14 +28,12 @@ const ButtonCustom = (props: ButtonProps) => {
       backgroundColor: backgroundColorHover,
     },
   }));
-  // const StyledIcon = styled(icon as any)({
-  //   fill:'red'
-  // });
   return (
     <ColorButton
       variant="contained"
       onClick={onClick}
       startIcon={icon}
+      disabled={disabled}
     >
       {name}
     </ColorButton>

@@ -21,8 +21,10 @@ import {
   checkContract,
   checkEmployee,
   getBenefit,
+  getDepartment,
   getGrade,
   getIdEmployee,
+  getPosition,
   resetEmployee,
 } from "../../redux/slice/employeeSlice";
 import TabOthers from "./TabOthers";
@@ -39,7 +41,7 @@ import {
   removeAllDataFromDocument,
 } from "../../redux/slice/documentSlice";
 import "./CustomTab.scss";
-import BasicModal from "../CustomComponents/ModalCustom";
+import BasicModal from "../CustomComponents/DialogsCustom";
 
 function a11yProps(index: number) {
   return {
@@ -74,6 +76,8 @@ const BasicTabs = () => {
 
       await dispatch(getGrade());
       await dispatch(getBenefit());
+      await dispatch(getDepartment());
+      await dispatch(getPosition());
     };
     fetchData();
   }, [dispatch]);
@@ -84,7 +88,7 @@ const BasicTabs = () => {
       dispatch(mountDataContract(employee.contracts));
     };
     if (employee.benefits.length > 0) {
-      const arrBenefits = employee.benefits.map((item) => item.id);
+      const arrBenefits = employee.benefits.map((item) => item?.id);
       dispatch(changeEmployee({ name1: "benefits", value: arrBenefits }));
     }
 
@@ -146,12 +150,13 @@ const BasicTabs = () => {
   const [checkTab2, setCheckTab2] = useState({ validation: false, count: 0 });
 
   useEffect(() => {
-    dispatch(checkEmployee());
+    if (!idEmployee) {
+      dispatch(checkEmployee());
+    }
     // dispatch(checkContract());
   }, []);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(newValue);
     setValue(newValue);
     dispatch(checkEmployee());
     if (checkTab2.count > 0) {

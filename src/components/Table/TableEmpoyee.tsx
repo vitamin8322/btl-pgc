@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
-import { dataDeletes, getEmployee, getIdEmployee } from "../../redux/slice/employeeSlice";
+import { dataDeletes, getEmployee, getIdEmployee, setCheckValidation } from "../../redux/slice/employeeSlice";
 import { Checkbox, Pagination, PaginationItem } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -22,8 +22,11 @@ import { ReactComponent as NoData } from "../../assets/image/NoData.svg";
 
 const TableEmpoyee = ({}) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { dataEmployee, status } = useSelector(
-    (state: RootState) => state.employee
+  const { dataEmployee, status, checkValidationEmplyee, checkValidationContract } = useSelector(
+    (state: RootState) => ({
+      ...state.employee,
+      checkValidationEmplyee: false
+    })
   );
   const [selected, setSelected] = useState<number[]>([]);
   
@@ -53,6 +56,7 @@ const TableEmpoyee = ({}) => {
     };
 
     dispatch(getEmployee(queryParams));
+    dispatch(setCheckValidation())
   }, []);
 
   const columns = [
@@ -122,6 +126,7 @@ const TableEmpoyee = ({}) => {
       dispatch(dataDeletes(newSelected));
       // console.log("Single click event");
       setLastClickTime(currentTime);
+      
     }
   };
 
@@ -171,8 +176,8 @@ const TableEmpoyee = ({}) => {
       <ActionTable
         dataDelete={selected}
         setSelected={setSelected}
-        lastPage={dataEmployee.last_page}
-        lengthData={dataEmployee.data.length}
+        lastPage={dataEmployee?.last_page}
+        lengthData={dataEmployee?.data.length}
       />
       <hr
         style={{
@@ -210,11 +215,11 @@ const TableEmpoyee = ({}) => {
                     }}
                     indeterminate={
                       selected.length > 0 &&
-                      selected.length < dataEmployee.data.length
+                      selected.length < dataEmployee?.data.length
                     }
                     checked={
-                      dataEmployee.data.length > 0 &&
-                      selected.length === dataEmployee.data.length
+                      dataEmployee?.data.length > 0 &&
+                      selected.length === dataEmployee?.data.length
                     }
                     onChange={handleSelectAllClick}
                     inputProps={{
@@ -249,7 +254,7 @@ const TableEmpoyee = ({}) => {
             </TableHead>
             <TableBody className="">
               {dataEmployee &&
-                dataEmployee.data.map((row, index) => {
+                dataEmployee?.data.map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
@@ -336,7 +341,7 @@ const TableEmpoyee = ({}) => {
                   );
                 })}
 
-              {status != "loading" && dataEmployee.data.length === 0 && (
+              {status != "loading" && dataEmployee?.data.length === 0 && (
                 <div className="absolute flex flex-col inset-0 justify-center items-center">
                   <NoData />
                   <div className="mt-30 font-normal leading-5 text-base text-center">

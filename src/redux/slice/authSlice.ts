@@ -1,12 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
 import { IAuth, ICompany, ILoginFormFields, ILogin } from "../../models/Auth";
+import Cookies from "js-cookie";
+import { ACCESS_TOKEN_KEY } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../configs/routes";
 
 interface AuthState {
   dataAuth: IAuth;
   company: ICompany[];
   login: ILogin;
   status: "idle" | "loading" | "succeeded" | "failed";
+  statusLogout: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
@@ -123,11 +128,16 @@ const initialState: AuthState = {
     result: false,
   },
   status: "idle",
+  statusLogout: "idle",
   error: null,
 };
 
 export const getCompany = createAsyncThunk("auth/company", async () => {
   const data = await fetchApi("/api/company", "get");
+  return data.data;
+});
+export const logoutAuth = createAsyncThunk("auth/logout", async () => {
+  const data = await fetchApi("/api/logout", "post");
   return data.data;
 });
 
@@ -146,20 +156,20 @@ export const loginAuth = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    resetLogin:(state) => {
+      state.login = initialState.login
+      state.status = initialState.status
+    },
+    removeCookie: (state) => {
+      Cookies.remove('token');
+    },
+  },
   extraReducers: (builder) => {
     builder
       // company
-      .addCase(getCompany.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(getCompany.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.company = action.payload;
-      })
-      .addCase(getCompany.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message ?? "Có lỗi";
       })
       // login
       .addCase(loginAuth.pending, (state) => {
@@ -172,10 +182,23 @@ const authSlice = createSlice({
       .addCase(loginAuth.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message ?? "Có lỗi";
+      })
+
+      // logout
+      .addCase(logoutAuth.pending, (state) => {
+        state.statusLogout = "loading";
+      })
+      .addCase(logoutAuth.fulfilled, (state, action) => {
+        state.statusLogout = "succeeded";
+        // state.login = action.payload;
+      })
+      .addCase(logoutAuth.rejected, (state, action) => {
+        state.statusLogout = "failed";
+        state.error = action.error.message ?? "Có lỗi";
       });
   },
 });
 
-export const {} = authSlice.actions;
+export const {removeCookie, resetLogin} = authSlice.actions;
 
 export default authSlice.reducer;

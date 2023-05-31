@@ -28,7 +28,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
   const {  handleFormEmployeeChange, employee } = props;
   const { idEmployee } = useParams();
   // console.log(employee);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getCompany());
@@ -57,7 +57,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
             <TextFieldCustom
               value={employee.staff_id}
               name="staff_id"
-              // onChange={handleFormEmployeeChange}
               label="NIK"
               disabled
             />
@@ -69,7 +68,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
           value={employee.name}
           name="name"
           isRequired={true}
-          // onChange={handleFormEmployeeChange}
           label="Name"
           length={50}
           />
@@ -79,14 +77,12 @@ const TabEmployee = (props: PropsTabEmployee) => {
           placeholder="Choose Gender"
           isRequired={true}
           value={employee.gender}
-          // onChange={handleFormEmployeeChange}
           // isNa
           name="gender"
         />
         <TextFieldCustom
           value={employee.mother_name}
           name="mother_name"
-          // onChange={handleFormEmployeeChange}
           label="Mother Name"
           length={50}
         />
@@ -99,7 +95,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.pob}
           name="pob"
-          // onChange={handleFormEmployeeChange}
           label="Place of birth"
           length={50}
         />
@@ -107,7 +102,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
           value={employee.ktp_no}
           name="ktp_no"
           isRequired={true}
-          // onChange={handleFormEmployeeChange}
           label="KTP No."
           length={20}
           type="number"
@@ -116,7 +110,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
           value={employee.nc_id}
           name="nc_id"
           isRequired={true}
-          // onChange={handleFormEmployeeChange}
 
           label="National Card ID"
           length={20}
@@ -124,14 +117,12 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.home_address_1}
           name="home_address_1"
-          // onChange={handleFormEmployeeChange}
           label="Home Address 1"
           length={100}
         />
         <TextFieldCustom
           value={employee.home_address_2 ?? ""}
           name="home_address_2"
-          // onChange={handleFormEmployeeChange}
           label="Home Address 2"
           length={100}
         />
@@ -140,7 +131,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.mobile_no ?? ""}
           name="mobile_no"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Mobile No."
           length={20}
           type="number"
@@ -148,7 +139,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.tel_no}
           name="tel_no"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Tel No."
           length={20}
           type="number"
@@ -166,7 +157,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
         <TextFieldCustom
           value={employee.card_number ?? ""}
           name="card_number"
-          onChange={handleFormEmployeeChange}
+          // onChange={handleFormEmployeeChange}
           label="Bank Card No."
           length={30}
           type="number"

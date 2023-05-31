@@ -1,6 +1,21 @@
+import Cookies from "js-cookie";
 import Logo from "./../assets/image/logo.svg";
 import SelectMui from "./CustomComponents/SelectMui";
 import SiderBar from "./SiderBar/SiderBar";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { useState } from "react";
+import "./StyleComponent.scss";
+import ButtonCustom from "./CustomComponents/ButtonCustom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../redux/store";
+import { logoutAuth, removeCookie } from "../redux/slice/authSlice";
+import CustomizedDialogs from "./CustomComponents/DialogsCustom";
+import { ACCESS_TOKEN_KEY } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
+// import { ROUTES } from "./configs/routes";
+import { ROUTES } from "../configs/routes";
 
 type Props = {};
 
@@ -9,7 +24,6 @@ const data = [
     id: "0",
     name: "en",
     code: "en",
-    
   },
   {
     id: "1",
@@ -18,21 +32,101 @@ const data = [
   },
 ];
 const Layout = (props: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { statusLogout } = useSelector((state: RootState) => state.auth);
+
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = async () => {
+    await dispatch(logoutAuth());
+    Cookies.remove("token");
+    navigate(ROUTES.login);
+  };
+
+  // const hanleOpenDialog = () => {
+  //   console.log(22113);
+  //   setOpenDialog(true);
+  // };
+  console.log("📢[Layout.tsx:60]: openDialog: ", openDialog);
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
   return (
-      <div className="flex bg-white items-center shadow-header fixed w-full top-0 right-0 z-20 justify-between h-16 px-6">
-        <div className="flex items-center">
-          <img src={Logo} alt="logo" className=" h-9" />
-          <h2 className="font-medium text-2xl tracking-tight ml-3">
-            HR Management System
-          </h2>
+    <div className="flex bg-white items-center shadow-header fixed w-full top-0 right-0 z-20 justify-between h-16 px-6">
+      <div className="flex items-center">
+        <img src={Logo} alt="logo" className=" h-9" />
+        <h2 className="font-medium text-2xl tracking-tight ml-3">
+          HR Management System
+        </h2>
+      </div>
+      <div className="flex gap-2 items-center">
+        <div>
+          <SelectMui data={data} value={0} icon />
         </div>
-        <div className="flex">
-          <div>
-            <SelectMui data={data} value={0} icon/>
-          </div>
-          <div>2</div>
+        <div className="popover__button__custom">
+          <Button
+            aria-describedby={id}
+            variant="contained"
+            onClick={handleClick}
+            className="avatar"
+          >
+            d
+          </Button>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            className="popover__custom"
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+          >
+            <div className="flex items-center mb-2.5">
+              <div className="avatar">d</div>
+              <div className="ml-2">DoQuocDoanh</div>
+            </div>
+            <div className="py-5">
+              <div className="mb-1">Developer</div>
+              <div>Staff ID:</div>
+            </div>
+            <div className="signout">
+              {/* <CustomizedDialogs
+                isOpen={openDialog}
+                title={"Do you wish to sign out?"}
+              ></CustomizedDialogs> */}
+              <CustomizedDialogs
+                isOpen={openDialog}
+                onClick={handleLogout}
+                title={"Do you wish to sign out?"}
+                loading={statusLogout}
+                // content="Are you sure you want to delete?"
+                button={
+                  <ButtonCustom
+                    name="Sign Out"
+                    // onClick={hanleOpenDialog}
+                  ></ButtonCustom>
+                }
+              />
+            </div>
+            <div className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 text-sm my-2.5">
+              Reset Password
+            </div>
+          </Popover>
         </div>
       </div>
+    </div>
   );
 };
 

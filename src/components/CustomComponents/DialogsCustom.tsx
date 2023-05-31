@@ -10,6 +10,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import ButtonCustom from "./ButtonCustom";
+import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { removeCookie } from "../../redux/slice/authSlice";
+import { AppDispatch } from "../../redux/store";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export interface DialogTitleProps {
   id: string;
@@ -46,21 +51,25 @@ interface PropDialog {
   button: JSX.Element;
   onClick?: () => void;
   title: string;
-  content?: string
+  loading: string;
+  content?: string;
 }
 
 const CustomizedDialogs = (props: PropDialog) => {
-  const { isOpen, button, onClick, title, content } = props;
+  const { isOpen, button, onClick, title, content, loading } = props;
   const [open, setOpen] = useState(isOpen);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleClickOpen = () => {
     setOpen(true);
+    // onClick && onClick();
+    // console.log(123);
   };
   const handleClose = () => {
     // onClick
     setOpen(false);
   };
-
+  console.log("📢[DialogsCustom.tsx:73]: loading: ", loading);
   return (
     <div>
       {React.cloneElement(button, {
@@ -77,23 +86,35 @@ const CustomizedDialogs = (props: PropDialog) => {
         <CustomDialogTitle id="customized-dialog-title" onClose={handleClose}>
           {title}
         </CustomDialogTitle>
-        {content && <DialogContent dividers>
-          <Typography>{content}</Typography>
-        </DialogContent>}
+        {content && (
+          <DialogContent dividers>
+            <Typography>{content}</Typography>
+          </DialogContent>
+        )}
         <DialogActions className="dialog__custom">
           <Button autoFocus className="no" onClick={handleClose}>
             No
           </Button>
-          <Button
-            autoFocus
-            className="yes"
-            onClick={() => {
-              handleClose();
-              onClick && onClick();
-            }}
-          >
-            Yes
-          </Button>
+          {loading !== "loading" ? (
+            <Button
+              autoFocus
+              className="yes"
+              onClick={async () => {
+                onClick && await onClick();
+                await handleClose();
+              }}
+              
+            >
+              Yes
+            </Button>
+          ) : (
+            <Button
+              disabled
+              className="!bg-loading !hover:bg-blue-600  !py-2 !px-4 !rounded"
+            >
+              <CircularProgress size={16} className="!text-iconLoading" />
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>

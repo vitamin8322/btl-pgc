@@ -11,31 +11,25 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../redux/store";
-import { getCompany, loginAuth } from "../redux/slice/authSlice";
+import { getCompany, loginAuth, resetLogin } from "../redux/slice/authSlice";
 import { toast } from "react-toastify";
 import close from "../assets/image/x.png";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../utils/constants";
-
+import { NotistackCustom } from "./CustomComponents/NotistackCustom";
+import { useSnackbar } from "notistack";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 type Props = {};
-
-interface CustomCloseButtonProps {
-  closeToast: () => void;
-}
-
-const CustomCloseButton = ({ closeToast }: CustomCloseButtonProps) => (
-  <button className="custom-close-button" onClick={closeToast}>
-    <img src={close} alt="" />
-  </button>
-);
 
 const LoginFrom = (props: Props) => {
   const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // redux
   const dispatch = useDispatch<AppDispatch>();
-  const { dataAuth, company, login } = useSelector(
+  const { dataAuth, company, login, status } = useSelector(
     (state: RootState) => state.auth
   );
 
@@ -46,7 +40,7 @@ const LoginFrom = (props: Props) => {
     factory: 0,
   });
   const [showPassword, setShowPassword] = useState<Boolean>(false);
-
+  const [apiCallCount, setApiCallCount] = useState(0);
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getCompany());
@@ -65,7 +59,7 @@ const LoginFrom = (props: Props) => {
   } = useForm<ILoginFormFields>({
     defaultValues: {
       name: "doanhdoquoc",
-      password: "doanh123",
+      password: "123123123",
       factory: 1,
     },
   });
@@ -76,35 +70,27 @@ const LoginFrom = (props: Props) => {
     try {
       await dispatch(
         loginAuth({
-          name:  "doanhdoquoc",
-          password: "doanh123",
+          name: formData.name,
+          password: formData.password,
           factory: 1,
         })
       );
+      setApiCallCount((prevCount) => prevCount + 1);
     } catch (error) {
       console.log("error", error);
     }
   };
-  console.log(login);
+
+
   useEffect(() => {
-    if (login.message != "Success" && login.message != "") {
-      toast.error(login.message, {
-        closeButton: <CustomCloseButton closeToast={toast.dismiss} />,
-        hideProgressBar: true,
-        style: {
-          width: "400px",
-          boxShadow: "none",
-          backgroundColor: "#FFEFEF",
-          transform: "translate(0, 0)",
-          right: "6em",
-        },
-        position: "top-right",
-      });
+    if (login.message != "Success" && status == "succeeded") {
+      NotistackCustom("error", login.message, closeSnackbar);
     } else if (login.message == "Success") {
       Cookies.set(ACCESS_TOKEN_KEY, login.data.token);
       navigate("/employee");
+      dispatch(resetLogin());
     }
-  }, [login.message]);
+  }, [status, dispatch]);
 
   return (
     <div className="w-348 rounded-xl shadow-form bg-white p-6 ml-8 ">
@@ -176,7 +162,6 @@ const LoginFrom = (props: Props) => {
                 required: "Please enter factory",
               })}
               input={<CustomInputSelect />}
-              
               MenuProps={{
                 PaperProps: customPaperProps,
               }}
@@ -185,8 +170,8 @@ const LoginFrom = (props: Props) => {
               <InputLabel shrink={false} className="!hidden">
                 Select Factory
               </InputLabel>
-              {company.map((item: any) => (
-                <MenuItem value={item.id} key={item.key}>
+              {company.map((item: ICompany) => (
+                <MenuItem value={item.id} key={item.id}>
                   {item.name}
                 </MenuItem>
               ))}
@@ -198,12 +183,18 @@ const LoginFrom = (props: Props) => {
         </div>
 
         {/* button */}
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 w-300 mt-10 text-white font-bold py-2 px-4 rounded h-46 mb-4"
-        >
-          Sign In
-        </button>
+        {status !== "loading" ? (
+          <Button
+            type="submit"
+            className="!bg-blue-500 !hover:bg-blue-600 !w-300 !mt-10 !text-white !font-bold !py-2 !px-4 !rounded !h-46 !mb-4"
+          >
+            Sign In
+          </Button>
+        ) : (
+          <Button disabled className="!bg-loading !hover:bg-blue-600 !w-300 !mt-10 !text-white !font-bold !py-2 !px-4 !rounded !h-46 !mb-4">
+            <CircularProgress size={16} className="!text-iconLoading" />
+          </Button>
+        )}
         <a className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
           Forgot Your Password?
         </a>

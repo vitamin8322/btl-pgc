@@ -85,7 +85,6 @@ const TagOther = (props: PropsTagOther) => {
 
   const handleOptionChange = (event: any, newValue: IBenefit[] | null) => {
     setSelectedOption(newValue ?? undefined);
-    console.log(newValue);
     if (newValue) {
       const idArray = newValue.map((item) => item.id);
       console.log(idArray);

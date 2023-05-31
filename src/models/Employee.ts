@@ -52,7 +52,6 @@ export interface Employee {
   contracts: IContract[];
   grade: IGrade[];
   benefits: IBenefit[];
-  [key: string]: any;
 }
 
 export interface test {

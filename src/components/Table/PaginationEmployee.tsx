@@ -59,7 +59,7 @@ const PaginationEmployee = (dataEmployee: any) => {
     <div className="flex items-center h-55 gap-2.5">
       <Pagination
         onChange={handleChangePage}
-        count={dataEmployee.dataEmployee.last_page}
+        count={dataEmployee.dataEmployee?.last_page}
         // rowsPerPage={rowsPerPage}
         // rowsPerPageOptions={[]}
         shape="rounded"
@@ -93,7 +93,7 @@ const PaginationEmployee = (dataEmployee: any) => {
           />
         )}
       />
-      {dataEmployee.dataEmployee.data.length > 0 && (
+      {dataEmployee.dataEmployee?.data.length > 0 && (
         <div className="h-9 bg-gray2 py-2 px-3 rounded-md text-sm text-gray">
           {dataEmployee.dataEmployee.from} - {dataEmployee.dataEmployee.to} of{" "}
           {dataEmployee.dataEmployee.total}

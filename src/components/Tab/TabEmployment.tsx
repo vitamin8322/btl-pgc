@@ -28,13 +28,6 @@ const TabEmployment = (props: PropsTabEmployment) => {
   const { formEmploymentDetail, handleFormEmploymentDetailChange, employee } =
     props;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getDepartment());
-      await dispatch(getPosition());
-    };
-    fetchData();
-  }, []);
   return (
     <div>
       <div className="flex flex-col gap-2.5 px-2.5">

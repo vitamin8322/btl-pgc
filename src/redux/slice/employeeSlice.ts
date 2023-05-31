@@ -23,7 +23,7 @@ interface EmployeeState {
   dataBenefit: IBenefit[];
   checkValidationEmplyee: boolean;
   checkValidationContract: boolean;
-  status: "idle" | "loading" | "succeeded1" | "succeeded" | "failed";
+  status: "idle" | "loading" | "succeededAdd" | "succeeded" | "failed";
   error: string | null;
 }
 
@@ -221,7 +221,8 @@ const employeeSlice = createSlice({
   reducers: {
     changeEmployee: (state, action: PayloadAction<Value>) => {
       const { name1, value } = action.payload;
-      state.employee[name1] = value;
+      // state.employee[name1] = value;
+      state.employee={...state.employee,[name1]:value}
       console.log(name1, value);
     },
     dataDeletes: (state, action: PayloadAction<number[]>) => {
@@ -241,6 +242,7 @@ const employeeSlice = createSlice({
       ) {
         state.checkValidationEmplyee = true;
       } else {
+        state.checkValidationContract = false;
         state.checkValidationEmplyee = false;
       }
     },
@@ -255,6 +257,13 @@ const employeeSlice = createSlice({
         state.checkValidationContract = false;
       }
     },
+    setCheckValidation:(state) => {
+      state.checkValidationContract = false;
+      state.checkValidationEmplyee = false;
+    },
+    reserStatus: (state) => {
+      state.status = initialState.status
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -267,6 +276,30 @@ const employeeSlice = createSlice({
         state.dataEmployee = action.payload;
       })
       .addCase(getEmployee.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Có lỗi";
+      })
+      // deleteEmployee
+      .addCase(deleteEmployee.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteEmployee.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.dataEmployee = action.payload;
+      })
+      .addCase(deleteEmployee.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message ?? "Có lỗi";
+      })
+      // editEmployee
+      .addCase(editEmployee.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(editEmployee.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.dataEmployee = action.payload;
+      })
+      .addCase(editEmployee.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message ?? "Có lỗi";
       })
@@ -308,8 +341,11 @@ const employeeSlice = createSlice({
         state.dataBenefit = action.payload;
       })
       // addEmployee
+      .addCase(addEmployee.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(addEmployee.fulfilled, (state, action) => {
-        state.status = "succeeded1";
+        state.status = "succeededAdd";
         state.employee = action.payload;
       })
       // getEmployee
@@ -326,6 +362,8 @@ export const {
   resetEmployee,
   checkEmployee,
   checkContract,
+  setCheckValidation,
+  reserStatus
 } = employeeSlice.actions;
 
 export default employeeSlice.reducer;

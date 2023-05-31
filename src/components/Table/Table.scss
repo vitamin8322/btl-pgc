@@ -1,3 +1,25 @@
-.Mui-selected .MuiTableCell-root{
-    color: black !important;
+.Mui-selected .MuiTableCell-root {
+  color: black !important;
+}
+.notistack-MuiContent {
+  flex-wrap: inherit;
+  box-shadow: none;
+  border-radius: 6px !important;
+  #notistack-snackbar {
+    gap: 8px;
+  }
+}
+.notistack-MuiContent-error {
+  max-width: 400px;
+  color: rgb(229, 72, 77);
+  background-color: rgb(255, 239, 239);
+  font-weight: 600;
+  // svg {
+  //   margin-right: 5px;
+  // }
+}
+.notistack-MuiContent-success {
+  max-width: 400px;
+  color: rgb(18, 165, 148);
+  background-color: rgb(217, 243, 238);
 }

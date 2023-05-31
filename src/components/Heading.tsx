@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   FormControl,
   InputAdornment,
   InputLabel,
@@ -17,7 +18,9 @@ import { useDispatch, useSelector } from "react-redux";
 import useDebounce from "../hooks/useDebounce";
 import { addDataContract, addDataToForm } from "../redux/slice/contractSlice";
 import { addDataDocument } from "../redux/slice/documentSlice";
-
+import { NotistackCustom } from "./CustomComponents/NotistackCustom";
+import { useSnackbar } from "notistack";
+import Button from "@mui/material/Button/Button";
 type PropsHeading = {
   crumbs: string[];
 };
@@ -30,12 +33,12 @@ const Heading = (props: PropsHeading) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search.split("?")[1]);
   const searchValue = searchParams.get("search");
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const [query, setQuery] = useState<string | null>(searchValue);
   const debouncedValue = useDebounce<string | null>(query, 500);
-  const { employee, status } = useSelector(
-    (state: RootState) => state.employee
-  );
+  const { employee, status, checkValidationEmplyee, checkValidationContract } =
+    useSelector((state: RootState) => state.employee);
   const { dataFormContract, dataContract } = useSelector(
     (state: RootState) => state.contract
   );
@@ -59,9 +62,9 @@ const Heading = (props: PropsHeading) => {
   const id = employee?.id;
 
   useEffect(() => {
-    if (status === "succeeded1") {
-      console.log(dataFormContract);
-      console.log(dataFormDocument);
+    if (status === "succeededAdd") {
+      // console.log(dataFormContract);
+      // console.log(dataFormDocument);
       if (employee?.id !== 0 && dataFormContract.documents.length > 0) {
         dispatch(
           addDataContract({ id: String(id), formData: dataFormContract })
@@ -75,12 +78,39 @@ const Heading = (props: PropsHeading) => {
     }
   }, [status, employee, dataFormDocument]);
 
+  const hanldeAdd = async () => {
+    await dispatch(addEmployee());
+    await navigate(`/employee`);
+    NotistackCustom("success", "Record added", closeSnackbar);
+  };
+
+  const handleEdit = async () => {
+    if (
+      dataFormContract.employee_id !== "" &&
+      dataFormContract.documents.length > 0
+    ) {
+      dispatch(addDataContract({ id: String(id), formData: dataFormContract }));
+    }
+    if (
+      dataFormDocument.employee_id !== "" &&
+      dataFormDocument.documents.length > 0
+    ) {
+      dispatch(addDataDocument({ id: String(id), formData: dataFormDocument }));
+    }
+    await dispatch(editEmployee(Number(idEmployee)));
+    await navigate(`/employee`);
+    NotistackCustom("success", "Change saved", closeSnackbar);
+  };
+
+  console.log(status);
+  
+
   const rightHeading = () => {
     if (crumbs.length == 2) {
       return (
         <FormControl>
           <OutlinedInput
-            className="h-40 w-200 !rounded-lg"
+            className="h-40 w-200 !rounded-lg "
             value={query}
             placeholder="Search..."
             onChange={handleChangeQuery}
@@ -97,39 +127,61 @@ const Heading = (props: PropsHeading) => {
       );
     } else if (crumbs.length > 2) {
       return !idEmployee ? (
-        <button
-          onClick={async () => {
-            await dispatch(addEmployee());
-          }}
-          className="bg-blue1 text-white px-6 py-2 h-12 rounded-md"
-        >
-          Add
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            if (
-              dataFormContract.employee_id !== "" &&
-              dataFormContract.documents.length > 0
-            ) {
-              dispatch(
-                addDataContract({ id: String(id), formData: dataFormContract })
-              );
-            }
-            if (
-              dataFormDocument.employee_id !== "" &&
-              dataFormDocument.documents.length > 0
-            ) {
-              dispatch(
-                addDataDocument({ id: String(id), formData: dataFormDocument })
-              );
-            }
-            dispatch(editEmployee(Number(idEmployee)));
-          }}
-          className="bg-blue1 text-white px-6 py-2 h-12 rounded-md"
+        status !== "loading" ? (
+          <>
+            <Button
+              onClick={() => hanldeAdd()}
+              className={`!bg-blue1 !text-white !px-6 !py-2 !h-12 !rounded-md !normal-case ${
+                checkValidationContract ||
+                checkValidationEmplyee ||
+                employee.type === null
+                  ? "disabled__button"
+                  : ""
+              }`}
+              disabled={
+                checkValidationContract ||
+                checkValidationEmplyee ||
+                employee.type === null
+              }
+            >
+              Add
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              disabled
+              className="!bg-loading !px-6 !py-2 !h-12 !rounded"
+            >
+              <CircularProgress size={16} className="!text-iconLoading" />
+            </Button>
+          </>
+        )
+      ) : status !== "loading" ? (
+        <Button
+          onClick={handleEdit}
+          className={`!bg-blue1 !text-white !px-6 !py-2 !h-12 !rounded-md !normal-case ${
+            checkValidationContract ||
+            checkValidationEmplyee ||
+            employee.type === null
+              ? "disabled__button"
+              : ""
+          }`}
+          disabled={
+            checkValidationContract ||
+            checkValidationEmplyee ||
+            employee.type === null
+          }
         >
           Save Change
-        </button>
+        </Button>
+      ) : (
+        <Button
+          disabled
+          className="!bg-loading !px-6 !py-2 !h-12 !rounded"
+        >
+          <CircularProgress size={16} className="!text-iconLoading" />
+        </Button>
       );
     }
   };

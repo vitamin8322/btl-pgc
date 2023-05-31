@@ -1,4 +1,10 @@
-import React, { ChangeEvent, forwardRef, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  forwardRef,
+  memo,
+  useEffect,
+  useState,
+} from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -39,13 +45,17 @@ type PropsInputDatePicker = {
   label?: string;
   isRequired?: boolean;
   name?: string;
-  onChange?: ( date: Date,event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (date: Date, event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   size?: boolean;
+  setValueDate?: React.Dispatch<React.SetStateAction<any>>;
 };
 const DatePickerCustom = (props: PropsInputDatePicker) => {
-  const { label, onChange, value, name, isRequired, size } = props;
+  const { label, onChange, value, name, isRequired, size, setValueDate } =
+    props;
   const [startDate, setStartDate] = useState<Date | null>(null);
+  const [error, setError] = useState(false);
+  const [touched, setTouched] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const handleChangeDate = (
     date: Date,
@@ -53,19 +63,29 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
   ) => {
     setStartDate(date);
     const formattedDate = moment(date).format("YYYY-MM-DD");
-    console.log(name);
     if (name != undefined) {
       dispatch(changeEmployee({ name1: name, value: formattedDate }));
+    }
+    if (formattedDate !== "") {
+      setError(false);
+    }
+  };
+  const handleBlur = () => {
+    setTouched(true);
+    if ((value === "" || value === undefined) && isRequired) {
+      setError(true);
     }
   };
 
   const ExampleCustomInput = forwardRef(
-    ({ value, onClick, onChange }: any, ref: any) => (
+    ({ value, onClick, onChange }: any) => (
       <StyledFilledInput
         onClick={onClick}
         onChange={onChange}
         disableUnderline={true}
         value={value}
+        error={error}
+        onBlur={handleBlur}
         startAdornment={
           <InputAdornment position="start" sx={{ color: "blue" }}>
             {/* <img src={Calendar} /> */}
@@ -86,8 +106,15 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
                 className="pointer"
                 onClick={(e) => {
                   setStartDate(null);
-                  if (name != undefined) {
+                  setError(true);
+                  if (name != undefined && !setValueDate) {
                     dispatch(changeEmployee({ name1: name, value: null }));
+                  }
+                  if (onchange && setValueDate) {
+                    setValueDate((prevValues: any) => ({
+                      ...prevValues,
+                      date: "",
+                    }));
                   }
                   e.stopPropagation();
                 }}
@@ -138,4 +165,4 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
   );
 };
 
-export default DatePickerCustom;
+export default memo(DatePickerCustom);

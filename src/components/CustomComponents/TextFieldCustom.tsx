@@ -54,31 +54,35 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
     length,
     disabled,
     width = 175,
-    pls,
   } = props;
 
   // const [value, setValue] = useState<string | number>();
   const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
   const [touched, setTouched] = useState(false);
+  // console.log();
+  // console.log(value);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     // setValue(inputValue);
-    if (type === "number") {
-      setError(parseInt(inputValue) < 0);
-    }
-    if (length) {
-      setError(inputValue.length > length);
-    }
-    if (name) {
-      dispatch(changeEmployee({ name1: name, value: inputValue }));
-    }
-    if (inputValue === "" && isRequired) {
-      setError(true);
-    }
-    if(onChange){
-      onChange(e)
+    if (onChange) {
+      onChange(e);
+      if (inputValue !== "") {
+        setError(false);
+      } else {
+        setError(true);
+      }
+    } else {
+      if (type === "number") {
+        setError(parseInt(inputValue) < 0);
+      }
+      if (length) {
+        setError(inputValue.length > length);
+      }
+      if (name) {
+        dispatch(changeEmployee({ name1: name, value: inputValue }));
+      }
     }
   };
   const handleBlur = () => {
@@ -88,11 +92,18 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
     }
   };
 
-  
-
   return (
-    <div className="flex items-center input__number input__custom">
-      <label htmlFor={label} className={`font-normal flex min-w-${width}`}>
+    <div
+      className={`flex items-center ${
+        width === 211 ? `` : `input__number`
+      } input__custom`}
+    >
+      <label
+        htmlFor={label}
+        className={`font-normal flex ${
+          width === 211 ? `min-w-211` : `min-w-${width}`
+        }`}
+      >
         {label}
         {isRequired && (
           <span className="text-required font-normal text-lg">*</span>
@@ -100,9 +111,6 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
       </label>
       <StyledFilledInput
         type={type}
-        // disableUnderline={true}
-        // onChange={onChange}
-        // className="bg-required"
         name={name}
         value={value}
         onChange={handleChange}
@@ -113,7 +121,9 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
           (touched && value === "" && error) || (value === "" && error) || error
             ? value === "" && !onChange
               ? `Please input ${label}`
-              :onChange?'' : `Maximum length is ${length} characters`
+              : onChange
+              ? ""
+              : `Maximum length is ${length} characters`
             : ""
         }
         InputProps={{

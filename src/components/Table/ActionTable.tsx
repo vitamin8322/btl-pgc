@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../redux/store";
-import { deleteEmployee, getEmployee } from "../../redux/slice/employeeSlice";
+import { deleteEmployee, getEmployee, reserStatus } from "../../redux/slice/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonCustom from "../CustomComponents/ButtonCustom";
 import { ReactComponent as Add } from "../../assets/image/Add.svg";
 import { ReactComponent as Delete } from "../../assets/image/Delete.svg";
-import CustomizedDialogs from "../CustomComponents/ModalCustom";
-// import SvgIcon from "@material-ui/core/SvgIcon";
+import CustomizedDialogs from "../CustomComponents/DialogsCustom";
+import {  useSnackbar } from "notistack";
+import { NotistackCustom } from "../CustomComponents/NotistackCustom";
 
 type PropsActionTable = {
   dataDelete: number[];
@@ -17,11 +18,13 @@ type PropsActionTable = {
 };
 
 const ActionTable = (props: PropsActionTable) => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { dataDelete, setSelected, lastPage, lengthData } = props;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const { status } = useSelector((state: RootState) => state.employee);
 
   const searchParams = new URLSearchParams(location.search.split("?")[1]);
 
@@ -30,12 +33,13 @@ const ActionTable = (props: PropsActionTable) => {
   const hanleOpenDialog = () => {
     setOpen(true);
   };
+
   const handleDeleteEmployee = async () => {
     try {
       await dispatch(deleteEmployee(dataDelete));
-      console.log("lastPage", lastPage);
-      console.log("pageValue", pageValue);
-
+      await dispatch(reserStatus());
+      
+      await NotistackCustom('success', 'Success', closeSnackbar)
       const queryParams = {
         page:
           lastPage == pageValue && dataDelete.length == lengthData
@@ -43,20 +47,18 @@ const ActionTable = (props: PropsActionTable) => {
             : pageValue,
         query: searchValue,
       };
-
-      await dispatch(getEmployee(queryParams));
       const searchParamString =
-        queryParams.page && queryParams.query
-          ? `search=${queryParams.query}&`
-          : "";
+      queryParams.page && queryParams.query
+      ? `search=${queryParams.query}&`
+      : "";
       const newURL = `/employee?${searchParamString}page=${queryParams.page}`;
-
+      
       navigate(newURL);
       setSelected([]);
+      await dispatch(getEmployee(queryParams));
     } catch (error) {}
   };
 
-  // const { dataDelete } = useSelector((state: RootState) => state.employee);
   // console.log(dataDelete);
 
   return (
@@ -76,11 +78,13 @@ const ActionTable = (props: PropsActionTable) => {
           <CustomizedDialogs
             isOpen={open}
             onClick={handleDeleteEmployee}
-            title={'Delete'}
+            title={"Delete"}
             content="Are you sure you want to delete?"
+            loading={status}
             button={
               <ButtonCustom
                 name="Delete"
+                disabled={dataDelete.length < 1}
                 backgroundColor={
                   dataDelete.length > 0
                     ? "rgb(255, 239, 239)"
@@ -106,7 +110,7 @@ const ActionTable = (props: PropsActionTable) => {
                   />
                 }
                 onClick={hanleOpenDialog}
-                ></ButtonCustom>
+              ></ButtonCustom>
             }
           />
         </div>

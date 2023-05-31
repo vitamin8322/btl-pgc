@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     extend: {
       spacing: {
+        175: "175px",
         200: "200px",
+        211: "211px",
         265: "265px",
         300: "300px",
         308: "308px",
@@ -46,6 +48,8 @@ module.exports = {
         greenHover: "rgb(48, 164, 108,0.08)",
         green2: "rgb(233, 249, 238)",
         loading: "rgba(223, 227, 230, 0.3)",
+        iconLoading:'rgba(193, 200, 205, 0.8)',
+
       },
       boxShadow: {
         form: "rgba(236, 238, 240, 0.5) 0px 10px 5px",
