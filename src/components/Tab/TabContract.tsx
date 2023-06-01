@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect } from "react";
 import InputCustom from "../CustomComponents/InputCustom";
-import { Employee, IFormContract } from "../../models/Employee";
+import { Employee, IFormContract } from "../../models/employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import SelectMui from "../CustomComponents/SelectMui";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { getDepartment } from "../../redux/slice/employeeSlice";
 import ContractUploadFile from "./ComponentsTab/ContractUploadFile";
 import DatePickerCustom from "../CustomComponents/DatePickerCustom";
+import { useParams } from "react-router-dom";
 
 type PropsTabContract = {
   employee: Employee;
@@ -17,8 +18,9 @@ const TabContract = (props: PropsTabContract) => {
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { dataDepartment } = useSelector((state: RootState) => state.employee);
+  const { idEmployee } = useParams();
 
-  const {   employee } = props;
+  const {employee } = props;
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -72,6 +74,7 @@ const TabContract = (props: PropsTabContract) => {
           isRequired={true}
           value={employee.type ?? ""}
           name="type"
+          disabled={idEmployee? true : false}
         />
         <ContractUploadFile />
       </div>

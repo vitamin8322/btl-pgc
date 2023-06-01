@@ -62,27 +62,24 @@ const Heading = (props: PropsHeading) => {
   }, [debouncedValue]);
   const id = employee?.id;
 
-  useEffect(() => {
-    if (status === "succeededAdd") {
-      if (employee?.id !== 0 && dataFormContract.documents.length > 0) {
-        dispatch(
-          addDataContract({ id: String(id), formData: dataFormContract })
-        );
-      }
-      if (
-        employee?.id !== 0 &&
-        dataFormDocument.documents &&
-        dataFormDocument.documents.length > 0
-      ) {
-        dispatch(
-          addDataDocument({ id: String(id), formData: dataFormDocument })
-        );
-      }
-    }
-  }, [status, employee, dataFormContract, dataFormDocument]);
+  // useEffect(() => {
+  //   if (status === "succeededAdd") {
+  //     if (employee?.id !== 0 && dataFormContract.documents.length > 0) {
+  //       dispatch(
+  //         addDataContract({ id: String(id), formData: dataFormContract })
+  //       );
+  //     }
+  //   }
+  // }, [status, employee, dataFormContract, dataFormDocument]);
 
   const hanldeAdd = async () => {
     await dispatch(addEmployee());
+    if (dataFormDocument.documents && dataFormDocument.documents.length > 0) {
+      dispatch(addDataDocument({ formData: dataFormDocument }));
+    }
+    if (dataFormContract.documents.length > 0) {
+      dispatch(addDataContract({ formData: dataFormContract }));
+    }
     await navigate(`/employee`);
     NotistackCustom("success", "Record added", closeSnackbar);
   };
@@ -92,7 +89,7 @@ const Heading = (props: PropsHeading) => {
       dataFormContract.employee_id !== "" &&
       dataFormContract.documents.length > 0
     ) {
-      dispatch(addDataContract({ id: String(id), formData: dataFormContract }));
+      dispatch(addDataContract({ formData: dataFormContract }));
     }
     if (
       dataFormDocument.employee_id !== "" &&
@@ -100,7 +97,7 @@ const Heading = (props: PropsHeading) => {
         (dataFormDocument.deleted_ids &&
           dataFormDocument.deleted_ids.length > 0))
     ) {
-      dispatch(addDataDocument({ id: String(id), formData: dataFormDocument }));
+      dispatch(addDataDocument({ formData: dataFormDocument }));
     }
     await dispatch(editEmployee(Number(idEmployee)));
     await navigate(`/employee`);
@@ -136,14 +133,14 @@ const Heading = (props: PropsHeading) => {
               className={`!bg-blue1 !text-white !px-6 !py-2 !h-12 !rounded-md !normal-case ${
                 checkValidationContract ||
                 checkValidationEmplyee ||
-                employee.type === null
+                employee?.type === null
                   ? "disabled__button"
                   : ""
               }`}
               disabled={
                 checkValidationContract ||
                 checkValidationEmplyee ||
-                employee.type === null
+                employee?.type === null
               }
             >
               Add
@@ -162,14 +159,14 @@ const Heading = (props: PropsHeading) => {
           className={`!bg-blue1 !text-white !px-6 !py-2 !h-12 !rounded-md !normal-case ${
             checkValidationContract ||
             checkValidationEmplyee ||
-            employee.type === null
+            employee?.type === null
               ? "disabled__button"
               : ""
           }`}
           disabled={
             checkValidationContract ||
             checkValidationEmplyee ||
-            employee.type === null
+            employee?.type === null
           }
         >
           Save Change

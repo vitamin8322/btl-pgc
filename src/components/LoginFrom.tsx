@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ICompany, ILoginFormFields } from "../models/Auth";
+import { ICompany, ILoginFormFields } from "../models/auth";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";

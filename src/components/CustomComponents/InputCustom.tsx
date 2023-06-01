@@ -21,7 +21,7 @@ const InputCustom = (props: PropsInput) => {
   // ${size ?`min-w-128` : `min-w-175` 211}
   return (
     <>
-      <div className="flex items-center h-12 ">
+      <div className="flex items-center h-12 input__custom">
         <label htmlFor={label} className={`font-normal min-w-${width} flex`}>
           {label}
           {isRequired && (
@@ -33,9 +33,7 @@ const InputCustom = (props: PropsInput) => {
           value={value}
           disabled={disabled}
           name={name}
-          className={`input h-12 w-full max-w-300  ${
-            disabled ? "!bg-disabled" : ""
-          }`}
+          className={`input h-12 w-full max-w-300`}
         />
       </div>
     </>

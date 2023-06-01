@@ -3,7 +3,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import React, { useState } from "react";
 import { getEmployee } from "../../redux/slice/employeeSlice";
-import { IEmployeeListResponse } from "../../models/Employee";
+import { IEmployeeListResponse } from "../../models/employee";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { ReactComponent as First } from "../../assets/image/First.svg";

@@ -13,7 +13,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styled } from "@mui/material/styles";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
-import { Employee,  } from "../../models/Employee";
+import { Employee,  } from "../../models/employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 
 type PropsSalary = {

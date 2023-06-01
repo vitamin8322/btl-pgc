@@ -9,7 +9,7 @@ import {
   getBenefit,
   getGrade,
 } from "../../redux/slice/employeeSlice";
-import { Employee, IBenefit, IGrade } from "../../models/Employee";
+import { Employee, IBenefit, IGrade } from "../../models/employee";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import { styled } from "@mui/material/styles";
 import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";

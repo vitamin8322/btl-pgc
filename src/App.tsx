@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { RoutesPath } from "./RoutesPath";
 import Login from "./page/Login";
 import { ToastContainer } from "react-toastify";

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import InputCustom from "../CustomComponents/InputCustom";
 import SelectMui from "../CustomComponents/SelectMui";
-import { Employee, IFormEmployee } from "../../models/Employee";
+import { Employee, IFormEmployee } from "../../models/employee";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getCompany } from "../../redux/slice/authSlice";
@@ -52,7 +52,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
         {idEmployee ? (
           <>
             <TextFieldCustom
-              value={employee.staff_id}
+              value={employee?.staff_id}
               name="staff_id"
               label="NIK"
               disabled
@@ -62,7 +62,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
           <></>
         )}
         <TextFieldCustom
-          value={employee.name}
+          value={employee?.name}
           name="name"
           isRequired={true}
           label="Name"
@@ -73,12 +73,12 @@ const TabEmployee = (props: PropsTabEmployee) => {
           label="Gender"
           placeholder="Choose Gender"
           isRequired={true}
-          value={employee.gender}
+          value={employee?.gender}
           // isNa
           name="gender"
         />
         <TextFieldCustom
-          value={employee.mother_name}
+          value={employee?.mother_name}
           name="mother_name"
           label="Mother Name"
           length={50}
@@ -87,16 +87,16 @@ const TabEmployee = (props: PropsTabEmployee) => {
           isRequired={true}
           label="Date of birth"
           name="dob"
-          value={employee.dob}
+          value={employee?.dob}
         />
         <TextFieldCustom
-          value={employee.pob}
+          value={employee?.pob}
           name="pob"
           label="Place of birth"
           length={50}
         />
         <TextFieldCustom
-          value={employee.ktp_no}
+          value={employee?.ktp_no}
           name="ktp_no"
           isRequired={true}
           label="KTP No."
@@ -104,7 +104,7 @@ const TabEmployee = (props: PropsTabEmployee) => {
           type="number"
         />
         <TextFieldCustom
-          value={employee.nc_id}
+          value={employee?.nc_id}
           name="nc_id"
           isRequired={true}
 
@@ -112,13 +112,13 @@ const TabEmployee = (props: PropsTabEmployee) => {
           length={20}
         />
         <TextFieldCustom
-          value={employee.home_address_1}
+          value={employee?.home_address_1}
           name="home_address_1"
           label="Home Address 1"
           length={100}
         />
         <TextFieldCustom
-          value={employee.home_address_2 ?? ""}
+          value={employee?.home_address_2 ?? ""}
           name="home_address_2"
           label="Home Address 2"
           length={100}
@@ -126,14 +126,14 @@ const TabEmployee = (props: PropsTabEmployee) => {
       </div>
       <div className="flex flex-col gap-2.5 px-2.5">
         <TextFieldCustom
-          value={employee.mobile_no ?? ""}
+          value={employee?.mobile_no ?? ""}
           name="mobile_no"
           label="Mobile No."
           length={20}
           type="number"
         />
         <TextFieldCustom
-          value={employee.tel_no}
+          value={employee?.tel_no}
           name="tel_no"
           label="Tel No."
           length={20}
@@ -144,46 +144,46 @@ const TabEmployee = (props: PropsTabEmployee) => {
           label="Marriage Status"
           placeholder="Choose Marriage Status"
           // isRe quired={true}
-          value={employee.marriage_id ?? ""}
+          value={employee?.marriage_id ?? ""}
           isNa
           name="marriage_id"
         />
         <TextFieldCustom
-          value={employee.card_number ?? ""}
+          value={employee?.card_number ?? ""}
           name="card_number"
           label="Bank Card No."
           length={30}
           type="number"
         />
         <TextFieldCustom
-          value={employee.bank_account_no}
+          value={employee?.bank_account_no}
           name="bank_account_no"
           label="Bank Account No."
           length={30}
           type="number"
         />
         <TextFieldCustom
-          value={employee.bank_name}
+          value={employee?.bank_name}
           name="bank_name"
           label="Bank Name"
           length={100}
         />
         <TextFieldCustom
-          value={employee.family_card_number}
+          value={employee?.family_card_number}
           name="family_card_number"
           label="Family Card Number"
           length={30}
           type="number"
         />
         <TextFieldCustom
-          value={employee.safety_insurance_no}
+          value={employee?.safety_insurance_no}
           name="safety_insurance_no"
           label="Safety Insurance No."
           length={30}
           type="number"
         />
         <TextFieldCustom
-          value={employee.health_insurance_no}
+          value={employee?.health_insurance_no}
           name="health_insurance_no"
           label="Health Insurance No."
           length={30}

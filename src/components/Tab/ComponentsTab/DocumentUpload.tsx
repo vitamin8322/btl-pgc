@@ -17,16 +17,18 @@ import {
   addDataTableDocument,
   addordelDataToDocument,
   mountDataDocument,
-  removeDataDocumentById,
+  removeDataDocument,
+  removeDataFormDocument,
 } from "../../../redux/slice/documentSlice";
 import { useParams } from "react-router-dom";
+import { removeDataFormConTtract } from "../../../redux/slice/contractSlice";
 
 type Props = {};
 
 const DocumentUpload = (props: Props) => {
   const headers = [
     { field: "No", headerName: "No" },
-    { field: "ContractName", headerName: "Contract Name" },
+    { field: "123", headerName: "Contract Name" },
     { field: "SignDate", headerName: "Sign Date" },
     { field: "Action", headerName: "Action." },
   ];
@@ -77,6 +79,8 @@ const DocumentUpload = (props: Props) => {
           updated_at: "",
         })
       );
+      console.log(dataDocument);
+      
     }
   };
 
@@ -91,7 +95,10 @@ const DocumentUpload = (props: Props) => {
     index: number,
     id: number
   ) => {
-    dispatch(removeDataDocumentById(id));
+    dispatch(removeDataDocument(index));
+    dispatch(removeDataFormDocument(index));
+    console.log(index);
+    
     if (updated_at !== "") {
       dispatch(
         addordelDataToDocument({
@@ -141,9 +148,6 @@ const DocumentUpload = (props: Props) => {
                         backgroundColor: "rgb(236, 238, 240) !important",
                         padding: "6px 10px",
                         border: "1px solid white",
-                        ...(index === headers.length - 1 && {
-                          borderTopRightRadius: "8px",
-                        }),
                       }}
                       key={index}
                     >

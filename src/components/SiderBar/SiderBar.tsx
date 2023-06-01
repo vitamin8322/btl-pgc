@@ -10,7 +10,7 @@ import "simplebar-react/dist/simplebar.min.css";
 import { itemsSiderbar } from "../../utils/dataSiderbar";
 import SvgIcon from "@mui/material/SvgIcon";
 import { NavLink, useLocation } from "react-router-dom";
-import './SiderBar.scss';
+import "./SiderBar.scss";
 type Props = {};
 
 const groupedItems = [
@@ -36,9 +36,10 @@ const SiderBar = (props: Props) => {
       [id]: !prevState[id],
     }));
   };
-  
+
   return (
     <SimpleBar
+      key={1}
       // autoHide={false}
       style={{
         height: "100vh",

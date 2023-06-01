@@ -4,9 +4,10 @@ import {
   IContract,
   IContractFormData,
   IFormContract,
-} from "../../models/Employee";
+} from "../../models/employee";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
+import { RootState } from "../store";
 
 interface Contract {
   dataContract: IContract[];
@@ -27,13 +28,14 @@ const initialState: Contract = {
 export const addDataContract = createAsyncThunk(
   "contract/add",
   async (
-    { id, formData }: { id?: string; formData: IContractFormData },
+    { formData }: { formData: IContractFormData },
     { getState }
   ) => {
-    const formdata = new FormData();
+      const { employee } = getState() as RootState;
+      const formdata = new FormData();
     console.log(formData.employee_id);
 
-    formdata.append("employee_id", id || "");
+    formdata.append("employee_id", String(employee.employee.id));
     formData.names.forEach((name) => formdata.append("names[]", name));
     formData.contract_dates.forEach((date) =>
       formdata.append("contract_dates[]", date)
@@ -58,8 +60,6 @@ const contractSlice = createSlice({
   reducers: {
     addDataToForm: (state, action: PayloadAction<IContractFormData>) => {
       const { employee_id, names, contract_dates, documents } = action.payload;
-      console.log(1234432, employee_id);
-
       if (employee_id !== "0") {
         state.dataFormContract.employee_id = employee_id;
       }
@@ -71,16 +71,13 @@ const contractSlice = createSlice({
     },
     removeDataFormConTtract: (state, action: PayloadAction<number>) => {
       const id = action.payload;
-      console.log(id);
       state.dataFormContract.names.splice(id, 1);
       state.dataFormContract.contract_dates.splice(id, 1);
       state.dataFormContract.documents.splice(id, 1);
     },
-    removeDataContractById: (state, action: PayloadAction<number>) => {
-      const idToRemove = action.payload;
-      state.dataContract = state.dataContract.filter(
-        (contract) => contract.id !== idToRemove
-      );
+    removeDataContract: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      state.dataContract.splice(id, 1);
     },
     removeAllDataFormConTract: (state) => {
       state.dataFormContract = initialState.dataFormContract;
@@ -102,9 +99,9 @@ export const {
   addDataTableContract,
   removeDataFormConTtract,
   mountDataContract,
-  removeDataContractById,
+  removeDataContract,
   removeAllDataContract,
-  removeAllDataFormConTract
+  removeAllDataFormConTract,
 } = contractSlice.actions;
 
 export default contractSlice.reducer;

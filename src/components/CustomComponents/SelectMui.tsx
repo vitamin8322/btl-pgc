@@ -4,7 +4,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { PaperProps } from "@mui/material/Paper";
-import { IMarriageStatus } from "../../models/Employee";
+import { IMarriageStatus } from "../../models/employee";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useDispatch } from "react-redux";
@@ -107,7 +107,7 @@ const SelectMui = (props: PropsSelect) => {
         <Select
           displayEmpty
           disabled={disabled}
-          className={`select  ${label ? 'min-w-290 h-12': ''}   ${
+          className={`select  ${label ? 'min-w-290 h-12': ''} ${
             disabled ? "!bg-disabled" : ""
           }  w-${width}`}
           id={name}
@@ -128,7 +128,7 @@ const SelectMui = (props: PropsSelect) => {
             {placeholder}
           </MenuItem>
           {data.map((item: any) => (
-            <MenuItem value={item.id} key={item.key} className="flex items-center">
+            <MenuItem value={item.id}  key={item.id} className="flex items-center">
               {icon && <Language />}
               {item.name}
             </MenuItem>

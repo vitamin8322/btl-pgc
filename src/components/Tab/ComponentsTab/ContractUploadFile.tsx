@@ -21,13 +21,13 @@ import {
   addDataTableContract,
   addDataToForm,
   mountDataContract,
-  removeDataContractById,
+  removeDataContract,
   removeDataFormConTtract,
 } from "../../../redux/slice/contractSlice";
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import TextFieldCustom from "../../CustomComponents/TextFieldCustom";
-import { IContract } from "../../../models/Employee";
+import { IContract } from "../../../models/employee";
 
 type Props = {};
 
@@ -121,16 +121,16 @@ const ContractUploadFile = (props: Props) => {
         })
       );
       setFormContract({ date: "", name: "" });
+      setFile(null)
     }
   };
 
   const handleDeleteFileContract = (
     document: string,
     index: number,
-    id: number
   ) => {
     if (document === "") {
-      dispatch(removeDataContractById(id));
+      dispatch(removeDataContract(index));
       dispatch(removeDataFormConTtract(index));
     }
   };
@@ -246,9 +246,6 @@ const ContractUploadFile = (props: Props) => {
                           backgroundColor: "rgb(236, 238, 240) !important",
                           padding: "6px 10px",
                           border: "1px solid white",
-                          ...(index === headers.length - 1 && {
-                            borderTopRightRadius: "8px",
-                          }),
                         }}
                         key={index}
                       >
@@ -296,7 +293,6 @@ const ContractUploadFile = (props: Props) => {
                                 handleDeleteFileContract(
                                   row.document,
                                   index,
-                                  row.id
                                 )
                               }
                               className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3"

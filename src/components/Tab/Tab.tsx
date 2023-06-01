@@ -7,7 +7,7 @@ import {
   IFormContract,
   IFormEmployee,
   IFormEmploymentDetail,
-} from "../../models/Employee";
+} from "../../models/employee";
 import TabEmployee from "./TabEmployee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import TabContract from "./TabContract";
@@ -88,11 +88,11 @@ const BasicTabs = () => {
 
   useEffect(() => {
     const handleDataUpdate = () => {
-      dispatch(mountDataDocument(employee.documents));
-      dispatch(mountDataContract(employee.contracts));
+      dispatch(mountDataDocument(employee?.documents));
+      dispatch(mountDataContract(employee?.contracts));
     };
-    if (employee.benefits.length > 0) {
-      const arrBenefits = employee.benefits.map((item: IBenefit) => item?.id);
+    if (employee?.benefits.length > 0) {
+      const arrBenefits = employee?.benefits.map((item: IBenefit) => item?.id);
       dispatch(changeEmployee({ name1: "benefits", value: arrBenefits }));
     }
     if (idEmployee !== undefined) {
