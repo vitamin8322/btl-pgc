@@ -8,16 +8,16 @@ import {
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { AppDispatch, RootState } from "../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   addEmployee,
   editEmployee,
   getEmployee,
-} from "../redux/slice/employeeSlice";
+} from "@/redux/slice/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
-import useDebounce from "../hooks/useDebounce";
-import { addDataContract, addDataToForm } from "../redux/slice/contractSlice";
-import { addDataDocument } from "../redux/slice/documentSlice";
+import useDebounce from "@/hooks/useDebounce";
+import { addDataContract, addDataToForm } from "@/redux/slice/contractSlice";
+import { addDataDocument } from "@/redux/slice/documentSlice";
 import { NotistackCustom } from "./CustomComponents/NotistackCustom";
 import { useSnackbar } from "notistack";
 import Button from "@mui/material/Button/Button";
@@ -85,17 +85,12 @@ const Heading = (props: PropsHeading) => {
   };
 
   const handleEdit = async () => {
-    if (
-      dataFormContract.employee_id !== "" &&
-      dataFormContract.documents.length > 0
-    ) {
+    if (dataFormContract.documents.length > 0) {
       dispatch(addDataContract({ formData: dataFormContract }));
     }
     if (
-      dataFormDocument.employee_id !== "" &&
-      ((dataFormDocument.documents && dataFormDocument.documents.length > 0) ||
-        (dataFormDocument.deleted_ids &&
-          dataFormDocument.deleted_ids.length > 0))
+      (dataFormDocument.documents && dataFormDocument.documents.length > 0) ||
+      (dataFormDocument.deleted_ids && dataFormDocument.deleted_ids.length > 0)
     ) {
       dispatch(addDataDocument({ formData: dataFormDocument }));
     }
@@ -105,7 +100,7 @@ const Heading = (props: PropsHeading) => {
   };
 
   const rightHeading = () => {
-    if (crumbs.length == 2) {
+    if (crumbs.length === 2) {
       return (
         <FormControl>
           <OutlinedInput

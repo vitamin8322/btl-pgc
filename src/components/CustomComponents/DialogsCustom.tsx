@@ -1,6 +1,5 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,11 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import ButtonCustom from "./ButtonCustom";
-import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { removeCookie } from "../../redux/slice/authSlice";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "@/redux/store";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export interface DialogTitleProps {

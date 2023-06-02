@@ -23,6 +23,7 @@ interface EmployeeState {
   dataBenefit: IBenefit[];
   checkValidationEmplyee: boolean;
   checkValidationContract: boolean;
+  checkValidationSalary: boolean;
   status: "idle" | "loading" | "succeededAdd" | "succeeded" | "failed";
   error: string | null;
 }
@@ -117,6 +118,7 @@ const initialState: EmployeeState = {
   dataDelete: [],
   checkValidationEmplyee: false,
   checkValidationContract: false,
+  checkValidationSalary: false,
   status: "idle",
   error: null,
 };
@@ -256,9 +258,22 @@ const employeeSlice = createSlice({
         state.checkValidationContract = false;
       }
     },
+    checkSalary: (state) => {
+      if (
+        state.employee.basic_salary < 0 ||
+        state.employee.audit_salary < 0 ||
+        state.employee.health_insurance < 0 ||
+        state.employee.meal_allowance < 0
+      ) {
+        state.checkValidationSalary = true;
+      } else {
+        state.checkValidationSalary = false;
+      }
+    },
     setCheckValidation:(state) => {
       state.checkValidationContract = false;
       state.checkValidationEmplyee = false;
+      state.checkValidationSalary = false
     },
     reserStatus: (state) => {
       state.status = initialState.status
@@ -361,8 +376,9 @@ export const {
   resetEmployee,
   checkEmployee,
   checkContract,
+  checkSalary,
   setCheckValidation,
-  reserStatus
+  reserStatus, 
 } = employeeSlice.actions;
 
 export default employeeSlice.reducer;

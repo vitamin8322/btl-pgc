@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../../redux/store";
-import { deleteEmployee, getEmployee, reserStatus } from "../../redux/slice/employeeSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { deleteEmployee, getEmployee, reserStatus } from "@/redux/slice/employeeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonCustom from "../CustomComponents/ButtonCustom";
-import { ReactComponent as Add } from "../../assets/image/Add.svg";
-import { ReactComponent as Delete } from "../../assets/image/Delete.svg";
+import { ReactComponent as Add } from "@/assets/image/Add.svg";
+import { ReactComponent as Delete } from "@/assets/image/Delete.svg";
 import CustomizedDialogs from "../CustomComponents/DialogsCustom";
 import {  useSnackbar } from "notistack";
 import { NotistackCustom } from "../CustomComponents/NotistackCustom";
@@ -42,7 +42,7 @@ const ActionTable = (props: PropsActionTable) => {
       await NotistackCustom('success', 'Success', closeSnackbar)
       const queryParams = {
         page:
-          lastPage == pageValue && dataDelete.length == lengthData
+          lastPage === pageValue && dataDelete.length === lengthData
             ? pageValue - 1
             : pageValue,
         query: searchValue,

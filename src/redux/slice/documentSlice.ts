@@ -63,8 +63,7 @@ const documentSlice = createSlice({
       state,
       action: PayloadAction<IDocumentFormData>
     ) => {
-      const { employee_id, documents, deleted_ids } = action.payload;
-      state.dataFormDocument.employee_id = employee_id;
+      const {  documents, deleted_ids } = action.payload;
       state.dataFormDocument.documents &&
         documents &&
         state.dataFormDocument.documents.push(...documents);

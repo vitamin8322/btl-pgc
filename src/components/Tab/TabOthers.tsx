@@ -3,18 +3,17 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   changeEmployee,
   getBenefit,
   getGrade,
-} from "../../redux/slice/employeeSlice";
-import { Employee, IBenefit, IGrade } from "../../models/employee";
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
+} from "@/redux/slice/employeeSlice";
+import { Employee, IBenefit, IGrade } from "@/models/employee";
 import { styled } from "@mui/material/styles";
 import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";
 import SelectMui from "../CustomComponents/SelectMui";
-import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
+import { ReactComponent as Clear } from "@/assets/image/Clear.svg";
 import DocumentUpload from "./ComponentsTab/DocumentUpload";
 
 const CustomTag = styled("div")(({}) => ({

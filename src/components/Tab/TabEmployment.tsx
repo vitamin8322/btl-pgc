@@ -1,9 +1,9 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { ChangeEvent, useEffect } from "react";
-import { Employee, IFormEmploymentDetail } from "../../models/employee";
+import { Employee, IFormEmploymentDetail } from "@/models/employee";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getDepartment, getPosition } from "../../redux/slice/employeeSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getDepartment, getPosition } from "@/redux/slice/employeeSlice";
 import SelectMui from "../CustomComponents/SelectMui";
 import CheckBoxMui from "../CustomComponents/CheckBoxMui";
 import FormControlLabel from "@mui/material/FormControlLabel";

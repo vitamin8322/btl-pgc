@@ -59,11 +59,8 @@ const contractSlice = createSlice({
   initialState,
   reducers: {
     addDataToForm: (state, action: PayloadAction<IContractFormData>) => {
-      const { employee_id, names, contract_dates, documents } = action.payload;
-      if (employee_id !== "0") {
-        state.dataFormContract.employee_id = employee_id;
-      }
-      if (names[0] != "") {
+      const { names, contract_dates, documents } = action.payload;
+      if (names[0] !== "") {
         state.dataFormContract.names.push(...names);
         state.dataFormContract.contract_dates.push(...contract_dates);
         state.dataFormContract.documents.push(...documents);

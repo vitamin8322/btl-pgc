@@ -1,15 +1,12 @@
 import { Pagination, PaginationItem } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import React, { useState } from "react";
-import { getEmployee } from "../../redux/slice/employeeSlice";
-import { IEmployeeListResponse } from "../../models/employee";
+import { getEmployee } from "@/redux/slice/employeeSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { ReactComponent as First } from "../../assets/image/First.svg";
-import { ReactComponent as Next } from "../../assets/image/Next.svg";
-import { ReactComponent as Previous } from "../../assets/image/Previous.svg";
-import { ReactComponent as Last } from "../../assets/image/Last.svg";
+import { AppDispatch } from "@/redux/store";
+import { ReactComponent as First } from "@/assets/image/First.svg";
+import { ReactComponent as Next } from "@/assets/image/Next.svg";
+import { ReactComponent as Previous } from "@/assets/image/Previous.svg";
+import { ReactComponent as Last } from "@/assets/image/Last.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {};

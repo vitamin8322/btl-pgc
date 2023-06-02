@@ -3,6 +3,7 @@ import authSlice from './slice/authSlice'
 import employeeSlice from './slice/employeeSlice'
 import contractSlice from './slice/contractSlice'
 import documentSlice from './slice/documentSlice'
+import userSlice from "./slice/userSlice";
 
 
 const store = configureStore({
@@ -10,7 +11,8 @@ const store = configureStore({
     auth: authSlice,
     contract: contractSlice,
     document: documentSlice,
-    employee: employeeSlice
+    employee: employeeSlice,
+    user: userSlice
     // items: itemsReducer,
   },
 });

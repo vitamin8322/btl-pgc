@@ -1,6 +1,6 @@
 import { enqueueSnackbar, closeSnackbar, useSnackbar } from "notistack";
 import IconButton from "@mui/material/IconButton";
-import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
+import { ReactComponent as Clear } from "@/assets/image/Clear.svg";
 
 export const NotistackCustom = (
   variant: "error" | "default" | "success" | "warning" | "info" | undefined,

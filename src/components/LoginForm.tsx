@@ -9,20 +9,20 @@ import CustomInputSelect, { customPaperProps } from "./CustomStyle/StyleSelect";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
-import { getCompany, loginAuth, resetLogin } from "../redux/slice/authSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getCompany, loginAuth, resetLogin } from "@/redux/slice/authSlice";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { ACCESS_TOKEN_KEY } from "../utils/constants";
+import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import { NotistackCustom } from "./CustomComponents/NotistackCustom";
 import { useSnackbar } from "notistack";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 type Props = {};
 
-const LoginFrom = (props: Props) => {
+const LoginForm = (props: Props) => {
   const navigate = useNavigate();
-  const {  closeSnackbar } = useSnackbar();
+  const { closeSnackbar } = useSnackbar();
 
   // redux
   const dispatch = useDispatch<AppDispatch>();
@@ -74,7 +74,6 @@ const LoginFrom = (props: Props) => {
     [dispatch]
   );
 
-
   const companyOptions = useMemo(() => {
     return company.map((item: ICompany) => (
       <MenuItem value={item.id} key={item.id}>
@@ -84,9 +83,9 @@ const LoginFrom = (props: Props) => {
   }, [company]);
 
   useEffect(() => {
-    if (login.message != "Success" && status == "succeeded") {
+    if (login.message !== "Success" && status === "succeeded") {
       NotistackCustom("error", login.message, closeSnackbar);
-    } else if (login.message == "Success") {
+    } else if (login.message === "Success") {
       Cookies.set(ACCESS_TOKEN_KEY, login.data.token);
       navigate("/employee");
       dispatch(resetLogin());
@@ -128,7 +127,7 @@ const LoginFrom = (props: Props) => {
               required: "Please enter password",
             })}
           />
-          {watchPassword == "" ? (
+          {watchPassword === "" ? (
             <></>
           ) : (
             <button
@@ -155,7 +154,7 @@ const LoginFrom = (props: Props) => {
             <Select
               displayEmpty
               className={`select w-300  h-46${
-                errors.factory && watchFactory == null
+                errors.factory && watchFactory === null
                   ? "!border-red1 !bg-red2 !border !border-solid"
                   : ""
               }`}
@@ -173,7 +172,7 @@ const LoginFrom = (props: Props) => {
               </InputLabel>
               {companyOptions}
             </Select>
-            {errors.factory && watchFactory == null && (
+            {errors.factory && watchFactory === null && (
               <div className="error !mt-1">{errors.factory.message}</div>
             )}
           </>
@@ -188,16 +187,19 @@ const LoginFrom = (props: Props) => {
             Sign In
           </Button>
         ) : (
-          <Button disabled className="!bg-loading !hover:bg-blue-600 !w-300 !mt-10 !text-white !font-bold !py-2 !px-4 !rounded !h-46 !mb-4">
+          <Button
+            disabled
+            className="!bg-loading !hover:bg-blue-600 !w-300 !mt-10 !text-white !font-bold !py-2 !px-4 !rounded !h-46 !mb-4"
+          >
             <CircularProgress size={16} className="!text-iconLoading" />
           </Button>
         )}
-        <a className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
-          Forgot Your Password?
-        </a>
       </form>
+      <button className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
+        Forgot Your Password?
+      </button>
     </div>
   );
 };
 
-export default LoginFrom;
+export default LoginForm;

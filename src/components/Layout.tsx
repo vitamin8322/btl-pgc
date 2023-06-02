@@ -1,21 +1,18 @@
 import Cookies from "js-cookie";
-import Logo from "./../assets/image/logo.svg";
+import Logo from "@/assets/image/logo.svg";
 import SelectMui from "./CustomComponents/SelectMui";
-import SiderBar from "./SiderBar/SiderBar";
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./StyleComponent.scss";
 import ButtonCustom from "./CustomComponents/ButtonCustom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
-import { logoutAuth, removeCookie } from "../redux/slice/authSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { logoutAuth, removeCookie } from "@/redux/slice/authSlice";
 import CustomizedDialogs from "./CustomComponents/DialogsCustom";
-import { ACCESS_TOKEN_KEY } from "../utils/constants";
 import { useNavigate } from "react-router-dom";
-// import { ROUTES } from "./configs/routes";
-import { ROUTES } from "../configs/routes";
+import { ROUTES } from "@/configs/routes";
+import { getDetail } from "@/redux/slice/userSlice";
 
 type Props = {};
 
@@ -34,10 +31,15 @@ const data = [
 const Layout = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { statusLogout } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.user);
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    dispatch(getDetail());
+  }, [dispatch]);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -51,7 +53,8 @@ const Layout = (props: Props) => {
     Cookies.remove("token");
     navigate(ROUTES.login);
   };
-
+  console.log(user);
+  
   // const hanleOpenDialog = () => {
   //   setOpenDialog(true);
   // };
@@ -78,7 +81,7 @@ const Layout = (props: Props) => {
             onClick={handleClick}
             className="avatar"
           >
-            d
+            {user.username.charAt(0)}
           </Button>
           <Popover
             id={id}
@@ -92,11 +95,11 @@ const Layout = (props: Props) => {
             }}
           >
             <div className="flex items-center mb-2.5">
-              <div className="avatar">d</div>
-              <div className="ml-2">DoQuocDoanh</div>
+              <div className="avatar">{user.username.charAt(0)}</div>
+              <div className="ml-2">{user.username}</div>
             </div>
             <div className="py-5">
-              <div className="mb-1">Developer</div>
+              <div className="mb-1">{user.department.name}</div>
               <div>Staff ID:</div>
             </div>
             <div className="signout">

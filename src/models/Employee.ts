@@ -25,12 +25,12 @@ export interface Employee {
   card_number: string | null;
   family_card_number: string;
   health_insurance_no: string;
-  safety_insurance_no: string;
-  basic_salary: number | null;
-  audit_salary: number | null;
-  health_insurance: number | null;
-  safety_insurance: number | null;
-  meal_allowance: number | null;
+  safety_insurance_no: string |null;
+  basic_salary: number;
+  audit_salary: number;
+  health_insurance: number;
+  safety_insurance: number;
+  meal_allowance: number ;
   entitle_ot: number;
   meal_allowance_paid: number;
   operational_allowance_paid: number;
@@ -176,7 +176,7 @@ export interface IGrade {
 }
 
 export interface IContractFormData {
-  employee_id: string;
+  employee_id?: string;
   names: string[];
   contract_dates: string[];
   documents: File[];
@@ -184,7 +184,7 @@ export interface IContractFormData {
 }
 
 export interface IDocumentFormData{
-  employee_id: string | null;
+  employee_id?: string | null;
   documents?: File[];
   deleted_ids?: number[]
 }

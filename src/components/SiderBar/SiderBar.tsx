@@ -7,7 +7,7 @@ import Collapse from "@mui/material/Collapse";
 import { useState } from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-import { itemsSiderbar } from "../../utils/dataSiderbar";
+import { itemsSiderbar } from "@/utils/dataSiderbar";
 import SvgIcon from "@mui/material/SvgIcon";
 import { NavLink, useLocation } from "react-router-dom";
 import "./SiderBar.scss";
@@ -80,7 +80,7 @@ const SiderBar = (props: Props) => {
               <React.Fragment key={item.name}>
                 <ListItemButton
                   selected={location.pathname === item.path}
-                  component={item?.path != undefined ? NavLink : "div"}
+                  component={item?.path !== undefined ? NavLink : "div"}
                   to={item?.path || undefined}
                   className="mb-5"
                   sx={{

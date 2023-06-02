@@ -1,27 +1,22 @@
 import React, {
   ChangeEvent,
-  MouseEventHandler,
   forwardRef,
   memo,
-  useEffect,
   useState,
 } from "react";
 import DatePicker, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import "./Custom.scss";
 import { FilledInput, IconButton, Input } from "@mui/material";
 import { styled } from "@mui/material/styles";
-// import Calendar from "../../assets/image/Calendar.svg";
-import Down from "../../assets/image/Down.svg";
-// import Clear from "../../assets/image/Clear.svg";
+import Down from "@/assets/image/Down.svg";
 import InputAdornment from "@mui/material/InputAdornment";
 import moment from "moment";
-import { ReactComponent as Calendar } from "../../assets/image/Calendar.svg";
-import { ReactComponent as Clear } from "../../assets/image/Clear.svg";
+import { ReactComponent as Calendar } from "@/assets/image/Calendar.svg";
+import { ReactComponent as Clear } from "@/assets/image/Clear.svg";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { changeEmployee } from "../../redux/slice/employeeSlice";
+import { AppDispatch } from "@/redux/store";
+import { changeEmployee } from "@/redux/slice/employeeSlice";
 
 const StyledFilledInput = styled(FilledInput)({
   // width: "308px",
@@ -64,7 +59,7 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
   ) => {
     setStartDate(date);
     const formattedDate = moment(date).format("YYYY-MM-DD");
-    if (name != undefined) {
+    if (name !== undefined) {
       dispatch(changeEmployee({ name1: name, value: formattedDate }));
     }
     if (formattedDate !== "") {
@@ -108,7 +103,7 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
                 onClick={(e) => {
                   setStartDate(null);
                   setError(true);
-                  if (name != undefined && !setValueDate) {
+                  if (name !== undefined && !setValueDate) {
                     dispatch(changeEmployee({ name1: name, value: null }));
                   }
                   if (onchange && setValueDate) {
@@ -147,7 +142,7 @@ const DatePickerCustom = (props: PropsInputDatePicker) => {
       </label>
       <DatePicker
         selected={
-          value != undefined && value != "" && value != null
+          value !== undefined && value !== "" && value !== null
             ? new Date(String(value))
             : startDate
         }

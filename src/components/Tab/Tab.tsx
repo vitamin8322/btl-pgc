@@ -2,12 +2,7 @@ import Box from "@mui/material/Box";
 import TabPanel from "./TabPanel";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import {
-  IBenefit,
-  IFormContract,
-  IFormEmployee,
-  IFormEmploymentDetail,
-} from "../../models/employee";
+import { IBenefit } from "@/models/employee";
 import TabEmployee from "./TabEmployee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import TabContract from "./TabContract";
@@ -15,11 +10,12 @@ import TabEmployment from "./TabEmployment";
 import { AntTabs } from "../CustomStyle/StyleTabs";
 import { AntTab } from "../CustomStyle/StyleTab";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   changeEmployee,
   checkContract,
   checkEmployee,
+  checkSalary,
   getBenefit,
   getDepartment,
   getGrade,
@@ -27,7 +23,7 @@ import {
   getMarriage,
   getPosition,
   resetEmployee,
-} from "../../redux/slice/employeeSlice";
+} from "@/redux/slice/employeeSlice";
 import TabOthers from "./TabOthers";
 import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
 import TabSalary from "./TabSalary";
@@ -35,15 +31,14 @@ import {
   mountDataContract,
   removeAllDataContract,
   removeAllDataFormConTract,
-} from "../../redux/slice/contractSlice";
+} from "@/redux/slice/contractSlice";
 import {
   mountDataDocument,
   removeAllDataDocument,
   removeAllDataFromDocument,
-} from "../../redux/slice/documentSlice";
+} from "@/redux/slice/documentSlice";
 import "./CustomTab.scss";
-import BasicModal from "../CustomComponents/DialogsCustom";
-import { getCompany } from "../../redux/slice/authSlice";
+import { getCompany } from "@/redux/slice/authSlice";
 
 function a11yProps(index: number) {
   return {
@@ -57,8 +52,12 @@ const BasicTabs = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { company } = useSelector((state: RootState) => state.auth);
   const { dataDocument } = useSelector((state: RootState) => state.document);
-  const { employee, checkValidationEmplyee, checkValidationContract } =
-    useSelector((state: RootState) => state.employee);
+  const {
+    employee,
+    checkValidationEmplyee,
+    checkValidationContract,
+    checkValidationSalary,
+  } = useSelector((state: RootState) => state.employee);
   const { dataFormContract, dataContract } = useSelector(
     (state: RootState) => state.contract
   );
@@ -114,6 +113,7 @@ const BasicTabs = () => {
     (e: React.SyntheticEvent, newValue: number) => {
       setValue(newValue);
       dispatch(checkEmployee());
+      dispatch(checkSalary());
       if (checkTab2.count > 0) {
         dispatch(checkContract());
       }
@@ -154,7 +154,13 @@ const BasicTabs = () => {
             {...a11yProps(1)}
           />
           <AntTab label="Employment Details" {...a11yProps(2)} />
-          <AntTab label="Salary & Wagese" {...a11yProps(3)} />
+          <AntTab
+            label="Salary & Wagese"
+            icon={checkValidationSalary ? <ErrorOutlineRoundedIcon /> : ""}
+            className={`${checkValidationSalary ? "errorTab" : ""}  `}
+            iconPosition={"end"}
+            {...a11yProps(3)}
+          />
           <AntTab label="Others" {...a11yProps(4)} />
         </AntTabs>
       </Box>

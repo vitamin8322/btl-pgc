@@ -2,12 +2,12 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import InputCustom from "../CustomComponents/InputCustom";
 import SelectMui from "../CustomComponents/SelectMui";
-import { Employee, IFormEmployee } from "../../models/employee";
+import { Employee, IFormEmployee } from "@/models/employee";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getCompany } from "../../redux/slice/authSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getCompany } from "@/redux/slice/authSlice";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { addEmployee, getMarriage } from "../../redux/slice/employeeSlice";
+import { addEmployee, getMarriage } from "@/redux/slice/employeeSlice";
 import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
 

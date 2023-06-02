@@ -9,19 +9,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import moment from "moment";
-import { ReactComponent as Dowload } from "../../../assets/image/Dowload.svg";
-import { ReactComponent as Delete } from "../../../assets/image/Delete.svg";
+import { ReactComponent as Dowload } from "@/assets/image/Dowload.svg";
+import { ReactComponent as Delete } from "@/assets/image/Delete.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   addDataTableDocument,
   addordelDataToDocument,
   mountDataDocument,
   removeDataDocument,
   removeDataFormDocument,
-} from "../../../redux/slice/documentSlice";
+} from "@/redux/slice/documentSlice";
 import { useParams } from "react-router-dom";
-import { removeDataFormConTtract } from "../../../redux/slice/contractSlice";
 
 type Props = {};
 
@@ -66,7 +65,6 @@ const DocumentUpload = (props: Props) => {
     if (selectedFile) {
       dispatch(
         addordelDataToDocument({
-          employee_id: idEmployee || "0",
           documents: [selectedFile],
         })
       );
@@ -102,7 +100,6 @@ const DocumentUpload = (props: Props) => {
     if (updated_at !== "") {
       dispatch(
         addordelDataToDocument({
-          employee_id: idEmployee || "0",
           deleted_ids: [id],
         })
       );
@@ -179,7 +176,7 @@ const DocumentUpload = (props: Props) => {
                       <TableCellCustom>
                         <div className="flex justify-center items-center gap-1">
                           <span className="w-10">
-                            {row.updated_at != "" && (
+                            {row.updated_at !== "" && (
                               <button className="flex gap-1 hover:bg-greenHover h-6  text-green bg-green2 items-center rounded-md py-2 px-3">
                                 <Dowload />
                               </button>

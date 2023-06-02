@@ -1,12 +1,11 @@
 import React from "react";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
-import { changeEmployee } from "../../redux/slice/employeeSlice";
+import { changeEmployee } from "@/redux/slice/employeeSlice";
 import "./Custom.scss";
-import { ReactComponent as CheckBox } from "../../assets/image/CheckBox.svg";
+import { ReactComponent as CheckBox } from "@/assets/image/CheckBox.svg";
 
 type PropsCheckBox = {
   label: string;

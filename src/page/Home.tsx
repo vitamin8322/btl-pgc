@@ -1,11 +1,11 @@
-import React from "react";
-import Layout from "../components/Layout";
-import SiderBar from "../components/SiderBar/SiderBar";
+import React, { useEffect } from "react";
+import Layout from "@/components/Layout";
+import SiderBar from "@/components/SiderBar/SiderBar";
 import { styled } from "@mui/material/styles";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Heading from "../components/Heading";
-import Copyright from "../components/Copyright";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Heading from "@/components/Heading";
+import Copyright from "@/components/Copyright";
 
 type Props = {
   crumbs?: string[];
@@ -22,7 +22,6 @@ const Home = (props: Props) => {
   const location = useLocation();
   const crumbs = location.pathname.split("/");
 
-  
 
   return (
     <div style={{ height: "" }}>

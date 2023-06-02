@@ -5,27 +5,25 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { useEffect, useState } from "react";
-import { dataDeletes, getEmployee, getIdEmployee, setCheckValidation } from "../../redux/slice/employeeSlice";
-import { Checkbox, Pagination, PaginationItem } from "@mui/material";
+import { dataDeletes, getEmployee,  setCheckValidation } from "@/redux/slice/employeeSlice";
+import { Checkbox,} from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import IndeterminateCheckBoxIcon from "@mui/icons-material/IndeterminateCheckBox";
 import PaginationEmployee from "./PaginationEmployee";
-import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import ActionTable from "./ActionTable";
 import "./Table.scss";
 import CircularProgress from "@mui/material/CircularProgress";
-import { ReactComponent as NoData } from "../../assets/image/NoData.svg";
+import { ReactComponent as NoData } from "@/assets/image/NoData.svg";
 
 const TableEmpoyee = ({}) => {
   const dispatch = useDispatch<AppDispatch>();
   const { dataEmployee, status, checkValidationEmplyee, checkValidationContract } = useSelector(
     (state: RootState) => ({
-      ...state.employee,
-      checkValidationEmplyee: false
+      ...state.employee
     })
   );
   const [selected, setSelected] = useState<number[]>([]);
@@ -36,18 +34,6 @@ const TableEmpoyee = ({}) => {
 
   const searchValue = searchParams.get("search");
   const pageValue = Number(searchParams.get("page"));
-
-  // useEffect(() => {
-  //   if (searchParams != null && pageValue != null) {
-  //     dispatch(getEmployee({ page: pageValue, query: searchValue }));
-  //   } else if (pageValue != null) {
-  //     dispatch(getEmployee({ page: pageValue }));
-  //   } else if (searchParams != null) {
-  //     dispatch(getEmployee({ query: searchValue }));
-  //   }else{
-  //     dispatch(getEmployee({}));
-  //   }
-  // }, []);
 
   useEffect(() => {
     const queryParams = {
@@ -331,7 +317,7 @@ const TableEmpoyee = ({}) => {
                   );
                 })}
 
-              {status != "loading" && dataEmployee?.data.length === 0 && (
+              {status !== "loading" && dataEmployee?.data.length === 0 && (
                 <div className="absolute flex flex-col inset-0 justify-center items-center">
                   <NoData />
                   <div className="mt-30 font-normal leading-5 text-base text-center">
@@ -345,7 +331,7 @@ const TableEmpoyee = ({}) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {status == "loading" && (
+        {status === "loading" && (
           <div className="absolute inset-0 flex h-full bg-loading">
             <CircularProgress size={32} sx={{ margin: "auto" }} />
           </div>

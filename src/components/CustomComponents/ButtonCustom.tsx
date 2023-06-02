@@ -1,9 +1,7 @@
 import * as React from "react";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
-
 import { styled } from "@mui/material/styles";
-import { PropTypes } from "@mui/material";
+
 type ButtonProps = {
   name: string;
   backgroundColor?: string;

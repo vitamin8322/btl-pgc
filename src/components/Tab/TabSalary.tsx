@@ -1,20 +1,6 @@
 import React, { ChangeEvent } from "react";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
-import FilledInput from "@mui/material/FilledInput";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { styled } from "@mui/material/styles";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
-import { Employee,  } from "../../models/employee";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { Employee,  } from "@/models/employee";
 
 type PropsSalary = {
   employee:Employee

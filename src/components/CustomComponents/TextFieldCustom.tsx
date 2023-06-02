@@ -3,9 +3,9 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
-import { changeEmployee } from "../../redux/slice/employeeSlice";
+import { changeEmployee } from "@/redux/slice/employeeSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "@/redux/store";
 
 type PropsTextFieldCustom = {
   label?: string;
@@ -122,7 +122,7 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
               ? `Please input ${label}`
               : onChange
               ? ""
-              : `Maximum length is ${length} characters`
+              : Number(value) <0 ?'Please input value min is 0' : `Maximum length is ${length} characters`
             : ""
         }
         InputProps={{

@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import TableEmpoyee from "../components/Table/TableEmpoyee";
-import Breadcrumbs from "../components/Breadcrumbs";
-import ActionTable from "../components/Table/ActionTable";
+import TableEmpoyee from "@/components/Table/TableEmpoyee";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
-import { dataDeletes, getEmployee } from "../redux/slice/employeeSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { getEmployee } from "@/redux/slice/employeeSlice";
 import { useLocation } from "react-router-dom";
 
 type Props = {};

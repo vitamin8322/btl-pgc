@@ -4,13 +4,13 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { PaperProps } from "@mui/material/Paper";
-import { IMarriageStatus } from "../../models/employee";
+import { IMarriageStatus } from "@/models/employee";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store";
-import { changeEmployee } from "../../redux/slice/employeeSlice";
-import { ReactComponent as Language } from "../../assets/image/Language.svg";
+import { AppDispatch } from "@/redux/store";
+import { changeEmployee } from "@/redux/slice/employeeSlice";
+import { ReactComponent as Language } from "@/assets/image/Language.svg";
 
 type PropsSelect = {
   label?: string;

@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import InputCustom from "../../CustomComponents/InputCustom";
 import Button from "@mui/material/Button";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import DatePickerCustom from "../../CustomComponents/DatePickerCustom";
@@ -10,12 +9,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
-import { ReactComponent as Delete } from "../../../assets/image/Delete.svg";
-import { ReactComponent as Dowload } from "../../../assets/image/Dowload.svg";
-import { ReactComponent as Clear } from "../../../assets/image/Clear.svg";
-import { fetchApi } from "../../../hooks/api";
+import { ReactComponent as Delete } from "@/assets/image/Delete.svg";
+import { ReactComponent as Dowload } from "@/assets/image/Dowload.svg";
+import { ReactComponent as Clear } from "@/assets/image/Clear.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   addDataContract,
   addDataTableContract,
@@ -23,11 +21,11 @@ import {
   mountDataContract,
   removeDataContract,
   removeDataFormConTtract,
-} from "../../../redux/slice/contractSlice";
+} from "@/redux/slice/contractSlice";
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import TextFieldCustom from "../../CustomComponents/TextFieldCustom";
-import { IContract } from "../../../models/employee";
+import { IContract } from "@/models/employee";
 
 type Props = {};
 
@@ -95,10 +93,9 @@ const ContractUploadFile = (props: Props) => {
   };
 
   const handleDataContract = () => {
-    if (file != null && formContract.date!=='' && formContract.name !=='') {
+    if (file !== null && formContract.date!=='' && formContract.name !=='') {
       dispatch(
         addDataToForm({
-          employee_id: idEmployee ?? "0",
           documents: [file],
           names: [formContract.name],
           contract_dates: [
@@ -278,7 +275,7 @@ const ContractUploadFile = (props: Props) => {
                         <TableCellCustom>
                           <div className="flex justify-center items-center gap-1">
                             <span className="w-32">
-                              {row.document != "" && (
+                              {row.document !== "" && (
                                 <button className="flex gap-1 hover:bg-greenHover h-6  text-green bg-green2 items-center rounded-md py-2 px-3">
                                   <span className="text-ellipsis overflow-hidden whitespace-nowrap w-20">
                                     {/* {row.document} */}

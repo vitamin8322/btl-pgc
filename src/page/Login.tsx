@@ -1,7 +1,7 @@
 import React from "react";
-import Logo from "./../assets/image/logo.svg";
-import LoginFrom from "../components/LoginFrom";
-import Copyright from "../components/Copyright";
+import Logo from "@/assets/image/logo.svg";
+import LoginForm from "@/components/LoginForm";
+import Copyright from "@/components/Copyright";
 
 type Props = {};
 
@@ -14,7 +14,7 @@ const Login = (props: Props) => {
           HR Management System
         </h2>
         <h2 className="font-medium text-4xl tracking-tight mt-10 mb-5">Sign In</h2>
-        <LoginFrom />
+        <LoginForm />
         <Copyright />
       </div>
     </div>
