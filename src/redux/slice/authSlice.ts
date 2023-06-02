@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
-import { IAuth, ICompany, ILoginFormFields, ILogin } from "../../models/auth";
+import { IAuth, ICompany, ILoginFormFields, ILogin } from "../../models/Auth";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";

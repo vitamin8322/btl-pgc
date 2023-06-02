@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ICompany, ILoginFormFields } from "../models/auth";
+import { ICompany, ILoginFormFields } from "../models/Auth";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -195,7 +195,7 @@ const LoginForm = (props: Props) => {
           </Button>
         )}
       </form>
-      <button className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
+      <button  className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
         Forgot Your Password?
       </button>
     </div>

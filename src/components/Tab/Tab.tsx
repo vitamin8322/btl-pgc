@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import TabPanel from "./TabPanel";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { IBenefit } from "@/models/employee";
+import { IBenefit } from "@/models/Employee";
 import TabEmployee from "./TabEmployee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import TabContract from "./TabContract";

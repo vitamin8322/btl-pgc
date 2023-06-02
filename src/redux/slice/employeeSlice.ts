@@ -8,7 +8,7 @@ import {
   Employee,
   IGrade,
   IBenefit,
-} from "../../models/employee";
+} from "../../models/Employee";
 import { RootState } from "../store";
 
 interface EmployeeState {

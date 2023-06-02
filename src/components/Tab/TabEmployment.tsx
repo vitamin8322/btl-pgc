@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material/Select";
 import React, { ChangeEvent, useEffect } from "react";
-import { Employee, IFormEmploymentDetail } from "@/models/employee";
+import { Employee, IFormEmploymentDetail } from "@/models/Employee";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getDepartment, getPosition } from "@/redux/slice/employeeSlice";

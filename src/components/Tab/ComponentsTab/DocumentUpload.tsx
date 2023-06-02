@@ -82,12 +82,6 @@ const DocumentUpload = (props: Props) => {
     }
   };
 
-  // useEffect(() => {
-  //   dispatch(mountDataDocument(employee.documents));
-  // },[])
-
-  // console.log(dataDocument);
-
   const handleDeleteFileDocument = (
     updated_at: string,
     index: number,

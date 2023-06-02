@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect } from "react";
 import InputCustom from "../CustomComponents/InputCustom";
-import { Employee, IFormContract } from "@/models/employee";
+import { Employee, IFormContract } from "@/models/Employee";
 import { SelectChangeEvent } from "@mui/material/Select";
 import SelectMui from "../CustomComponents/SelectMui";
 import { useDispatch, useSelector } from "react-redux";

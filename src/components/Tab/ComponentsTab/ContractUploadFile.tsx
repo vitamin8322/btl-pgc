@@ -25,7 +25,7 @@ import {
 import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import TextFieldCustom from "../../CustomComponents/TextFieldCustom";
-import { IContract } from "@/models/employee";
+import { IContract } from "@/models/Employee";
 
 type Props = {};
 

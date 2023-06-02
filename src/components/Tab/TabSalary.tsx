@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
-import { Employee,  } from "@/models/employee";
+import { Employee,  } from "@/models/Employee";
 
 type PropsSalary = {
   employee:Employee

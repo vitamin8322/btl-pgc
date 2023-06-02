@@ -4,7 +4,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { PaperProps } from "@mui/material/Paper";
-import { IMarriageStatus } from "@/models/employee";
+import { IMarriageStatus } from "@/models/Employee";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useDispatch } from "react-redux";

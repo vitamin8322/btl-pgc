@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import InputCustom from "../CustomComponents/InputCustom";
 import SelectMui from "../CustomComponents/SelectMui";
-import { Employee, IFormEmployee } from "@/models/employee";
+import { Employee, IFormEmployee } from "@/models/Employee";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getCompany } from "@/redux/slice/authSlice";

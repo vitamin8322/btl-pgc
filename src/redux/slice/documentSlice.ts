@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
-import { IDocument, IDocumentFormData } from "../../models/employee";
+import { IDocument, IDocumentFormData } from "../../models/Employee";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import { RootState } from "../store";

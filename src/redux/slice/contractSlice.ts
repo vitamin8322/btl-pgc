@@ -4,7 +4,7 @@ import {
   IContract,
   IContractFormData,
   IFormContract,
-} from "../../models/employee";
+} from "../../models/Employee";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "../../utils/constants";
 import { RootState } from "../store";
