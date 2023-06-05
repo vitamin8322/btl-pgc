@@ -4,7 +4,6 @@ import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { IBenefit } from "@/models/Employee";
 import TabEmployee from "./TabEmployee";
-import { SelectChangeEvent } from "@mui/material/Select";
 import TabContract from "./TabContract";
 import TabEmployment from "./TabEmployment";
 import { AntTabs } from "../CustomStyle/StyleTabs";
@@ -90,7 +89,7 @@ const BasicTabs = () => {
       dispatch(mountDataDocument(employee?.documents));
       dispatch(mountDataContract(employee?.contracts));
     };
-    if (employee?.benefits.length > 0) {
+    if (employee?.benefits?.length > 0) {
       const arrBenefits = employee?.benefits.map((item: IBenefit) => item?.id);
       dispatch(changeEmployee({ name1: "benefits", value: arrBenefits }));
     }

@@ -121,6 +121,7 @@ const initialState: AuthState = {
   },
   company: [],
   login: {
+    status:0,
     data: {
       token: "",
     },
@@ -152,6 +153,17 @@ export const loginAuth = createAsyncThunk(
     return data;
   }
 );
+
+export const forgotPassword = createAsyncThunk(
+  "auth/forgot",
+  async (email:string) => {
+    const data = await fetchApi("/api/forgot-password", "post", {
+      email: email
+    });
+    return data;
+  }
+);
+
 
 const authSlice = createSlice({
   name: "auth",
@@ -194,6 +206,18 @@ const authSlice = createSlice({
       })
       .addCase(logoutAuth.rejected, (state, action) => {
         state.statusLogout = "failed";
+        state.error = action.error.message ?? "Có lỗi";
+      })
+      // forgot
+      .addCase(forgotPassword.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        // state.login = action.payload;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.error.message ?? "Có lỗi";
       });
   },

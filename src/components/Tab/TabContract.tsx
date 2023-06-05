@@ -1,34 +1,18 @@
-import React, { ChangeEvent, useEffect } from "react";
-import InputCustom from "../CustomComponents/InputCustom";
-import { Employee, IFormContract } from "@/models/Employee";
-import { SelectChangeEvent } from "@mui/material/Select";
+import { IEmployeeFrom, IFormContract } from "@/models/Employee";
 import SelectMui from "../CustomComponents/SelectMui";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { getDepartment } from "@/redux/slice/employeeSlice";
 import ContractUploadFile from "./ComponentsTab/ContractUploadFile";
 import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 import { useParams } from "react-router-dom";
 
 type PropsTabContract = {
-  employee: Employee;
+  employee: IEmployeeFrom;
 };
 
 const TabContract = (props: PropsTabContract) => {
   //redux
-  const dispatch = useDispatch<AppDispatch>();
-  const { dataDepartment } = useSelector((state: RootState) => state.employee);
   const { idEmployee } = useParams();
 
   const {employee } = props;
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await dispatch(getDepartment());
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const data = [
     {

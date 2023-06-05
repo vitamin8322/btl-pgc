@@ -1,18 +1,29 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  current,
+} from "@reduxjs/toolkit";
 import { fetchApi } from "../../hooks/api";
 import {
   IEmployeeListResponse,
   IMarriageStatus,
   IDepartmentStatus,
   IPositionStatus,
-  Employee,
+  IEmployeeFrom,
   IGrade,
   IBenefit,
+  IStatusEmployee,
 } from "../../models/Employee";
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
+import { useSnackbar } from "notistack";
+// import { NotistackCustom } from "@/components/CustomComponents/NotistackCustom";
+import { NotistackCustom } from "../../components/CustomComponents/NotistackCustom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 interface EmployeeState {
-  employee: Employee;
+  employee: IEmployeeFrom;
   // employee2: {};
   dataEmployee: IEmployeeListResponse;
   dataMarriage: IMarriageStatus[];
@@ -25,6 +36,7 @@ interface EmployeeState {
   checkValidationContract: boolean;
   checkValidationSalary: boolean;
   status: "idle" | "loading" | "succeededAdd" | "succeeded" | "failed";
+  statusEmployee: IStatusEmployee;
   error: string | null;
 }
 
@@ -120,8 +132,14 @@ const initialState: EmployeeState = {
   checkValidationContract: false,
   checkValidationSalary: false,
   status: "idle",
+  statusEmployee: {
+    data: {},
+    message: "",
+    result: false,
+  },
   error: null,
 };
+
 
 export const getEmployee = createAsyncThunk(
   "employee/get",
@@ -165,8 +183,8 @@ export const getGrade = createAsyncThunk("grade/get", async () => {
   const data = await fetchApi("/api/grade", "get");
   return data.data;
 });
-export const getBenefit = createAsyncThunk("benefit/get", async () => {
-  const data = await fetchApi("/api/benefit", "get");
+export const getBenefit = createAsyncThunk("benefit/get", async (id?:number) => {
+  const data = await fetchApi(`/api/benefit${id?`?grade_id=${id}`:''}`, "get");
   return data.data;
 });
 
@@ -174,17 +192,11 @@ export const addEmployee = createAsyncThunk(
   "employee/add",
   async (_, { getState }) => {
     const { employee } = getState() as RootState;
-    console.log(employee.employee);
-
-    const data = await fetchApi(
-      "/api/employee",
-      "post",
-      // initialState.employee2
-      employee.employee
-    );
-    return data.data;
+    const data = await fetchApi("/api/employee", "post", employee.employee);
+    return data;
   }
 );
+// const {  closeSnackbar } = useSnackbar();
 
 export const editEmployee = createAsyncThunk(
   "employee/edit",
@@ -223,7 +235,7 @@ const employeeSlice = createSlice({
     changeEmployee: (state, action: PayloadAction<Value>) => {
       const { name1, value } = action.payload;
       // state.employee[name1] = value;
-      state.employee={...state.employee,[name1]:value}
+      state.employee = { ...state.employee, [name1]: value };
       console.log(name1, value);
     },
     dataDeletes: (state, action: PayloadAction<number[]>) => {
@@ -270,14 +282,17 @@ const employeeSlice = createSlice({
         state.checkValidationSalary = false;
       }
     },
-    setCheckValidation:(state) => {
+    setCheckValidation: (state) => {
       state.checkValidationContract = false;
       state.checkValidationEmplyee = false;
-      state.checkValidationSalary = false
+      state.checkValidationSalary = false;
     },
     reserStatus: (state) => {
-      state.status = initialState.status
-    }
+      state.status = initialState.status;
+    },
+    notistack: (state) => {
+      // NotistackCustom("error", "Error", closeSnackbar);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -319,39 +334,22 @@ const employeeSlice = createSlice({
       })
       // getDeparment
       .addCase(getDepartment.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.dataDepartment = action.payload;
-      })
-      .addCase(getDepartment.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message ?? "Có lỗi";
       })
       // getPosition
       .addCase(getPosition.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.dataPosition = action.payload;
-      })
-      .addCase(getPosition.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message ?? "Có lỗi";
       })
       // getMarriage
       .addCase(getMarriage.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.dataMarriage = action.payload;
-      })
-      .addCase(getMarriage.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message ?? "Có lỗi";
       })
       //Grade
       .addCase(getGrade.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.dataGrade = action.payload;
       })
       //IBenefit
       .addCase(getBenefit.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.dataBenefit = action.payload;
       })
       // addEmployee
@@ -359,8 +357,11 @@ const employeeSlice = createSlice({
         state.status = "loading";
       })
       .addCase(addEmployee.fulfilled, (state, action) => {
-        state.status = "succeededAdd";
-        state.employee = action.payload;
+        state.status = "succeeded";
+        if(action.payload.data !==null)(
+          state.employee = action.payload.data
+        )
+        state.statusEmployee = action.payload;
       })
       // getEmployee
       .addCase(getIdEmployee.fulfilled, (state, action) => {
@@ -378,7 +379,8 @@ export const {
   checkContract,
   checkSalary,
   setCheckValidation,
-  reserStatus, 
+  reserStatus,
+  notistack
 } = employeeSlice.actions;
 
 export default employeeSlice.reducer;

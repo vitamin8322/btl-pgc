@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {  useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ICompany, ILoginFormFields } from "../models/Auth";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -11,13 +11,14 @@ import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getCompany, loginAuth, resetLogin } from "@/redux/slice/authSlice";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ACCESS_TOKEN_KEY } from "@/utils/constants";
 import { NotistackCustom } from "./CustomComponents/NotistackCustom";
 import { useSnackbar } from "notistack";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
+import { ROUTES } from "@/configs/routes";
 type Props = {};
 
 const LoginForm = (props: Props) => {
@@ -26,7 +27,7 @@ const LoginForm = (props: Props) => {
 
   // redux
   const dispatch = useDispatch<AppDispatch>();
-  const { dataAuth, company, login, status } = useSelector(
+  const { company,  status } = useSelector(
     (state: RootState) => state.auth
   );
 
@@ -36,9 +37,7 @@ const LoginForm = (props: Props) => {
     const fetchData = async () => {
       await dispatch(getCompany());
     };
-
     fetchData();
-    // setListCompany(company)
   }, []);
 
   // react-hook-form
@@ -49,30 +48,39 @@ const LoginForm = (props: Props) => {
     formState: { errors },
   } = useForm<ILoginFormFields>({
     defaultValues: {
-      name: "doanhdoquoc",
-      password: "123123123",
-      factory: 1,
+      name: "",
+      password: "",
+      factory: null,
     },
   });
   const watchPassword = watch("password", "text");
   const watchFactory = watch("factory");
+  
+  console.log('errors.name', errors.factory && watchFactory === null);
+  console.log('errors.factory',watchFactory);
 
-  const onSubmitLogin = useCallback(
-    async (formData: ILoginFormFields) => {
-      try {
-        await dispatch(
-          loginAuth({
-            name: formData.name,
-            password: formData.password,
-            factory: 1,
-          })
-        );
-      } catch (error) {
-        console.log("error", error);
+  const onSubmitLogin = async (formData: ILoginFormFields) => {
+    try {
+      const result = await dispatch(
+        loginAuth({
+          name: formData.name,
+          password: formData.password,
+          factory: formData.factory,
+        })
+      );
+      console.log(result);
+
+      if (result.payload.message !== "Success") {
+        NotistackCustom("error", result.payload.message, closeSnackbar);
+      } else {
+        Cookies.set(ACCESS_TOKEN_KEY, result.payload.data.token);
+        navigate("/employee");
+        dispatch(resetLogin());
       }
-    },
-    [dispatch]
-  );
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 
   const companyOptions = useMemo(() => {
     return company.map((item: ICompany) => (
@@ -81,16 +89,6 @@ const LoginForm = (props: Props) => {
       </MenuItem>
     ));
   }, [company]);
-
-  useEffect(() => {
-    if (login.message !== "Success" && status === "succeeded") {
-      NotistackCustom("error", login.message, closeSnackbar);
-    } else if (login.message === "Success") {
-      Cookies.set(ACCESS_TOKEN_KEY, login.data.token);
-      navigate("/employee");
-      dispatch(resetLogin());
-    }
-  }, [status, dispatch]);
 
   return (
     <div className="w-348 rounded-xl shadow-form bg-white p-6 ml-8 ">
@@ -153,8 +151,8 @@ const LoginForm = (props: Props) => {
           <>
             <Select
               displayEmpty
-              className={`select w-300  h-46${
-                errors.factory && watchFactory === null
+              className={`select w-300 min-h-46 h-46${
+                errors.factory && (watchFactory === null || watchFactory === undefined )
                   ? "!border-red1 !bg-red2 !border !border-solid"
                   : ""
               }`}
@@ -172,7 +170,7 @@ const LoginForm = (props: Props) => {
               </InputLabel>
               {companyOptions}
             </Select>
-            {errors.factory && watchFactory === null && (
+            {errors.factory &&  (watchFactory === null || watchFactory === undefined ) && (
               <div className="error !mt-1">{errors.factory.message}</div>
             )}
           </>
@@ -195,8 +193,8 @@ const LoginForm = (props: Props) => {
           </Button>
         )}
       </form>
-      <button  className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
-        Forgot Your Password?
+      <button className="font-medium text-blue-500 cursor-pointer dark:text-blue-500 hover:underline mb-10 ">
+        <NavLink to={ROUTES.forgotPassword}>Forgot Your Password?</NavLink>
       </button>
     </div>
   );

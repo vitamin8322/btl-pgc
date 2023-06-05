@@ -120,6 +120,7 @@ export interface ICompany {
 }
 
 export interface ILogin {
+  status:number;
  data:{
   token: string;
  };

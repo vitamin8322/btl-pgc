@@ -1,4 +1,4 @@
-export interface Employee {
+export interface IEmployeeFrom {
   id: number;
   old_staff_id: number | null;
   staff_id: string;
@@ -54,15 +54,11 @@ export interface Employee {
   benefits: IBenefit[];
 }
 
-export interface test {
-  name: string;
-  mother_name: string;
-  dateOfBirth: string;
-  [key: string]: string | number;
+export interface IStatusEmployee{
+  data:{};
+  message: string; 
+  result: boolean
 }
-export type test2 = {
-  count: number;
-};
 
 export interface IContract {
   id: number;
@@ -77,7 +73,7 @@ export interface IContract {
 
 export interface IEmployeeListResponse {
   current_page: number;
-  data: Employee[];
+  data: IEmployeeFrom[];
   first_page_url: string;
   from: number;
   last_page: number;

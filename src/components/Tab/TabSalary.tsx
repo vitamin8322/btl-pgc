@@ -1,9 +1,9 @@
 import React, { ChangeEvent } from "react";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
-import { Employee,  } from "@/models/Employee";
+import { IEmployeeFrom,  } from "@/models/Employee";
 
 type PropsSalary = {
-  employee:Employee
+  employee:IEmployeeFrom
 };
 
 const TabSalary = (props: PropsSalary) => {

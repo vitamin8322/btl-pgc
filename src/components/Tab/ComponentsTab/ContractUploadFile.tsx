@@ -52,18 +52,9 @@ const ContractUploadFile = (props: Props) => {
     },
   }));
   const dispatch = useDispatch<AppDispatch>();
-  const { employee } = useSelector((state: RootState) => state.employee);
-  const { dataFormContract, dataContract } = useSelector(
+  const { dataContract } = useSelector(
     (state: RootState) => state.contract
   );
-
-  const { idEmployee } = useParams();
-
-  useEffect(() => {
-    // dispatch(mountDataContract(employee.contracts));
-  }, []);
-  // console.log(dataContract);
-
   const headers = [
     { field: "No", headerName: "No" },
     { field: "ContractName", headerName: "Contract Name" },

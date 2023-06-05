@@ -9,7 +9,7 @@ import {
   getBenefit,
   getGrade,
 } from "@/redux/slice/employeeSlice";
-import { Employee, IBenefit, IGrade } from "@/models/Employee";
+import { IEmployeeFrom, IBenefit, IGrade } from "@/models/Employee";
 import { styled } from "@mui/material/styles";
 import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";
 import SelectMui from "../CustomComponents/SelectMui";
@@ -52,7 +52,7 @@ const TextAreaStyle = styled("textarea")(({ theme }) => ({
 }));
 
 type PropsTagOther = {
-  employee: Employee;
+  employee: IEmployeeFrom;
 };
 
 const TagOthers = (props: PropsTagOther) => {
@@ -63,18 +63,12 @@ const TagOthers = (props: PropsTagOther) => {
   );
   const { employee } = props;
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //   };
-  //   fetchData();
-  // }, []);
-
   const [selectedOption, setSelectedOption] = useState<IBenefit[] | undefined>(
     undefined
   );
-  const [selectedGradeIndex, setSelectedGradeIndex] = useState(
-    dataGrade.findIndex((item) => item.id === employee.grade_id)
-  );
+  // const [selectedGradeIndex, setSelectedGradeIndex] = useState(
+  //   dataGrade.findIndex((item) => item.id === employee.grade_id)
+  // );
   // console.log(selectedGradeIndex);
 
   const handleOptionChange = (
@@ -88,6 +82,9 @@ const TagOthers = (props: PropsTagOther) => {
       dispatch(changeEmployee({ name1: "benefits", value: idArray }));
     }
   };
+
+  console.log(employee.benefits);
+  
 
   const hanleChangeRemark = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -121,14 +118,13 @@ const TagOthers = (props: PropsTagOther) => {
                 dispatch(
                   changeEmployee({ name1: "grade_id", value: value.id })
                 );
-                const selectedIndex = dataGrade.findIndex(
-                  (item) => item.name === value.name
-                );
-                setSelectedGradeIndex(selectedIndex);
+                dispatch(getBenefit(value.id))
               } else {
-                setSelectedGradeIndex(-1);
                 dispatch(changeEmployee({ name1: "grade_id", value: null }));
+                dispatch(changeEmployee({ name1: "grade", value: null }));
               }
+              dispatch(changeEmployee({ name1: "benefits", value: []}));
+              setSelectedOption([])
             }}
           />
         </div>
@@ -136,12 +132,6 @@ const TagOthers = (props: PropsTagOther) => {
       <div className="flex items-center h-auto">
         <div className="font-normal min-w-175 flex"></div>
         <div className="flex w-308 flex-wrap text-sm">
-          {/* {selectedGradeIndex > -1 &&
-            dataGrade[selectedGradeIndex].benefits.map((benefits, id) => (
-              <div className="text-gray mx-1 bg-gray3 px-2 rounded-md mb-1 h-6 flex items-center">
-                {benefits.name}
-              </div>
-            ))} */}
           {employee.grade?.benefits &&
             employee.grade?.benefits.map((benefits, id) => (
               <div className="text-gray mx-1 bg-gray3 px-2 rounded-md mb-1 h-6 flex items-center">
@@ -165,17 +155,6 @@ const TagOthers = (props: PropsTagOther) => {
             employee.benefits.includes(item.id as any)
           )}
           clearIcon={<Clear />}
-          // renderTags={(value, getTagProps) => {
-          //   return (
-          //     value &&
-          //     value.map((option, index) => (
-          //       <CustomTag {...getTagProps({ index })}>
-          //         {option.name}
-          //         <AccessibilityNewIcon onClick={() => handleDelete(option)} />
-          //       </CustomTag>
-          //     )) 
-          //   );
-          // }}
           renderInput={(params) => (
             <TextField
               {...params}

@@ -15,9 +15,8 @@ const Breadcrumbs = (props: Props) => {
       <NavLink
         to={`/employee`}
         className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "text-black " : ""
+          isActive ? "text-black " : ""
         }
-        // activeClassName="text-black"
         end 
       >
         Employee Management
@@ -27,7 +26,7 @@ const Breadcrumbs = (props: Props) => {
         to={idEmployee ? `/employee/create-or-update/${idEmployee}` : `/employee/create-or-update`}
         aria-current="page"
         className={({ isActive, isPending }) =>
-          isPending ? "pending" : isActive ? "text-black " : ""
+          isActive ? "text-black " : ""
         }
         end 
       >

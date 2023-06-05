@@ -2,7 +2,6 @@ import {
   CircularProgress,
   FormControl,
   InputAdornment,
-  InputLabel,
   OutlinedInput,
 } from "@mui/material";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
@@ -37,8 +36,13 @@ const Heading = (props: PropsHeading) => {
 
   const [query, setQuery] = useState<string | null>(searchValue);
   const debouncedValue = useDebounce<string | null>(query, 500);
-  const { employee, status, checkValidationEmplyee, checkValidationContract } =
-    useSelector((state: RootState) => state.employee);
+  const {
+    employee,
+    status,
+    checkValidationEmplyee,
+    checkValidationContract,
+    statusEmployee,
+  } = useSelector((state: RootState) => state.employee);
   const { dataFormContract, dataContract } = useSelector(
     (state: RootState) => state.contract
   );
@@ -62,26 +66,20 @@ const Heading = (props: PropsHeading) => {
   }, [debouncedValue]);
   const id = employee?.id;
 
-  // useEffect(() => {
-  //   if (status === "succeededAdd") {
-  //     if (employee?.id !== 0 && dataFormContract.documents.length > 0) {
-  //       dispatch(
-  //         addDataContract({ id: String(id), formData: dataFormContract })
-  //       );
-  //     }
-  //   }
-  // }, [status, employee, dataFormContract, dataFormDocument]);
-
   const hanldeAdd = async () => {
-    await dispatch(addEmployee());
+    const result = await dispatch(addEmployee());
     if (dataFormDocument.documents && dataFormDocument.documents.length > 0) {
       dispatch(addDataDocument({ formData: dataFormDocument }));
     }
     if (dataFormContract.documents.length > 0) {
       dispatch(addDataContract({ formData: dataFormContract }));
     }
-    await navigate(`/employee`);
-    NotistackCustom("success", "Record added", closeSnackbar);
+    if (result.payload.message !== "Success") {
+      NotistackCustom("error", result.payload.message, closeSnackbar);
+    } else {
+      navigate(`/employee`);
+      NotistackCustom("success", "Record added", closeSnackbar);
+    }
   };
 
   const handleEdit = async () => {

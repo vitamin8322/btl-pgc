@@ -1,5 +1,4 @@
-import React, { ChangeEvent, memo, useState } from "react";
-import FilledInput from "@mui/material/FilledInput";
+import React, { ChangeEvent, memo, useEffect, useState } from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import { styled } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
@@ -60,7 +59,6 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
   const dispatch = useDispatch<AppDispatch>();
   const [error, setError] = useState(false);
   const [touched, setTouched] = useState(false);
-  // console.log(value);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
@@ -90,6 +88,17 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
       setError(true);
     }
   };
+
+  const checkInputLength = () => {
+    if (length && value && String(value).length > length) {
+      setError(true);
+    } else if (Number(value) < 0) {
+      setError(true);
+    }
+  };
+  useEffect(() => {
+    checkInputLength();
+  }, []);
 
   return (
     <div
@@ -122,7 +131,9 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
               ? `Please input ${label}`
               : onChange
               ? ""
-              : Number(value) <0 ?'Please input value min is 0' : `Maximum length is ${length} characters`
+              : Number(value) < 0
+              ? "Please input value min is 0"
+              : `Maximum length is ${length} characters`
             : ""
         }
         InputProps={{

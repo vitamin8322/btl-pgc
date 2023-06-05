@@ -53,11 +53,6 @@ const Layout = (props: Props) => {
     Cookies.remove("token");
     navigate(ROUTES.login);
   };
-  console.log(user);
-  
-  // const hanleOpenDialog = () => {
-  //   setOpenDialog(true);
-  // };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -81,7 +76,7 @@ const Layout = (props: Props) => {
             onClick={handleClick}
             className="avatar"
           >
-            {user.username.charAt(0)}
+            {user.username?.charAt(0)}
           </Button>
           <Popover
             id={id}
@@ -95,7 +90,7 @@ const Layout = (props: Props) => {
             }}
           >
             <div className="flex items-center mb-2.5">
-              <div className="avatar">{user.username.charAt(0)}</div>
+              <div className="avatar">{user.username?.charAt(0)}</div>
               <div className="ml-2">{user.username}</div>
             </div>
             <div className="py-5">

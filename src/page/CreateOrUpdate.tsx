@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import Tab from '@/components/Tab/Tab';
 
 type Props = {}

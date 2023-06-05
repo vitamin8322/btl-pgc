@@ -93,7 +93,6 @@ const SelectMui = (props: PropsSelect) => {
       setError(false);
     }
   }
-  const backgroundColor = 'blue'
 
   return (
     <div className="flex items-center select__icon">

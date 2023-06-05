@@ -7,6 +7,7 @@ export const NotistackCustom = (
   message: string,
   closeSnackbar: (key?: string | number) => void
 ) => {
+  
   enqueueSnackbar(message, {
     variant,
     action: (key) => (

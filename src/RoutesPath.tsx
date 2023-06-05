@@ -14,6 +14,7 @@ import Login from "./page/Login";
 import Employee from "./page/Employee";
 import CreateOrUpdate from "./page/CreateOrUpdate";
 import Attendance from "./page/Attendance";
+import ForgotPassword from "./page/ForgotPassword";
 
 interface Props {}
 
@@ -37,6 +38,7 @@ export const RoutesPath = (props: Props) => {
 
           <Route element={<HomeRoute />}>
             <Route path={ROUTES.login} element={<Login />} />
+            <Route path={ROUTES.forgotPassword} element={<ForgotPassword />} />
           </Route>
           <Route path={ROUTES.login} element={<Login />} />
         </Routes>

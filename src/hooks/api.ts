@@ -24,10 +24,11 @@ export function fetchApi(
 
     cache: "no-store",
   }).then((res) => {
-    if (res.status === 401) {
-      // handle unauthorized error here.
-    }
-
+    // if (res.status >= 400) {
+    //   // handle unauthorized error here.
+    //   return res.json().then((data) => ({ status: res.status, data }));
+    // }
+    
     return res.json();
   });
 }

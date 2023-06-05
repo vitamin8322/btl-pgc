@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import InputCustom from "../CustomComponents/InputCustom";
 import SelectMui from "../CustomComponents/SelectMui";
-import { Employee, IFormEmployee } from "@/models/Employee";
+import { IEmployeeFrom, IFormEmployee } from "@/models/Employee";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { getCompany } from "@/redux/slice/authSlice";
@@ -12,7 +12,7 @@ import DatePickerCustom from "../CustomComponents/DatePickerCustom";
 import TextFieldCustom from "../CustomComponents/TextFieldCustom";
 
 type PropsTabEmployee = {
-  employee: Employee;
+  employee: IEmployeeFrom;
 };
 
 const TabEmployee = (props: PropsTabEmployee) => {
@@ -24,16 +24,6 @@ const TabEmployee = (props: PropsTabEmployee) => {
   //funs
   const { employee } = props;
   const { idEmployee } = useParams();
-  // console.log(employee);
-  
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await dispatch(getCompany());
-  //     await dispatch(getMarriage());
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const dateGender = [
     {
