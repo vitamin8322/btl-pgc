@@ -65,11 +65,6 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
     // setValue(inputValue);
     if (onChange) {
       onChange(e);
-      if (inputValue !== "") {
-        setError(false);
-      } else {
-        setError(true);
-      }
     } else {
       if (type === "number") {
         setError(parseInt(inputValue) < 0);
@@ -77,9 +72,16 @@ const TextFieldCustom = (props: PropsTextFieldCustom) => {
       if (length) {
         setError(inputValue.length > length);
       }
+      console.log(12312);
+
       if (name) {
         dispatch(changeEmployee({ name1: name, value: inputValue }));
       }
+    }
+    if (inputValue !== "") {
+      setError(false);
+    } else {
+      setError(true);
     }
   };
   const handleBlur = () => {

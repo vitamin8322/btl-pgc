@@ -236,7 +236,7 @@ const employeeSlice = createSlice({
       const { name1, value } = action.payload;
       // state.employee[name1] = value;
       state.employee = { ...state.employee, [name1]: value };
-      console.log(name1, value);
+      // console.log(name1, value);
     },
     dataDeletes: (state, action: PayloadAction<number[]>) => {
       state.dataDelete = action.payload;

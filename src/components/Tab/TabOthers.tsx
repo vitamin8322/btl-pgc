@@ -64,8 +64,9 @@ const TagOthers = (props: PropsTagOther) => {
   const { employee } = props;
 
   const [selectedOption, setSelectedOption] = useState<IBenefit[] | undefined>(
-    undefined
+    dataBenefit.filter((item) => employee.benefits.includes(item.id as any)) ?? undefined
   );
+
   // const [selectedGradeIndex, setSelectedGradeIndex] = useState(
   //   dataGrade.findIndex((item) => item.id === employee.grade_id)
   // );
@@ -78,14 +79,9 @@ const TagOthers = (props: PropsTagOther) => {
     setSelectedOption(newValue ?? undefined);
     if (newValue) {
       const idArray = newValue.map((item) => item.id);
-      console.log(idArray);
       dispatch(changeEmployee({ name1: "benefits", value: idArray }));
     }
   };
-
-  console.log(employee.benefits);
-  
-
   const hanleChangeRemark = useCallback(
     (e: ChangeEvent<HTMLTextAreaElement>) => {
       const { name } = e.target;
@@ -95,6 +91,14 @@ const TagOthers = (props: PropsTagOther) => {
     },
     []
   );
+  useEffect(() => {
+    dispatch(
+      changeEmployee({
+        name1: "grade",
+        value: dataGrade.find((item) => item.id === employee.grade_id) || null,
+      })
+    );
+  }, []);
 
   return (
     <div className="flex gap-1 flex-col">
@@ -113,18 +117,18 @@ const TagOthers = (props: PropsTagOther) => {
             sx={autocompleteStyles}
             renderInput={(params) => <TextField {...params} autoFocus />}
             onChange={(event, value) => {
+              setSelectedOption([]);
               if (value) {
                 dispatch(changeEmployee({ name1: "grade", value }));
                 dispatch(
                   changeEmployee({ name1: "grade_id", value: value.id })
                 );
-                dispatch(getBenefit(value.id))
+                dispatch(getBenefit(value.id));
               } else {
                 dispatch(changeEmployee({ name1: "grade_id", value: null }));
                 dispatch(changeEmployee({ name1: "grade", value: null }));
               }
-              dispatch(changeEmployee({ name1: "benefits", value: []}));
-              setSelectedOption([])
+              dispatch(changeEmployee({ name1: "benefits", value: [] }));
             }}
           />
         </div>
@@ -132,8 +136,8 @@ const TagOthers = (props: PropsTagOther) => {
       <div className="flex items-center h-auto">
         <div className="font-normal min-w-175 flex"></div>
         <div className="flex w-308 flex-wrap text-sm">
-          {employee.grade?.benefits &&
-            employee.grade?.benefits.map((benefits, id) => (
+          {employee?.grade?.benefits &&
+            employee?.grade?.benefits.map((benefits, id) => (
               <div className="text-gray mx-1 bg-gray3 px-2 rounded-md mb-1 h-6 flex items-center">
                 {benefits.name}
               </div>
@@ -147,26 +151,28 @@ const TagOthers = (props: PropsTagOther) => {
           id="tags-standard"
           options={dataBenefit}
           getOptionLabel={(option) => option.name}
-          value={selectedOption ?? undefined}
           onChange={handleOptionChange}
+          value={selectedOption ?? []}
           disableCloseOnSelect
           sx={autocompleteStyles}
-          defaultValue={dataBenefit.filter((item) =>
-            employee.benefits.includes(item.id as any)
-          )}
+          // defaultValue={dataBenefit.filter((item) =>
+          //   employee.benefits.includes(item.id as any)
+          // )}
           clearIcon={<Clear />}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                maxHeight: "150px",
-                overflowY: "auto",
-                overflowX: "hidden",
-                marginTop: "5px",
-              }}
-              autoFocus
-            />
-          )}
+          renderInput={(params) => {
+            return (
+              <TextField
+                {...params}
+                autoFocus
+                sx={{
+                  maxHeight: "150px",
+                  overflowY: "auto",
+                  overflowX: "hidden",
+                  marginTop: "5px",
+                }}
+              />
+            );
+          }}
         />
       </div>
       <div className="flex items-center ">
