@@ -26,6 +26,7 @@ import moment from "moment";
 import { useLocation, useParams } from "react-router-dom";
 import TextFieldCustom from "../../CustomComponents/TextFieldCustom";
 import { IContract } from "@/models/Employee";
+import { Tooltip } from "@mui/material";
 
 type Props = {};
 
@@ -52,9 +53,7 @@ const ContractUploadFile = (props: Props) => {
     },
   }));
   const dispatch = useDispatch<AppDispatch>();
-  const { dataContract } = useSelector(
-    (state: RootState) => state.contract
-  );
+  const { dataContract } = useSelector((state: RootState) => state.contract);
   const headers = [
     { field: "No", headerName: "No" },
     { field: "ContractName", headerName: "Contract Name" },
@@ -69,8 +68,8 @@ const ContractUploadFile = (props: Props) => {
     setFile(selectedFile || null);
   };
   const handleClearFile = () => {
-    setFile(null)
-  }
+    setFile(null);
+  };
   const changeContractName = (e: ChangeEvent<HTMLInputElement>) => {
     setFormContract((prevValues) => ({ ...prevValues, name: e.target.value }));
   };
@@ -84,7 +83,7 @@ const ContractUploadFile = (props: Props) => {
   };
 
   const handleDataContract = () => {
-    if (file !== null && formContract.date!=='' && formContract.name !=='') {
+    if (file !== null && formContract.date !== "" && formContract.name !== "") {
       dispatch(
         addDataToForm({
           documents: [file],
@@ -109,20 +108,16 @@ const ContractUploadFile = (props: Props) => {
         })
       );
       setFormContract({ date: "", name: "" });
-      setFile(null)
+      setFile(null);
     }
   };
 
-  const handleDeleteFileContract = (
-    document: string,
-    index: number,
-  ) => {
+  const handleDeleteFileContract = (document: string, index: number) => {
     if (document === "") {
       dispatch(removeDataContract(index));
       dispatch(removeDataFormConTtract(index));
     }
   };
-
 
   return (
     <div className="flex flex-col border-solid border-gray2 border rounded-md">
@@ -178,7 +173,12 @@ const ContractUploadFile = (props: Props) => {
             >
               <FileUploadOutlinedIcon />
               Upload File
-              <input type="file" accept="image/*,.pdf,.csv,.xlsx,.docx" hidden onChange={handleUploadFile} />
+              <input
+                type="file"
+                accept="image/*,.pdf,.csv,.xlsx,.docx"
+                hidden
+                onChange={handleUploadFile}
+              />
             </Button>
             <Button
               variant="contained"
@@ -267,21 +267,21 @@ const ContractUploadFile = (props: Props) => {
                           <div className="flex justify-center items-center gap-1">
                             <span className="w-32">
                               {row.document !== "" && (
-                                <button className="flex gap-1 hover:bg-greenHover h-6  text-green bg-green2 items-center rounded-md py-2 px-3">
-                                  <span className="text-ellipsis overflow-hidden whitespace-nowrap w-20">
-                                    {/* {row.document} */}
-                                    {row.document.split("/").pop()}
-                                  </span>
-                                  <Dowload />
-                                </button>
+                                <Tooltip title={row.document.split("/").pop()} placement="top" arrow={true}>
+                                  <button onClick={() => {
+                                    window.open(`${row.document}`, "_blank")
+                                  }} className="flex gap-1 hover:bg-greenHover h-6  text-green bg-green2 items-center rounded-md py-2 px-3">
+                                    <span className="text-ellipsis overflow-hidden whitespace-nowrap w-20">
+                                      {row.document.split("/").pop()}
+                                    </span>
+                                    <Dowload />
+                                  </button>
+                                </Tooltip>
                               )}
                             </span>
                             <button
                               onClick={() =>
-                                handleDeleteFileContract(
-                                  row.document,
-                                  index,
-                                )
+                                handleDeleteFileContract(row.document, index)
                               }
                               className="flex gap-1 hover:bg-requiredHover h-6 text-required bg-red2 items-center rounded-md py-2 px-3"
                             >

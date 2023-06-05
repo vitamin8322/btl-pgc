@@ -15,6 +15,7 @@ import { autocompleteStyles } from "../CustomStyle/StyleAutocomplete";
 import SelectMui from "../CustomComponents/SelectMui";
 import { ReactComponent as Clear } from "@/assets/image/Clear.svg";
 import DocumentUpload from "./ComponentsTab/DocumentUpload";
+import { useParams } from "react-router-dom";
 
 const CustomTag = styled("div")(({}) => ({
   display: "inline-flex",
@@ -56,6 +57,7 @@ type PropsTagOther = {
 };
 
 const TagOthers = (props: PropsTagOther) => {
+  const { idEmployee } = useParams();
   //redux
   const dispatch = useDispatch<AppDispatch>();
   const { dataGrade, dataBenefit } = useSelector(
@@ -92,6 +94,9 @@ const TagOthers = (props: PropsTagOther) => {
     []
   );
   useEffect(() => {
+    if(idEmployee){
+      dispatch(getBenefit(Number(employee?.grade_id)));
+    }
     dispatch(
       changeEmployee({
         name1: "grade",

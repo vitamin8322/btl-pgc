@@ -1,11 +1,19 @@
-.errorTab.MuiTab-root{
-    background-color: rgba(229, 72, 77, 0.08);
-    color: rgb(229, 72, 77) !important;
-    svg{
-        fill: #FFB7B9
-    }
+.errorTab.MuiTab-root {
+  background-color: rgba(229, 72, 77, 0.08);
+  color: rgb(229, 72, 77) !important;
+  svg {
+    fill: #ffb7b9;
+  }
 }
-.errorTab.Mui-selected{
-    color: rgb(255, 239, 239) !important;
-    background-color: rgb(229, 72, 77) !important;
+.errorTab.Mui-selected {
+  color: rgb(255, 239, 239) !important;
+  background-color: rgb(229, 72, 77) !important;
+}
+
+.MuiTooltip-tooltip {
+  background-color: rgb(0, 0, 0) !important;
+  color: rgb(255, 255, 255);
+}
+.MuiTooltip-arrow {
+  color: rgb(0, 0, 0) !important;
 }

@@ -29,7 +29,8 @@ const groupedItems = [
 const SiderBar = (props: Props) => {
   const location = useLocation();
   const [open, setOpen] = useState<{ [key: string]: boolean | undefined }>({});
-
+  console.log('location.pathname',typeof location.pathname);
+  
   const handleClick = (id: string) => {
     setOpen((prevState) => ({
       ...prevState,
@@ -79,7 +80,7 @@ const SiderBar = (props: Props) => {
             {group.items.map((item, id) => (
               <React.Fragment key={item.name}>
                 <ListItemButton
-                  selected={location.pathname === item.path}
+                  selected={location.pathname.includes(String(item.path))}
                   component={item?.path !== undefined ? NavLink : "div"}
                   to={item?.path || undefined}
                   className="mb-5"
